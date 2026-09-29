@@ -1,0 +1,12 @@
+{
+  "name": "wave-popup",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild js/popup.js --bundle --format=iife --target=es2022 --outfile=js/app.bundle.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10"
+  }
+}
