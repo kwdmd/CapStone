@@ -1,85 +1,234 @@
-/* 첨부한 1920×1080 시안 기준. 색상과 주요 크기는 이곳에서 조정한다. */
-/* [직접 수정] 공통 디자인 설정. --navy: 상하단 색 / --panel: 패널 색 / --bar-height: PC 상하단 높이 / --edge: UI 여백 / --radius: 둥근 모서리. px는 픽셀 단위다. */
+/* [구조 설명] PC 전용 전체 화면 전시장. 모바일 전용 분기와 헤더/푸터는 사용하지 않는다. */
+@font-face {
+  font-family: Pretendard;
+  src: url("../assets/fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+/* [직접 수정] 모서리 간격, 아이콘 색, 패널 색을 한 곳에서 조절한다. */
 :root {
-  --navy: #142232;
-  --panel: #d9d9d9;
-  --bar-height: 100px;
-  --edge: 20px;
-  --radius: 30px;
+  --edge: 24px;
+  --ink: #142232;
+  --panel: rgba(255, 255, 255, 0.82);
 }
-/* [구조 설명] padding과 테두리를 요소의 지정 너비/높이에 포함해 실제 크기를 예측하기 쉽게 한다. */
-* { box-sizing: border-box; }
-html, body { margin: 0; min-height: 100%; }
-/* [구조 설명] 화면을 상단·전시장·하단의 세 행으로 나눈다. 1fr은 남은 높이를 채우며 minmax의 320px은 전시장 최소 높이다. 100dvh는 모바일 주소창 변화에 대응한다. */
+* {
+  box-sizing: border-box;
+}
+html,
 body {
-  min-height: 100vh;
-  min-height: 100dvh;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: Pretendard, "Malgun Gothic", sans-serif;
+  color: var(--ink);
+  background: #222;
+}
+.popup {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+}
+.scene {
+  position: absolute;
+  inset: 0;
+  outline: none;
+}
+.scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+/* [직접 수정] 브랜드는 24px 안쪽에 배치한다. 로고와 프로젝트명은 그림자 없이 표시한다. */
+.brand {
+  position: absolute;
+  top: var(--edge);
+  left: var(--edge);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  text-shadow: none;
+  pointer-events: none;
+}
+.brand-logo {
+  font-size: 40px;
+  line-height: 1;
+}
+.brand-name {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+.right-panel {
+  position: absolute;
+  top: var(--edge);
+  right: var(--edge);
+  z-index: 3;
+}
+/* [직접 수정] 흰색을 섞은 밝은 회청색 반투명 트레이. 배경 알파 .45는 45% 불투명도다. 기본 대비 33% 축소(67% 크기). 아이콘·버튼·간격·내부 여백을 같은 비율로 조정하며 바깥 모서리 여백은 유지한다. */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8.04px;
+  padding: 5.36px 13.4px;
+  border-radius: 26.8px;
+  background: rgba(150, 160, 172, 0.45);
+  backdrop-filter: blur(12px);
+}
+.controls button {
+  position: relative;
   display: grid;
-  grid-template-rows: var(--bar-height) minmax(320px, 1fr) var(--bar-height);
-  font-family: Arial, 'Malgun Gothic', sans-serif;
-  color: #111;
-  background: white;
+  place-items: center;
+  width: 32.16px;
+  height: 32.16px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
 }
-/* [직접 수정] 상단 내부 여백은 padding. 브랜드의 좌우 여백을 바꿀 때 수정한다. */
-.topbar { background: var(--navy); position: relative; display: flex; align-items: center; padding: 8px 10px; }
-.brand { display: flex; gap: 10px; align-items: center; color: white; }
-/* [직접 수정] 원형 로고 크기: width/height. 이모지 크기: font-size. 원형을 유지하려면 너비와 높이를 같게 한다. */
-.brand-logo { display: grid; place-items: center; background: white; width: 50px; height: 50px; border-radius: 50%; font-size: 33px; line-height: 1; }
-/* [직접 수정] 프로젝트명 크기: font-size / 줄 간격: line-height / 굵기: font-weight. */
-.brand-name { font-size: 15px; line-height: 1.7; font-weight: 600; }
-/* [구조 설명] left:50%와 translateX(-50%)로 브랜드 너비에 상관없이 제목을 상단 중앙에 배치한다.
-[직접 수정] WAVE 크기는 font-size, 글자 간격은 letter-spacing. 오른쪽으로 치우쳐 보이는 것을 보정하는 padding-left도 함께 확인한다. */
-.page-title { position: absolute; left: 50%; transform: translateX(-50%); margin: 0; font-size: 40px; font-weight: 700; letter-spacing: 9px; padding-left: 9px; color: white; }
-/* [구조 설명] position:relative는 미니맵·오른쪽 패널의 absolute 위치 기준을 이 전시장 영역으로 지정한다. */
-.popup { position: relative; min-width: 0; }
-/* [직접 수정] 중앙 빈 공간의 배경색. 향후 3D canvas가 추가될 영역이며 inset:0으로 전시장 전체를 채운다. */
-.scene { position: absolute; inset: 0; background: #fff; }
-/* [직접 수정] 미니맵 width/height로 크기, left/top으로 위치, padding으로 제목 안쪽 여백을 변경한다. */
-.minimap { position: absolute; left: var(--edge); top: var(--edge); width: 170px; height: 170px; background: var(--panel); border-radius: var(--radius); padding: 11px 10px; }
-/* [직접 수정] MINI MAP과 SHOPPING CART 제목의 공통 글꼴 크기·굵기. */
-h2 { font-size: 16px; line-height: 1.4; font-weight: 400; margin: 0; }
-/* [직접 수정] 오른쪽 UI 전체 너비는 width. right/top은 화면 가장자리 여백이다. */
-.right-panel { position: absolute; top: var(--edge); right: var(--edge); width: 280px; }
-/* [직접 수정] gap은 두 버튼 사이 간격, margin-bottom은 버튼과 장바구니 사이 간격이다. */
-.controls { display: flex; gap: 20px; margin-bottom: 20px; }
-/* [구조 설명] flex:1로 두 버튼 너비를 동일하게 배분한다.
-[직접 수정] 버튼 높이는 height, 글자 크기는 font-size, 배경은 background. */
-.controls button { flex: 1; height: 50px; border: 0; border-radius: 999px; background: var(--panel); font: inherit; font-size: 20px; color: #111; cursor: pointer; }
-.controls button:hover { background: #c9cdd1; }
-/* [구조 설명] 키보드 Tab으로 선택한 버튼의 위치를 보여주는 테두리. 접근성을 위해 제거하지 않는 것이 좋다. */
-.controls button:focus-visible { outline: 3px solid #425d7b; outline-offset: 4px; }
-/* [직접 수정] 장바구니 최소 높이: min-height. 내용이 늘면 더 커질 수 있다. 제목 여백은 padding. */
-.cart { min-height: 120px; background: var(--panel); border-radius: var(--radius); padding: 9px 20px; }
-.bottom-bar { background: var(--navy); }
-/* [구조 설명] 화면 너비 600px 이하에서는 아래 규칙이 PC 규칙을 덮어쓴다.
-[직접 수정] 모바일에서 바뀌지 않는 것처럼 보이면 이 블록에도 같은 선택자가 있는지 확인한다. 하단 높이는 body의 마지막 64px이다. */
-@media (max-width: 600px) {
-  :root { --bar-height: 76px; --edge: 12px; --radius: 22px; }
-  body { grid-template-rows: var(--bar-height) minmax(400px, 1fr) 64px; }
-  .brand-logo { width: 38px; height: 38px; font-size: 26px; }
-  .brand { gap: 7px; }
-  .brand-name { font-size: 10px; }
-  .page-title { font-size: 25px; letter-spacing: 4px; padding-left: 4px; }
-  .minimap { width: 112px; height: 112px; }
-  .right-panel { width: 170px; }
-  .controls { gap: 8px; margin-bottom: 12px; }
-  .controls button { height: 40px; font-size: 14px; }
-  .cart { min-height: 100px; padding: 12px; }
-  h2 { font-size: 12px; }
+.controls button:hover {
+  background: #ffffff40;
 }
-/* [구조 설명] 아주 좁은 화면에서는 제목을 오른쪽으로 옮겨 프로젝트명과 겹치지 않게 한다.
-[직접 수정] 이 구간의 제목 위치는 right로 조정한다. */
-@media (max-width: 380px) {
-  .page-title { left: auto; right: 16px; transform: none; }
+.controls button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
 }
-/* [구조 설명] WebGL과 맵은 가운데 영역 밖으로 나가지 않는다. UI는 그 위에 배치한다. */
-.popup { overflow:hidden; isolation:isolate; }
-.scene { overflow:hidden; outline:none; }
-.scene canvas { display:block; width:100%; height:100%; touch-action:none; }
-.minimap,.right-panel { z-index:2; }
-#miniCanvas { display:block; width:100%; height:130px; object-fit:contain; }
-.move-guide { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); margin:0; padding:9px 16px; border-radius:30px; background:#ffffffdc; font-size:12px; text-align:center; z-index:2; pointer-events:none; max-width:95%; width:max-content; }
-.scene-status { position:absolute; top:45%; width:100%; text-align:center; pointer-events:none; }
-.scene-status[hidden] { display:none; }
-.brand-name { max-width:140px; }
-@media(max-width:600px){ #miniCanvas {height:76px;} .move-guide {font-size:10px;} .brand-name {max-width:90px;} }
+.stable-icon {
+  display: block;
+  width: 26.8px;
+  height: 26.8px;
+  pointer-events: none;
+}
+.stable-icon text {
+  font-family: Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sound-slash,
+.eye-slash {
+  visibility: hidden;
+}
+#soundButton[data-sound="off"] .sound-waves {
+  visibility: hidden;
+}
+#soundButton[data-sound="off"] .sound-slash,
+.details-hidden .eye-slash {
+  visibility: visible;
+}
+/* [구조 설명] UI를 숨겨도 눈 버튼은 남으므로 언제든 복원할 수 있다. */
+.details-hidden .minimap,
+.details-hidden .move-guide {
+  visibility: hidden;
+}
+.minimap {
+  position: absolute;
+  left: var(--edge);
+  bottom: var(--edge);
+  width: 176.88px;
+  height: 176.88px;
+  padding: 10.72px 16.08px;
+  border-radius: 20.1px;
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  z-index: 2;
+  text-align: center;
+}
+h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+#miniCanvas {
+  display: block;
+  width: 128.64px;
+  height: 128.64px;
+  margin: 2.68px auto;
+}
+.location-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5.36px;
+  margin: 0;
+  font-size: 10.72px;
+}
+.location-legend span {
+  width: 5.36px;
+  height: 5.36px;
+  border-radius: 50%;
+  background: #ad3749;
+}
+/* [직접 수정] 하단 조작 안내는 기본의 80% 크기. 하단 여백은 유지한다. */
+.move-guide {
+  position: absolute;
+  bottom: var(--edge);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  margin: 0;
+  padding: 12.8px 25.6px;
+  border-radius: 25.6px;
+  background: var(--panel);
+  font-size: 12.8px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.scene-status {
+  position: absolute;
+  top: 45%;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+[hidden] {
+  display: none !important;
+}
+.cart-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 12.06px;
+  height: 12.06px;
+  padding: 0 2.68px;
+  border-radius: 13.4px;
+  background: #ed343b;
+  color: white;
+  font-size: 7.37px;
+  font-weight: 700;
+  line-height: 12.06px;
+  text-align: center;
+  pointer-events: none;
+}
+.cart {
+  position: absolute;
+  top: 54.88px;
+  right: 0;
+  width: 280px;
+  max-height: 60vh;
+  overflow: auto;
+  background: #fffffff0;
+  border: 1px solid #14223220;
+  box-shadow: 0 8px 24px #14223220;
+  border-radius: 16px;
+  padding: 16px;
+}
+#cartItems {
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* [직접 수정] 미니맵 전체를 기본의 67%로 축소. 모서리 여백 24px은 유지한다. */
+.minimap h2 {
+  font-size: 10.72px;
+}
