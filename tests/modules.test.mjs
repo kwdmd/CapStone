@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import * as T from '../vendor/three.module.js';
+import {createCameraRig} from '../js/camera-rig.js';
+import {createMovementInput} from '../js/movement-input.js';
+import {createGeometry} from '../js/geometry.js';
+import {createAvatar} from '../js/avatar.js';
+const input=createMovementInput();
+input.keyDown({code:'KeyW'});input.keyDown({code:'ArrowUp'});input.keyUp({code:'KeyW'});assert.equal(input.has('up'),true);input.clear();assert.equal(input.has('up'),false);
+const g=createGeometry({positions:[0,0,0,1,0,0,0,1,0],indices:[0,1,2]});assert.equal(g.getAttribute('normal').count,3);
+const avatar=createAvatar();assert.equal(avatar.children.length,3);
+const camera=new T.PerspectiveCamera();const update=createCameraRig(camera,[],{thirdPersonDistance:32,thirdPersonElevation:.72,cameraCollisionEnabled:true,cameraCollisionRadius:.35,cameraReturnSpeed:4,cameraHideAvatarDistance:1.2,eyeHeight:1.65});
+const player={x:21,y:0,z:8,yaw:1.272297,pitch:0};
+update(player,avatar,true,1/60);assert.ok(Math.abs(camera.position.distanceTo(new T.Vector3(21,1,8))-32)<1e-8);
+update(player,avatar,false,1/60);assert.deepEqual(camera.position.toArray(),[21,1.65,8]);
+console.log('PASS: input release/reset, shared geometry, avatar, third/first-person camera');
