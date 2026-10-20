@@ -9,3 +9,4 @@ await mkdir('dist/licenses', { recursive: true });
 await copyFile('vendor/LICENSE.txt', 'dist/licenses/three-LICENSE.txt');
 await writeFile('dist/.nojekyll', '');
 console.log('GitHub Pages 배포 폴더: dist');
+await copyFile('vendor/fflate-LICENSE.txt', 'dist/licenses/fflate-LICENSE.txt');

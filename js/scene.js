@@ -1,3 +1,4 @@
+import { wheelPixels } from './camera-zoom.js';
 import { createGeometry } from "./geometry.js";
 import { createAvatar } from "./avatar.js";
 import { createMinimap } from "./minimap.js";
@@ -6,12 +7,13 @@ import { createCameraRig } from "./camera-rig.js";
 import objectData from "../data/object.json";
 import placements from "../data/objects.json";
 import * as THREE from "../vendor/three.module.js";
-import mapData from "../data/map.json";
+import mapData from "./map-data.js";
+import { createMapMaterials } from "./map-materials.js";
 import settings from "../data/scene.json";
 import { createMovementInput } from "./movement-input.js";
 
 // [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
-// 원본 재질이 없어 중립색을 사용하며, Three.js는 중앙 scene 요소 안에서만 그린다.
+// 원본 재질·UV·노멀을 함께 사용한다.
 export function startScene(initialView) {
   const host = document.getElementById("scene");
   const status = document.getElementById("sceneStatus");
@@ -35,29 +37,19 @@ export function startScene(initialView) {
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
+  const mapMaterials = createMapMaterials();
   for (const data of mapData) {
     const geometry = createGeometry(data);
-    // [직접 수정] 바닥/구조물의 임시 색상. 원본 FBX에는 재질이 없다.
-    const color =
-      data.name === "Cylinder.001"
-        ? 0xdce2e5
-        : data.name.startsWith("Cube")
-          ? 0x8faaaa
-          : 0xb7c7c4;
-    const mesh = new THREE.Mesh(
-      geometry,
-      new THREE.MeshStandardMaterial({
-        color,
-        roughness: 0.85,
-        side: THREE.DoubleSide,
-        flatShading: true,
-      }),
-    );
+    // 원본 FBX의 면별 재질을 연결한다.
+    for (const [start, count, materialIndex] of data.groups || []) geometry.addGroup(start, count, materialIndex);
+    const mesh = new THREE.Mesh(geometry, mapMaterials);
     mesh.name = data.name;
     meshes.push(mesh);
     scene.add(mesh);
   }
   scene.updateMatrixWorld(true);
+  // [직접 수정] 현재 FBX의 정면이 -Z이므로 180도 보정. +Z 정면 모델로 교체하면 0으로 변경하세요.
+  const avatarFacingOffset = Math.PI;
   const avatar = createAvatar();
   scene.add(avatar);
   // [직접 수정] spawn은 시작 x/z, spawnYaw는 초기 시선 각도(라디안). 현재 오른쪽에서 중앙을 바라본다.
@@ -68,6 +60,8 @@ export function startScene(initialView) {
     yaw: settings.spawnYaw ?? 0,
     pitch: 0,
   };
+  // 초기 자세도 카메라가 바라보는 전방(-Z 기준)에 맞춘다.
+  avatar.rotation.y = player.yaw + Math.PI + avatarFacingOffset;
   const ray = new THREE.Raycaster();
   const ground = (x, z, ceiling = 40) => {
     ray.far = 100;
@@ -139,14 +133,14 @@ export function startScene(initialView) {
     player.x += dx;
     player.z += dz;
     player.y = hit.point.y;
-    avatar.rotation.y = Math.atan2(dx, dz);
+
   }
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
     reset();
     host.focus();
   });
-  // [구조 설명] wheel/pinch로 카메라 거리를 바꾸는 로직은 없다. 줌 기능을 제공하지 않는다.
+  // [구조 설명] 화면 크기 변화 시 렌더러와 카메라 비율을 갱신한다.
   const resize = () => {
     const w = host.clientWidth,
       h = host.clientHeight;
@@ -162,6 +156,12 @@ export function startScene(initialView) {
     mapData,
   );
   const updateCamera = createCameraRig(camera, meshes, settings);
+  // [구조 설명] 맵 위의 휠만 처리하여 장바구니 스크롤과 충돌하지 않는다.
+  renderer.domElement.addEventListener('wheel',event=>{
+    if(event.ctrlKey)return; // 브라우저 자체 확대 단축키는 유지한다.
+    event.preventDefault();
+    updateCamera.zoom(wheelPixels(event.deltaY,event.deltaMode,host.clientHeight),third);
+  },{passive:false});
   let previous = performance.now(),
     frame = 0;
   function animate(now) {
@@ -171,6 +171,7 @@ export function startScene(initialView) {
     let x = +input.has("right") - input.has("left"),
       z = +input.has("down") - input.has("up");
     const length = Math.hypot(x, z);
+    const oldX=player.x,oldZ=player.z;
     if (length) {
       const speed =
         ((input.has("sprint") ? settings.runSpeed : settings.walkSpeed) * dt) /
@@ -180,6 +181,10 @@ export function startScene(initialView) {
       tryMove(x * Math.cos(player.yaw) + z * Math.sin(player.yaw), 0);
       tryMove(0, -x * Math.sin(player.yaw) + z * Math.cos(player.yaw));
     }
+    const movedX=player.x-oldX,movedZ=player.z-oldZ;
+    const actualSpeed=dt>0?Math.hypot(movedX,movedZ)/dt:0;
+    if(actualSpeed>.05)avatar.rotation.y=Math.atan2(movedX,movedZ)+avatarFacingOffset;
+    avatar.userData.updateMotion(dt,actualSpeed,input.has('sprint'));
     avatar.position.set(player.x, player.y, player.z);
     avatar.visible = third;
     updateCamera(player, avatar, third, dt);

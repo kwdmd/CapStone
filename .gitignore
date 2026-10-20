@@ -7,3 +7,5 @@ js/app.bundle.js
 .DS_Store
 Thumbs.db
 *.log
+
+/data/map.json

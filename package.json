@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "esbuild js/popup.js --bundle --format=iife --target=es2022 --minify --outfile=js/app.bundle.js && node scripts/prepare-dist.mjs",
-    "test": "node tests/camera-collision.test.mjs && node tests/modules.test.mjs",
+    "test": "node tests/camera-collision.test.mjs && node tests/modules.test.mjs && node tests/avatar-zoom.test.mjs",
     "format": "prettier --write index.html css/*.css js/*.js data/project.json data/scene.json data/objects.json --ignore-path .prettierignore"
   },
   "devDependencies": {

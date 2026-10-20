@@ -1,3 +1,4 @@
+import { zoomValue } from './camera-zoom.js';
 import * as THREE from "../vendor/three.module.js";
 import { viewDirection } from "./camera-controls.js";
 import {
@@ -9,7 +10,11 @@ export function createCameraRig(camera, meshes, settings) {
   const ray = new THREE.Raycaster();
   const cameraCollision = createCameraCollision();
   let cameraDistance = settings.thirdPersonDistance;
-  return (player, avatar, third, dt) => {
+  let desiredDistance=settings.thirdPersonDistance;
+  let firstFov=48;
+  const update = (player, avatar, third, dt) => {
+    const fov=third?48:firstFov;
+    if(camera.fov!==fov){camera.fov=fov;camera.updateProjectionMatrix();}
     if (third) {
       const elevation = THREE.MathUtils.clamp(
         settings.thirdPersonElevation - player.pitch,
@@ -29,7 +34,7 @@ export function createCameraRig(camera, meshes, settings) {
           target,
           offset,
           meshes,
-          settings.thirdPersonDistance,
+          desiredDistance,
           settings.cameraCollisionRadius,
         );
         cameraDistance = recoverCameraDistance(
@@ -39,12 +44,12 @@ export function createCameraRig(camera, meshes, settings) {
           settings.cameraReturnSpeed,
         );
       } else {
-        ray.far = settings.thirdPersonDistance;
+        ray.far = desiredDistance;
         ray.set(target, offset);
         const hit = ray.intersectObjects(meshes, false)[0];
         cameraDistance = hit
           ? Math.max(0.3, hit.distance - 0.2)
-          : settings.thirdPersonDistance;
+          : desiredDistance;
       }
       camera.position.copy(target).addScaledVector(offset, cameraDistance);
       // 거리가 0일 때에도 시선 방향이 뒤집히지 않도록 명시한다.
@@ -60,4 +65,10 @@ export function createCameraRig(camera, meshes, settings) {
       );
     }
   };
+  // [직접 수정] 3인칭은 거리, 1인칭은 시야각으로 줌한다. 충돌 안전 거리는 매 프레임 별도 적용된다.
+  update.zoom=(delta,third)=>{
+    if(third)desiredDistance=zoomValue(desiredDistance,delta,settings.zoomMinDistance??3,settings.zoomMaxDistance??45);
+    else firstFov=zoomValue(firstFov,delta,settings.zoomMinFov??30,settings.zoomMaxFov??70);
+  };
+  return update;
 }

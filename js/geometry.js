@@ -7,6 +7,9 @@ export function createGeometry(data) {
     new THREE.Float32BufferAttribute(data.positions, 3),
   );
   geometry.setIndex(data.indices);
-  geometry.computeVertexNormals();
+  // 원본 노멀과 UV 보존. 없는 기존 모델만 노멀 계산.
+  if (data.normals) geometry.setAttribute("normal", new THREE.Float32BufferAttribute(data.normals, 3));
+  else geometry.computeVertexNormals();
+  if (data.uvs) geometry.setAttribute("uv", new THREE.Float32BufferAttribute(data.uvs, 2));
   return geometry;
 }

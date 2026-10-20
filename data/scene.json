@@ -14,5 +14,9 @@
   "cameraCollisionEnabled": true,
   "cameraCollisionRadius": 0.35,
   "cameraReturnSpeed": 4,
-  "cameraHideAvatarDistance": 1.2
+  "cameraHideAvatarDistance": 1.2,
+  "zoomMinDistance": 3,
+  "zoomMaxDistance": 45,
+  "zoomMinFov": 30,
+  "zoomMaxFov": 70
 }

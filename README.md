@@ -40,3 +40,6 @@ Node.js 22 환경에서 npm install → npm test → npm run build 순서로 실
 소리 버튼은 상태만 전환하며 음원은 없습니다. 서버·결제·실시간 통신 기능은 포함하지 않았습니다. 큰 모델 데이터 때문에 첫 로딩에 시간이 걸릴 수 있습니다. 이번 작업은 배포 구조 정리이며 3D 모델 경량화는 포함하지 않습니다.
 
 GitHub 공식 안내: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+
+## 캐릭터 동작과 줌
+WASD/방향키 이동, Shift 달리기, 드래그 시선 회전, 휠 확대·축소를 지원합니다. 원본 리깅에 코드로 기본 보행을 적용했습니다. 3인칭은 거리, 1인칭은 시야각을 조절합니다. 상세 수정 위치는 수정가이드.md를 참고하세요.
