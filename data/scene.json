@@ -1,16 +1,13 @@
 {
-  "spawn": [
-    21,
-    8
-  ],
-  "thirdPersonDistance": 32,
-  "thirdPersonElevation": 0.72,
+  "spawn": [29.35, -9.59],
+  "thirdPersonDistance": 18,
+  "thirdPersonElevation": 0.9,
   "eyeHeight": 1.65,
   "walkSpeed": 4,
   "runSpeed": 7.5,
   "stepHeight": 0.5,
   "maxDrop": 0.65,
-  "spawnYaw": 1.272297,
+  "spawnYaw": 1.886607,
   "cameraCollisionEnabled": true,
   "cameraCollisionRadius": 0.35,
   "cameraReturnSpeed": 4,

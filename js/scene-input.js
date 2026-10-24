@@ -7,11 +7,12 @@ export function bindSceneInput(host, canvas, player, input) {
     drag = null;
   };
   window.addEventListener("keydown", (event) => {
-    if (
-      event.target.closest("button,input,textarea,select") ||
-      event.target.isContentEditable
-    )
+    // [구조 설명] 상단 아이콘에 포커스가 남아 있어도 이동 키는 받는다.
+    // 입력 필드와 다른 버튼에서는 입력/키보드 조작을 우선한다.
+    const target = event.target;
+    if (target.isContentEditable || target.closest("input,textarea,select"))
       return;
+    if (target.closest("button") && !target.closest(".icon-controls")) return;
     if (input.keyDown(event)) event.preventDefault();
   });
   window.addEventListener("keyup", (event) => input.keyUp(event), true);

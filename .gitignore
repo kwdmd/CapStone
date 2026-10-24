@@ -1,11 +1,16 @@
 node_modules/
 dist/
 js/app.bundle.js
+*.map
 .env
 .env.*
 !.env.example
 .DS_Store
 Thumbs.db
 *.log
-
+*.zip
+*.fbx
+*.blend
+*.unitypackage
 /data/map.json
+/data/avatar.json

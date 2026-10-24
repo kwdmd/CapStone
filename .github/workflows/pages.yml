@@ -1,4 +1,4 @@
-name: Deploy WAVE to GitHub Pages
+name: Deploy POP - ING to GitHub Pages
 on:
   push:
     branches: [main]
@@ -37,3 +37,4 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+

@@ -46,7 +46,10 @@ soundButton.addEventListener("click", () => {
   );
 });
 // [구조 설명] JSON을 빌드에 포함하므로 로컬 파일에서도 동일한 설정을 사용한다.
-document.title = config.pageTitle === config.projectName ? config.projectName : `${config.pageTitle} · ${config.projectName}`;
+document.title =
+  config.pageTitle === config.projectName
+    ? config.projectName
+    : `${config.pageTitle} · ${config.projectName}`;
 
 document.querySelector(".brand-logo").textContent = config.logo;
 // [직접 수정] projectNameLines 배열의 각 항목을 한 줄로 표시한다.

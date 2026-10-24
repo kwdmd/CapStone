@@ -1,4 +1,4 @@
-import { wheelPixels } from './camera-zoom.js';
+import { wheelPixels } from "./camera-zoom.js";
 import { createGeometry } from "./geometry.js";
 import { createAvatar } from "./avatar.js";
 import { createMinimap } from "./minimap.js";
@@ -41,7 +41,8 @@ export function startScene(initialView) {
   for (const data of mapData) {
     const geometry = createGeometry(data);
     // 원본 FBX의 면별 재질을 연결한다.
-    for (const [start, count, materialIndex] of data.groups || []) geometry.addGroup(start, count, materialIndex);
+    for (const [start, count, materialIndex] of data.groups || [])
+      geometry.addGroup(start, count, materialIndex);
     const mesh = new THREE.Mesh(geometry, mapMaterials);
     mesh.name = data.name;
     meshes.push(mesh);
@@ -52,7 +53,8 @@ export function startScene(initialView) {
   const avatarFacingOffset = Math.PI;
   const avatar = createAvatar();
   scene.add(avatar);
-  // [직접 수정] spawn은 시작 x/z, spawnYaw는 초기 시선 각도(라디안). 현재 오른쪽에서 중앙을 바라본다.
+  // [직접 수정] data/scene.json의 spawn=[X,Z]는 시작 위치. 높이 Y는 바닥에서 자동 계산.
+  // 흰 발판 중심 [29.35,-9.59], 중앙을 향하는 spawnYaw=1.886607(라디안).
   const player = {
     x: settings.spawn[0],
     y: 0,
@@ -133,7 +135,6 @@ export function startScene(initialView) {
     player.x += dx;
     player.z += dz;
     player.y = hit.point.y;
-
   }
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
@@ -157,11 +158,18 @@ export function startScene(initialView) {
   );
   const updateCamera = createCameraRig(camera, meshes, settings);
   // [구조 설명] 맵 위의 휠만 처리하여 장바구니 스크롤과 충돌하지 않는다.
-  renderer.domElement.addEventListener('wheel',event=>{
-    if(event.ctrlKey)return; // 브라우저 자체 확대 단축키는 유지한다.
-    event.preventDefault();
-    updateCamera.zoom(wheelPixels(event.deltaY,event.deltaMode,host.clientHeight),third);
-  },{passive:false});
+  renderer.domElement.addEventListener(
+    "wheel",
+    (event) => {
+      if (event.ctrlKey) return; // 브라우저 자체 확대 단축키는 유지한다.
+      event.preventDefault();
+      updateCamera.zoom(
+        wheelPixels(event.deltaY, event.deltaMode, host.clientHeight),
+        third,
+      );
+    },
+    { passive: false },
+  );
   let previous = performance.now(),
     frame = 0;
   function animate(now) {
@@ -171,7 +179,8 @@ export function startScene(initialView) {
     let x = +input.has("right") - input.has("left"),
       z = +input.has("down") - input.has("up");
     const length = Math.hypot(x, z);
-    const oldX=player.x,oldZ=player.z;
+    const oldX = player.x,
+      oldZ = player.z;
     if (length) {
       const speed =
         ((input.has("sprint") ? settings.runSpeed : settings.walkSpeed) * dt) /
@@ -181,10 +190,12 @@ export function startScene(initialView) {
       tryMove(x * Math.cos(player.yaw) + z * Math.sin(player.yaw), 0);
       tryMove(0, -x * Math.sin(player.yaw) + z * Math.cos(player.yaw));
     }
-    const movedX=player.x-oldX,movedZ=player.z-oldZ;
-    const actualSpeed=dt>0?Math.hypot(movedX,movedZ)/dt:0;
-    if(actualSpeed>.05)avatar.rotation.y=Math.atan2(movedX,movedZ)+avatarFacingOffset;
-    avatar.userData.updateMotion(dt,actualSpeed,input.has('sprint'));
+    const movedX = player.x - oldX,
+      movedZ = player.z - oldZ;
+    const actualSpeed = dt > 0 ? Math.hypot(movedX, movedZ) / dt : 0;
+    if (actualSpeed > 0.05)
+      avatar.rotation.y = Math.atan2(movedX, movedZ) + avatarFacingOffset;
+    avatar.userData.updateMotion(dt, actualSpeed, input.has("sprint"));
     avatar.position.set(player.x, player.y, player.z);
     avatar.visible = third;
     updateCamera(player, avatar, third, dt);

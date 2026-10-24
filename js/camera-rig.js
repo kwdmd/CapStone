@@ -1,4 +1,4 @@
-import { zoomValue } from './camera-zoom.js';
+import { zoomValue } from "./camera-zoom.js";
 import * as THREE from "../vendor/three.module.js";
 import { viewDirection } from "./camera-controls.js";
 import {
@@ -10,11 +10,14 @@ export function createCameraRig(camera, meshes, settings) {
   const ray = new THREE.Raycaster();
   const cameraCollision = createCameraCollision();
   let cameraDistance = settings.thirdPersonDistance;
-  let desiredDistance=settings.thirdPersonDistance;
-  let firstFov=48;
+  let desiredDistance = settings.thirdPersonDistance;
+  let firstFov = 48;
   const update = (player, avatar, third, dt) => {
-    const fov=third?48:firstFov;
-    if(camera.fov!==fov){camera.fov=fov;camera.updateProjectionMatrix();}
+    const fov = third ? 48 : firstFov;
+    if (camera.fov !== fov) {
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+    }
     if (third) {
       const elevation = THREE.MathUtils.clamp(
         settings.thirdPersonElevation - player.pitch,
@@ -66,9 +69,21 @@ export function createCameraRig(camera, meshes, settings) {
     }
   };
   // [직접 수정] 3인칭은 거리, 1인칭은 시야각으로 줌한다. 충돌 안전 거리는 매 프레임 별도 적용된다.
-  update.zoom=(delta,third)=>{
-    if(third)desiredDistance=zoomValue(desiredDistance,delta,settings.zoomMinDistance??3,settings.zoomMaxDistance??45);
-    else firstFov=zoomValue(firstFov,delta,settings.zoomMinFov??30,settings.zoomMaxFov??70);
+  update.zoom = (delta, third) => {
+    if (third)
+      desiredDistance = zoomValue(
+        desiredDistance,
+        delta,
+        settings.zoomMinDistance ?? 3,
+        settings.zoomMaxDistance ?? 45,
+      );
+    else
+      firstFov = zoomValue(
+        firstFov,
+        delta,
+        settings.zoomMinFov ?? 30,
+        settings.zoomMaxFov ?? 70,
+      );
   };
   return update;
 }
