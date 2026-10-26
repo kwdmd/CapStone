@@ -13,9 +13,6 @@
     <main class="popup" aria-label="온라인 팝업 전시">
       <!-- [직접 수정] 화면 좌측 상단 브랜드. 문구와 줄바꿈은 data/project.json에서 설정한다. -->
       <div class="brand" aria-label="프로젝트명">
-        <span class="brand-logo" role="img" aria-label="눈물 흘리며 웃는 얼굴"
-          >🥲</span
-        >
         <h1 class="brand-name" id="projectName">POP - ING</h1>
       </div>
       <!-- [구조 설명] 3D 렌더러가 들어가는 중앙 영역. 화면 전체를 채우고 UI를 그 위에 겹쳐 표시한다. -->
@@ -25,31 +22,17 @@
         tabindex="0"
         aria-label="3D 맵 배치 영역"
       ></div>
-      <!-- [구조 설명] 왼쪽 미니맵 패널. 크기와 위치는 CSS의 .minimap에서 수정한다. 지도 내용은 minimapContent에 연결한다. -->
-      <aside class="minimap" aria-label="미니맵">
-        <h2>MINI MAP</h2>
-        <div id="minimapContent">
-          <canvas
-            id="miniCanvas"
-            width="280"
-            height="280"
-            aria-label="현재 위치가 표시된 지도"
-            role="img"
-          ></canvas>
-        </div>
-        <p class="location-legend"><span aria-hidden="true"></span>나의 위치</p>
-      </aside>
       <!-- [구조 설명] 오른쪽 설정·장바구니 영역. 위치와 너비는 CSS의 .right-panel에서 조절한다. -->
       <aside class="right-panel" aria-label="전시 설정과 장바구니">
         <!-- [직접 수정] 버튼 id는 JS가 참조하므로 이름을 바꾸면 JS도 수정해야 한다. 표시 문구는 JS의 renderControls에서 바뀐다. -->
         <!-- [구조 설명] 세 아이콘은 동일한 SVG 스타일을 사용한다. 수량은 이미지가 아닌 실제 숫자로 갱신한다. -->
         <div class="controls icon-controls">
-          <!-- [구조 설명] 눈 버튼은 미니맵과 조작 안내를 숨기거나 다시 표시한다. -->
+          <!-- [구조 설명] 눈 버튼은 조작 안내를 숨기거나 다시 표시한다. -->
           <button
             id="visibilityButton"
             type="button"
-            aria-label="미니맵과 조작 안내 숨기기"
-            title="미니맵과 조작 안내 숨기기"
+            aria-label="조작 안내 숨기기"
+            title="조작 안내 숨기기"
             aria-pressed="true"
           >
             <svg class="stable-icon" viewBox="0 0 48 48" aria-hidden="true">

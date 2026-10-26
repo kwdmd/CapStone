@@ -12,7 +12,14 @@ export function createCameraRig(camera, meshes, settings) {
   let cameraDistance = settings.thirdPersonDistance;
   let desiredDistance = settings.thirdPersonDistance;
   let firstFov = 48;
+  let followY;
   const update = (player, avatar, third, dt) => {
+    // [직접 수정] 계단 높이 변화는 부드럽게 따라가되 발보다 지나치게 낮아지지 않게 제한한다.
+    followY ??= player.y;
+    followY +=
+      (player.y - followY) *
+      (1 - Math.exp(-(settings.cameraHeightSpeed ?? 10) * dt));
+    followY = THREE.MathUtils.clamp(followY, player.y - 0.25, player.y + 0.25);
     const fov = third ? 48 : firstFov;
     if (camera.fov !== fov) {
       camera.fov = fov;
@@ -24,7 +31,7 @@ export function createCameraRig(camera, meshes, settings) {
         0.2,
         1.3,
       );
-      const target = new THREE.Vector3(player.x, player.y + 1, player.z);
+      const target = new THREE.Vector3(player.x, followY + 1, player.z);
       const offset = new THREE.Vector3(
         Math.sin(player.yaw) * Math.cos(elevation),
         Math.sin(elevation),
@@ -60,10 +67,10 @@ export function createCameraRig(camera, meshes, settings) {
       avatar.visible = cameraDistance > settings.cameraHideAvatarDistance;
     } else {
       const direction = viewDirection(player.yaw, player.pitch);
-      camera.position.set(player.x, player.y + settings.eyeHeight, player.z);
+      camera.position.set(player.x, followY + settings.eyeHeight, player.z);
       camera.lookAt(
         player.x + direction.x,
-        player.y + settings.eyeHeight + direction.y,
+        followY + settings.eyeHeight + direction.y,
         player.z + direction.z,
       );
     }

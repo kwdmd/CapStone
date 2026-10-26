@@ -51,7 +51,7 @@ document.title =
     ? config.projectName
     : `${config.pageTitle} · ${config.projectName}`;
 
-document.querySelector(".brand-logo").textContent = config.logo;
+
 // [직접 수정] projectNameLines 배열의 각 항목을 한 줄로 표시한다.
 const brandName = document.getElementById("projectName");
 brandName.replaceChildren();
@@ -67,8 +67,8 @@ visibilityButton.addEventListener("click", () => {
     .classList.toggle("details-hidden");
   visibilityButton.setAttribute("aria-pressed", String(!hidden));
   visibilityButton.title = hidden
-    ? "미니맵과 조작 안내 표시"
-    : "미니맵과 조작 안내 숨기기";
+    ? "조작 안내 표시"
+    : "조작 안내 숨기기";
   visibilityButton.setAttribute("aria-label", visibilityButton.title);
 });
 state.view = config.initialView;
@@ -76,3 +76,4 @@ state.soundEnabled = config.soundEnabled;
 renderControls();
 initCart();
 startScene(state.view);
+

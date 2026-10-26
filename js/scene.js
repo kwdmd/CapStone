@@ -1,11 +1,9 @@
+import { createWalker } from "./walker.js";
 import { wheelPixels } from "./camera-zoom.js";
 import { createGeometry } from "./geometry.js";
 import { createAvatar } from "./avatar.js";
-import { createMinimap } from "./minimap.js";
 import { bindSceneInput } from "./scene-input.js";
 import { createCameraRig } from "./camera-rig.js";
-import objectData from "../data/object.json";
-import placements from "../data/objects.json";
 import * as THREE from "../vendor/three.module.js";
 import mapData from "./map-data.js";
 import { createMapMaterials } from "./map-materials.js";
@@ -72,33 +70,6 @@ export function startScene(initialView) {
       .intersectObjects(meshes, false)
       .find((hit) => Math.abs(hit.face.normal.y) > 0.55);
   };
-  // [직접 수정] 5개 오브젝트 위치는 data/objects.json의 x/z/rotation(라디안).
-  // 형상·재질을 공유하여 같은 모델을 반복 로딩하지 않는다. y는 맵 바닥에 자동 정렬한다.
-  const template = new THREE.Group();
-  for (const data of objectData) {
-    const geometry = createGeometry(data);
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(...data.color),
-      roughness: 0.8,
-      side: THREE.DoubleSide,
-    });
-    template.add(new THREE.Mesh(geometry, material));
-  }
-  // 모든 바닥 높이를 복제물 추가 전에 계산한다.
-  const surfaces = placements.map((p) => ground(p.x, p.z));
-  placements.forEach((p, index) => {
-    if (!surfaces[index])
-      throw new Error(`오브젝트 ${index + 1} 위치에 바닥이 없습니다.`);
-    const instance = template.clone();
-    instance.name = `전시 오브젝트 ${index + 1}`;
-    instance.position.set(p.x, surfaces[index].point.y, p.z);
-    instance.rotation.y = p.rotation;
-    scene.add(instance);
-    instance.updateMatrixWorld(true);
-    instance.traverse((child) => {
-      if (child.isMesh) meshes.push(child);
-    });
-  });
   const spawnHit = ground(player.x, player.z);
   if (!spawnHit) {
     status.textContent =
@@ -109,33 +80,7 @@ export function startScene(initialView) {
   let third = initialView !== "first-person";
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
-  // [구조 설명] 벽과 높이 차이를 확인한 뒤에만 이동한다. 점프/물리 엔진은 포함하지 않는다.
-  function tryMove(dx, dz) {
-    const length = Math.hypot(dx, dz);
-    if (!length) return;
-    for (const height of [0.4, 1.15]) {
-      ray.far = length + 0.28;
-      ray.set(
-        new THREE.Vector3(player.x, player.y + height, player.z),
-        new THREE.Vector3(dx, 0, dz).normalize(),
-      );
-      if (
-        ray
-          .intersectObjects(meshes, false)
-          .some((hit) => Math.abs(hit.face.normal.y) < 0.65)
-      )
-        return;
-    }
-    const hit = ground(
-      player.x + dx,
-      player.z + dz,
-      player.y + settings.stepHeight,
-    );
-    if (!hit || player.y - hit.point.y > settings.maxDrop) return;
-    player.x += dx;
-    player.z += dz;
-    player.y = hit.point.y;
-  }
+  const tryMove = createWalker(player, meshes, settings);
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
     reset();
@@ -152,10 +97,6 @@ export function startScene(initialView) {
   };
   new ResizeObserver(resize).observe(host);
   resize();
-  const updateMinimap = createMinimap(
-    document.getElementById("miniCanvas"),
-    mapData,
-  );
   const updateCamera = createCameraRig(camera, meshes, settings);
   // [구조 설명] 맵 위의 휠만 처리하여 장바구니 스크롤과 충돌하지 않는다.
   renderer.domElement.addEventListener(
@@ -170,8 +111,7 @@ export function startScene(initialView) {
     },
     { passive: false },
   );
-  let previous = performance.now(),
-    frame = 0;
+  let previous = performance.now();
   function animate(now) {
     requestAnimationFrame(animate);
     const dt = Math.min((now - previous) / 1000, 0.05);
@@ -200,7 +140,6 @@ export function startScene(initialView) {
     avatar.visible = third;
     updateCamera(player, avatar, third, dt);
     renderer.render(scene, camera);
-    if (++frame % 6 === 0) updateMinimap(player);
   }
   status.hidden = true;
   requestAnimationFrame(animate);
