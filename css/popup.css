@@ -127,47 +127,13 @@ body {
   visibility: visible;
 }
 /* [구조 설명] UI를 숨겨도 눈 버튼은 남으므로 언제든 복원할 수 있다. */
-.details-hidden .minimap,
 .details-hidden .move-guide {
   visibility: hidden;
-}
-.minimap {
-  position: absolute;
-  left: var(--edge);
-  bottom: var(--edge);
-  width: 176.88px;
-  height: 176.88px;
-  padding: 10.72px 16.08px;
-  border-radius: 20.1px;
-  background: var(--panel);
-  backdrop-filter: blur(12px);
-  z-index: 2;
-  text-align: center;
 }
 h2 {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
-}
-#miniCanvas {
-  display: block;
-  width: 128.64px;
-  height: 128.64px;
-  margin: 2.68px auto;
-}
-.location-legend {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5.36px;
-  margin: 0;
-  font-size: 10.72px;
-}
-.location-legend span {
-  width: 5.36px;
-  height: 5.36px;
-  border-radius: 50%;
-  background: #ad3749;
 }
 /* [직접 수정] 하단 조작 안내는 기본의 80% 크기. 하단 여백은 유지한다. */
 .move-guide {
@@ -185,11 +151,23 @@ h2 {
   pointer-events: none;
 }
 .scene-status {
-  position: absolute;
-  top: 45%;
-  width: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 16px;
   text-align: center;
-  pointer-events: none;
+  background: #fbf8ef;
+  color: #183d30;
+}
+.scene-status img {
+  display: block;
+  width: min(720px, 100%);
+  height: auto;
+  max-height: 90dvh;
+  object-fit: contain;
 }
 [hidden] {
   display: none !important;
@@ -228,7 +206,19 @@ h2 {
   margin-top: 12px;
 }
 
-/* [직접 수정] 미니맵 전체를 기본의 67%로 축소. 모서리 여백 24px은 유지한다. */
-.minimap h2 {
-  font-size: 10.72px;
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 0;
 }
+.cart-item img {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  object-fit: contain;
+  background: white;
+  border-radius: 6px;
+}
+
+.cart-item-spec { display:block; margin-top:4px; color:#52606c; font-size:12px; }

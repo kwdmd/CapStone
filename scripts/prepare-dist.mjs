@@ -4,6 +4,8 @@ await mkdir("dist/js", { recursive: true });
 await copyFile("index.html", "dist/index.html");
 await copyFile("js/app.bundle.js", "dist/js/app.bundle.js");
 await cp("css", "dist/css", { recursive: true });
+await cp("assets/loading", "dist/assets/loading", { recursive: true });
+await cp("assets/products", "dist/assets/products", { recursive: true });
 await cp("assets/fonts", "dist/assets/fonts", { recursive: true });
 await mkdir("dist/licenses", { recursive: true });
 await copyFile("vendor/LICENSE.txt", "dist/licenses/three-LICENSE.txt");

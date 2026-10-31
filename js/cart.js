@@ -40,7 +40,22 @@ export function initCart() {
     if (!count) list.textContent = "아직 담은 상품이 없습니다.";
     for (const item of items) {
       const row = document.createElement("p");
-      row.textContent = `${item.name} × ${item.quantity}`;
+      row.className = "cart-item";
+      if (item.image) {
+        const thumbnail = document.createElement("img");
+        thumbnail.src = item.image;
+        thumbnail.alt = "";
+        row.append(thumbnail);
+      }
+      const label = document.createElement("span");
+      label.textContent = item.name + " × " + item.quantity;
+      if (item.spec) {
+        const spec = document.createElement("small");
+        spec.className = "cart-item-spec";
+        spec.textContent = item.spec.split("\n").join(" · ");
+        label.append(spec);
+      }
+      row.append(label);
       list.append(row);
     }
   });

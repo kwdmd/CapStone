@@ -1,7 +1,11 @@
 import * as THREE from "../vendor/three.module.js";
 // [구조 설명] 다음 발판 높이를 먼저 구해 계단 앞면과 벽을 구분한다.
-export function createWalker(player, meshes, settings) {
+export function createWalker(player, meshes, settings, cylinders = [], fences = []) {
   const ray = new THREE.Raycaster();
+  // 도슨트 원통에는 플레이어 치마 반폭도 더한다. 바닥·카메라 레이에는 넣지 않는다.
+  const playerScale = settings.characterScale ?? 1;
+  const playerRadius = 0.68 * playerScale;
+  const playerHeight = 1.8 * playerScale;
   const down = new THREE.Vector3(0, -1, 0);
   const direction = new THREE.Vector3();
   return (dx, dz) => {
@@ -29,6 +33,22 @@ export function createWalker(player, meshes, settings) {
         player.y - floor.point.y > settings.maxDrop
       )
         return;
+      const blocked = cylinders.some(({ x: cx, z: cz, bottom, top, radius }) => {
+        if (Math.min(player.y, floor.point.y) >= top ||
+            Math.max(player.y, floor.point.y) + playerHeight <= bottom) return false;
+        const next = (x - cx) ** 2 + (z - cz) ** 2;
+        const previous = (player.x - cx) ** 2 + (player.z - cz) ** 2;
+        // 이미 경계 안에서 시작했다면 바깥쪽으로 빠져나갈 수 있다.
+        return next < (radius + playerRadius) ** 2 && next <= previous;
+      });
+      if (blocked) return;
+      for (const fence of fences) {
+        if (Math.min(player.y, floor.point.y) >= fence.top ||
+            Math.max(player.y, floor.point.y) + playerHeight <= fence.bottom) continue;
+        const clearance = playerRadius + fence.thickness / 2;
+        const next = distanceToFenceSquared(x, z, fence);
+        if (next < clearance ** 2 && next < distanceToFenceSquared(player.x, player.z, fence)) return;
+      }
       const base = Math.max(player.y, floor.point.y);
       for (const height of [settings.stepHeight + 0.03, 1.65]) {
         ray.set(
@@ -48,4 +68,13 @@ export function createWalker(player, meshes, settings) {
       player.y = floor.point.y;
     }
   };
+}
+
+// 울타리 선분과 발 중심 사이의 수평 거리. 끝에서도 캐릭터 반폭을 확보한다.
+function distanceToFenceSquared(x, z, { start, end }) {
+  const dx = end[0] - start[0];
+  const dz = end[1] - start[1];
+  const projection = ((x - start[0]) * dx + (z - start[1]) * dz) / (dx * dx + dz * dz);
+  const t = Math.max(0, Math.min(1, projection));
+  return (x - start[0] - t * dx) ** 2 + (z - start[1] - t * dz) ** 2;
 }

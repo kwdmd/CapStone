@@ -1,4 +1,4 @@
-name: Deploy POP - ING to GitHub Pages
+name: Deploy Chess Gambit to GitHub Pages
 on:
   push:
     branches: [main]

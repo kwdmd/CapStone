@@ -1,0 +1,7 @@
+{
+  "transitionSeconds": 0.22,
+  "visualHeightResponse": 18,
+  "referenceSpeed": { "walk": 4, "run": 7.5 },
+  "minimumPlaybackRate": 0.55,
+  "maximumPlaybackRate": 1.5
+}

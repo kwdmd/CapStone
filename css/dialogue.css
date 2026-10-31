@@ -1,0 +1,19 @@
+/* 임시 도슨트 UI: 맵에는 블러, 어둡게 처리, 강조를 적용하지 않습니다. */
+.npc-ticket { position:absolute; z-index:5; left:50%; transform:translateX(-50%); width:min(860px, calc(100% - 32px)); bottom:22px; display:flex; min-height:148px; max-height:46vh; background:#fffaf0; color:#202521; border:2px solid #145331; border-radius:22px 12px; overflow:auto; }
+.ticket-stub { position:relative; flex:0 0 104px; min-width:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; background:#104c2d; color:#fff8e8; border-right:4px dotted #fffaf0; padding:16px 8px; }
+#npcSymbol { font-family:Georgia,serif; font-size:52px; line-height:1; }
+#npcPiece { white-space:pre; line-height:1.4; font-size:12px; font-weight:700; text-align:center; letter-spacing:1px; }
+.ticket-ribbon { position:absolute; top:0; left:16px; width:40px; height:40px; background:linear-gradient(125deg,#ae1826 0 52%,#24834b 52%); clip-path:polygon(0 0,100% 0,78% 70%,48% 44%,0 100%); }
+.ticket-content { flex:1; min-width:0; padding:14px 88px 14px 20px; }
+#npcName { color:#145331; font-size:16px; font-weight:800; }
+#npcText { white-space:pre-line; font-size:clamp(15px,1.3vw,18px); line-height:1.5; font-weight:600; margin:6px 0 10px; }
+.ticket-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.ticket-actions button { font:inherit; font-size:15px; font-weight:700; padding:7px 16px; min-width:112px; color:#164c30; background:#fffaf0; border:2px solid #145331; border-radius:16px; cursor:pointer; }
+.ticket-actions button[aria-pressed=true] { background:#ad1c2b; border-color:#ad1c2b; color:white; }
+.ticket-actions button:hover { box-shadow:inset 0 0 0 2px #14533130; }
+.npc-ticket button:focus-visible,.npc-prompt:focus-visible { outline:3px solid #c28b24; outline-offset:3px; }
+.ticket-close { position:absolute; right:14px; top:8px; bottom:auto; border:0; background:none; color:#59605a; font:inherit; font-size:13px; cursor:pointer; padding:8px; }
+.npc-ticket::after { content:""; position:absolute; bottom:0; right:18px; width:100px; height:16px; background:conic-gradient(#202521 25%,#fffaf0 0 50%,#202521 0 75%,#fffaf0 0) 0 0/16px 16px; pointer-events:none; }
+.npc-prompt { position:absolute; z-index:4; bottom:90px; left:50%; transform:translateX(-50%); padding:12px 22px; color:#fffaf0; background:#104c2d; border:2px solid #fffaf0; border-radius:24px; font:inherit; margin:0; pointer-events:none; }
+.dialogue-open .move-guide { visibility:hidden; }
+@media(max-width:700px) { .ticket-content { padding:14px 14px 48px; } .ticket-stub { flex-basis:74px; min-width:65px; } #npcSymbol { font-size:40px; } #npcPiece { font-size:10px; } .ticket-actions { gap:6px; } .ticket-actions button { min-width:0; padding:8px; font-size:12px; } .ticket-close { top:8px; bottom:auto; } #npcName { padding-right:72px; } }

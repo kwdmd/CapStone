@@ -28,9 +28,14 @@ for (const s of samples) {
 assert.ok(moved > 10, "Walking must deform actual vertices");
 for (let i = 0; i < 180; i++) avatar.userData.updateMotion(1 / 60, 0, false);
 avatar.updateMatrixWorld(true);
+// 정지 시 바인드 자세가 아닌 Idle FBX를 재생한다.
+assert.equal(avatar.userData.updateMotion.state, "idle");
 for (const s of samples)
   assert.ok(
-    s.mesh.applyBoneTransform(s.i, s.rest.clone()).distanceTo(s.rest) < 1e-5,
+    s.mesh
+      .applyBoneTransform(s.i, s.rest.clone())
+      .toArray()
+      .every(Number.isFinite),
   );
 assert.equal(wheelPixels(3, 1), 48);
 assert.equal(wheelPixels(1, 2), 240);

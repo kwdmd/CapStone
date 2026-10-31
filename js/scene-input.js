@@ -9,6 +9,7 @@ export function bindSceneInput(host, canvas, player, input) {
   window.addEventListener("keydown", (event) => {
     // [구조 설명] 상단 아이콘에 포커스가 남아 있어도 이동 키는 받는다.
     // 입력 필드와 다른 버튼에서는 입력/키보드 조작을 우선한다.
+    if (host.dataset.dialogueOpen === "true") return;
     const target = event.target;
     if (target.isContentEditable || target.closest("input,textarea,select"))
       return;
@@ -19,7 +20,7 @@ export function bindSceneInput(host, canvas, player, input) {
   window.addEventListener("blur", reset);
   document.addEventListener("visibilitychange", reset);
   canvas.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0) return;
+    if (host.dataset.dialogueOpen === "true" || event.button !== 0) return;
     host.focus();
     drag = { x: event.clientX, y: event.clientY };
     canvas.setPointerCapture(event.pointerId);

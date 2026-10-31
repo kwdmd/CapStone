@@ -1,3 +1,7 @@
+import { addDisplayGoods } from "./display-goods.js";
+import { bindNpcDialogue } from "./npc-dialogue.js";
+import { addNpcs } from "./npcs.js";
+import fenceWalls from "../data/fence-walls.json";
 import { createWalker } from "./walker.js";
 import { wheelPixels } from "./camera-zoom.js";
 import { createGeometry } from "./geometry.js";
@@ -8,6 +12,7 @@ import * as THREE from "../vendor/three.module.js";
 import mapData from "./map-data.js";
 import { createMapMaterials } from "./map-materials.js";
 import settings from "../data/scene.json";
+import motionSettings from "../data/motion-settings.json";
 import { createMovementInput } from "./movement-input.js";
 
 // [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
@@ -35,6 +40,9 @@ export function startScene(initialView) {
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
+  let texturesReady = true;
+  THREE.DefaultLoadingManager.onStart = () => { texturesReady = false; };
+  THREE.DefaultLoadingManager.onLoad = () => { texturesReady = true; };
   const mapMaterials = createMapMaterials();
   for (const data of mapData) {
     const geometry = createGeometry(data);
@@ -50,9 +58,11 @@ export function startScene(initialView) {
   // [직접 수정] 현재 FBX의 정면이 -Z이므로 180도 보정. +Z 정면 모델로 교체하면 0으로 변경하세요.
   const avatarFacingOffset = Math.PI;
   const avatar = createAvatar();
+  // [직접 수정] 모든 캐릭터의 공통 크기는 scene.json의 characterScale에서 조절한다.
+  avatar.scale.setScalar(settings.characterScale ?? 1);
   scene.add(avatar);
   // [직접 수정] data/scene.json의 spawn=[X,Z]는 시작 위치. 높이 Y는 바닥에서 자동 계산.
-  // 흰 발판 중심 [29.35,-9.59], 중앙을 향하는 spawnYaw=1.886607(라디안).
+  // 시작 위치와 방향은 scene.json의 spawn, spawnYaw에서 설정한다.
   const player = {
     x: settings.spawn[0],
     y: 0,
@@ -70,6 +80,9 @@ export function startScene(initialView) {
       .intersectObjects(meshes, false)
       .find((hit) => Math.abs(hit.face.normal.y) > 0.55);
   };
+  // [구조 설명] 임시 전시 아바타는 사용자 캐릭터와 별도로 배치한다.
+  const goods = addDisplayGoods(scene);
+  const updateNpcs = addNpcs(scene);
   const spawnHit = ground(player.x, player.z);
   if (!spawnHit) {
     status.textContent =
@@ -80,7 +93,8 @@ export function startScene(initialView) {
   let third = initialView !== "first-person";
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
-  const tryMove = createWalker(player, meshes, settings);
+  const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
+  const tryMove = createWalker(player, meshes, settings, updateNpcs.cylinders, fenceWalls);
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
     reset();
@@ -97,12 +111,15 @@ export function startScene(initialView) {
   };
   new ResizeObserver(resize).observe(host);
   resize();
-  const updateCamera = createCameraRig(camera, meshes, settings);
+  // 전구를 매단 줄과 전구 조각은 카메라가 통과할 수 있는 장식이다.
+  const hangingLights = /^(?:NurbsPath\.00[2-7]_0|Sphere\.(?:015|016|017|019|020|021)_[01])$/;
+  const cameraObstacles = meshes.filter(mesh => !hangingLights.test(mesh.name));
+  const updateCamera = createCameraRig(camera, cameraObstacles, settings);
   // [구조 설명] 맵 위의 휠만 처리하여 장바구니 스크롤과 충돌하지 않는다.
   renderer.domElement.addEventListener(
     "wheel",
     (event) => {
-      if (event.ctrlKey) return; // 브라우저 자체 확대 단축키는 유지한다.
+      if (!third || dialogue.isOpen() || event.ctrlKey) return; // 브라우저 자체 확대 단축키는 유지한다.
       event.preventDefault();
       updateCamera.zoom(
         wheelPixels(event.deltaY, event.deltaMode, host.clientHeight),
@@ -112,6 +129,7 @@ export function startScene(initialView) {
     { passive: false },
   );
   let previous = performance.now();
+  let visualHeight = player.y;
   function animate(now) {
     requestAnimationFrame(animate);
     const dt = Math.min((now - previous) / 1000, 0.05);
@@ -121,26 +139,35 @@ export function startScene(initialView) {
     const length = Math.hypot(x, z);
     const oldX = player.x,
       oldZ = player.z;
-    if (length) {
+    const sprinting = input.has("sprint");
+    if (length && !dialogue.isOpen()) {
       const speed =
-        ((input.has("sprint") ? settings.runSpeed : settings.walkSpeed) * dt) /
+        ((sprinting ? settings.runSpeed : settings.walkSpeed) * dt) /
         length;
       x *= speed;
       z *= speed;
-      tryMove(x * Math.cos(player.yaw) + z * Math.sin(player.yaw), 0);
-      tryMove(0, -x * Math.sin(player.yaw) + z * Math.cos(player.yaw));
+      const dx = x * Math.cos(player.yaw) + z * Math.sin(player.yaw);
+      const dz = -x * Math.sin(player.yaw) + z * Math.cos(player.yaw);
+      // 원통에 한 축이 막혀도 입력한 이동 방향을 바라본다.
+      if (dt > 0) avatar.rotation.y = Math.atan2(dx, dz) + avatarFacingOffset;
+      tryMove(dx, 0);
+      tryMove(0, dz);
     }
     const movedX = player.x - oldX,
       movedZ = player.z - oldZ;
     const actualSpeed = dt > 0 ? Math.hypot(movedX, movedZ) / dt : 0;
-    if (actualSpeed > 0.05)
-      avatar.rotation.y = Math.atan2(movedX, movedZ) + avatarFacingOffset;
-    avatar.userData.updateMotion(dt, actualSpeed, input.has("sprint"));
-    avatar.position.set(player.x, player.y, player.z);
+    avatar.userData.motionState = avatar.userData.updateMotion(dt, actualSpeed, sprinting);
+    // 이동 판정은 실제 바닥 높이를 사용하고, 표시 높이만 완만하게 따라가게 한다.
+    visualHeight +=
+      (player.y - visualHeight) *
+      (1 - Math.exp(-motionSettings.visualHeightResponse * dt));
+    avatar.position.set(player.x, visualHeight, player.z);
     avatar.visible = third;
     updateCamera(player, avatar, third, dt);
+    updateNpcs(dt);
+    dialogue.update();
     renderer.render(scene, camera);
+    if (texturesReady && !status.hidden) status.hidden = true;
   }
-  status.hidden = true;
   requestAnimationFrame(animate);
 }

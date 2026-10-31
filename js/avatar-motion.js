@@ -1,46 +1,78 @@
 import * as THREE from "../vendor/three.module.js";
-// [직접 수정] 원본에는 애니메이션 클립이 없어 실제 본을 회전시키는 기본 보행을 만든다.
-// 이 동작은 모션 캡처가 아니다. stride·각도 값을 바꾸면 보폭/팔 흔들림이 달라진다.
-export function createAvatarMotion(bones) {
-  const joints = bones.map((bone) => ({
-    bone,
-    rest: bone.quaternion.clone(),
-    axis: new THREE.Vector3(1, 0, 0).applyQuaternion(
-      bone.getWorldQuaternion(new THREE.Quaternion()).invert(),
-    ),
-  }));
-  const turn = new THREE.Quaternion();
-  let phase = 0,
-    amount = 0;
-  return (dt, speed, running) => {
-    const moving = speed > 0.05;
-    amount = THREE.MathUtils.lerp(
-      amount,
-      moving ? 1 : 0,
-      1 - Math.exp(-12 * dt),
-    );
-    if (moving)
-      phase +=
-        dt * (running ? 12 : 8) * Math.min(speed / (running ? 7.5 : 4), 1.4);
-    for (const { bone, rest, axis } of joints) {
-      let angle = 0;
-      const side = bone.name.includes(".L") ? 1 : -1;
-      const wave = Math.sin(phase + (side === 1 ? 0 : Math.PI));
-      if (
-        /^thigh\.[LR]$/.test(bone.name) ||
-        /^pelvis\.[LR]\.00[1-5]$/.test(bone.name)
-      )
-        angle = wave * (running ? 0.65 : 0.4);
-      else if (/^shin\.[LR]$/.test(bone.name))
-        angle = -Math.max(0, -wave) * (running ? 0.85 : 0.55);
-      else if (/^upper_arm\.[LR](\.00[1-5])?$/.test(bone.name))
-        angle = -wave * (running ? 0.5 : 0.28);
-      else if (/^forearm\.[LR]$/.test(bone.name))
-        angle = 0.12 + Math.max(0, wave) * 0.2;
-      else if (/^foot\.[LR]$/.test(bone.name)) angle = -wave * 0.12;
-      bone.quaternion
-        .copy(rest)
-        .multiply(turn.setFromAxisAngle(axis, angle * amount));
+import packed from "../data/avatar-clips.json" with { type: "json" };
+import settings from "../data/motion-settings.json" with { type: "json" };
+import { gunzipSync, strFromU8 } from "../vendor/fflate.module.js";
+import { createLocomotionState } from "./locomotion-state.js";
+
+// [구조 설명] 메시와 텍스처를 복제하지 않고 기존 본에 대기·걷기·달리기 클립을 적용한다.
+export const playerClips = JSON.parse(
+  strFromU8(
+    gunzipSync(Uint8Array.from(atob(packed.data), (c) => c.charCodeAt(0))),
+  ),
+).clips;
+
+export function createAvatarMotion(bones, updateGarments) {
+  const selectState = createLocomotionState();
+  const rest = bones.map((b) => b.quaternion.clone());
+  const from = rest.map((q) => q.clone());
+  // 위치 트랙이 있는 팔·망토 본만 보간한다. 쇄골과 목 뒤는 원래 자세를 따른다.
+  const translatedJoints = bones.filter(b => Object.values(playerClips).some(clip => clip.positions?.[b.name]))
+    .map(bone => ({ bone, rest: bone.position.clone(), from: bone.position.clone() }));
+  const target = new THREE.Vector3(), nextPosition = new THREE.Vector3();
+  const qa = new THREE.Quaternion(),
+    qb = new THREE.Quaternion();
+  let state = "idle",
+    time = 0,
+    blend = 0;
+  const update = (dt, speed = 0, running = false) => {
+    dt = Math.max(0, Math.min(dt, 0.1));
+    const next = selectState(dt, { speed, running });
+    if (next !== state) {
+      // 전환 도중 다시 전환해도 현재 자세에서 출발하여 튀는 현상을 줄인다.
+      bones.forEach((b, i) => from[i].copy(b.quaternion));
+      for (const joint of translatedJoints) joint.from.copy(joint.bone.position);
+      state = next;
+      time = 0;
+      blend = 0;
     }
+    const clip = playerClips[state];
+    const rate =
+      state === "idle"
+        ? 1
+        : THREE.MathUtils.clamp(
+            speed / settings.referenceSpeed[state],
+            settings.minimumPlaybackRate,
+            settings.maximumPlaybackRate,
+          );
+    time = (time + dt * rate) % clip.duration;
+    blend = Math.min(1, blend + dt / settings.transitionSeconds);
+    const frame = time * clip.fps;
+    const a = Math.floor(frame) % clip.frames,
+      b = (a + 1) % clip.frames;
+    const fraction = frame - Math.floor(frame);
+    const eased = blend * blend * (3 - 2 * blend);
+    bones.forEach((bone, i) => {
+      const values = clip.tracks[bone.name];
+      if (values)
+        qa.fromArray(values, a * 4).slerp(
+          qb.fromArray(values, b * 4),
+          fraction,
+        );
+      else qa.copy(rest[i]);
+      bone.quaternion.copy(from[i]).slerp(qa, eased);
+    });
+    for (const joint of translatedJoints) {
+      const positions = clip.positions?.[joint.bone.name];
+      if (positions) target.fromArray(positions, a*3).lerp(nextPosition.fromArray(positions, b*3), fraction);
+      else target.copy(joint.rest);
+      joint.bone.position.lerpVectors(joint.from, target, eased);
+    }
+    updateGarments?.(state, a, b, fraction, eased);
+    update.state = state;
+    update.phase = time / clip.duration;
+    return state;
   };
+  update.state = state;
+  update.phase = 0;
+  return update;
 }

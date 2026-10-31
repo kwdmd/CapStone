@@ -4,16 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <!-- [직접 수정] 브라우저 탭 제목의 기본값. 실행 시 data/project.json 설정으로 덮어쓴다. -->
-    <title>POP - ING</title>
+    <title>Chess Gambit</title>
     <!-- [구조 설명] CSS는 디자인, JS는 버튼과 3D 장면을 담당한다. app.bundle.js는 분리된 JS/JSON을 묶은 실행 파일이다. 파일을 이동하면 아래 상대 경로도 함께 바꾼다. -->
     <link rel="stylesheet" href="css/popup.css" />
-    <script src="js/app.bundle.js" defer></script>
+    <link rel="stylesheet" href="css/dialogue.css" />
+    <link rel="preload" as="image" href="assets/loading/pawn-exhibition.gif" />
+    <script src="js/app.bundle.js" defer onerror="document.getElementById('sceneStatus').textContent='전시 파일을 불러오지 못했어요. 페이지를 새로고침해 주세요.'"></script>
+    <link rel="stylesheet" href="css/product-detail.css" />
   </head>
   <body>
     <main class="popup" aria-label="온라인 팝업 전시">
       <!-- [직접 수정] 화면 좌측 상단 브랜드. 문구와 줄바꿈은 data/project.json에서 설정한다. -->
       <div class="brand" aria-label="프로젝트명">
-        <h1 class="brand-name" id="projectName">POP - ING</h1>
+        <h1 class="brand-name" id="projectName">Chess Gambit</h1>
       </div>
       <!-- [구조 설명] 3D 렌더러가 들어가는 중앙 영역. 화면 전체를 채우고 UI를 그 위에 겹쳐 표시한다. -->
       <div
@@ -140,11 +143,41 @@
         </section>
       </aside>
       <p class="scene-status" id="sceneStatus" role="status">
-        맵을 준비하고 있어요…
+        <img src="assets/loading/pawn-exhibition.gif" alt="폰들이 전시를 준비하는 중입니다." width="720" height="460" />
       </p>
+      <p id="npcPrompt" class="npc-prompt" role="status" hidden></p>
+      <section id="npcDialogue" class="npc-ticket" role="dialog" aria-labelledby="npcName" aria-describedby="npcText" hidden>
+        <div class="ticket-stub" aria-hidden="true"><span class="ticket-ribbon"></span><span id="npcSymbol"></span><span id="npcPiece"></span></div>
+        <div class="ticket-content"><h2 id="npcName"></h2><p id="npcText" aria-live="polite"></p>
+          <div class="ticket-actions"><button type="button" data-topic="intro">공간 소개</button><button type="button" data-topic="piece">기물 알아보기</button><button type="button" data-topic="guide">관람 안내</button></div>
+        </div><button id="npcClose" class="ticket-close" type="button">ESC 닫기</button>
+      </section>
       <p class="move-guide">
-        WASD / 방향키 이동 · 드래그 시선 회전 · 휠 줌 · Shift 달리기
+        WASD / 방향키 이동 · 드래그 시선 회전 · 3인칭 휠 줌 · Shift 달리기
       </p>
+      <dialog id="productDetail" aria-labelledby="productName">
+        <button class="product-close" type="button" aria-label="상품 상세 닫기">×</button>
+        <div class="product-layout">
+          <div class="product-media">
+            <div class="product-photo" id="productPreview"></div>
+            <div class="view-ticket" role="group" aria-label="상품 보기 방식">
+              <button type="button" data-mode="2d" aria-controls="productPreview" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" fill="currentColor"/></svg>2D</button>
+              <button type="button" data-mode="3d" aria-controls="productPreview" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="m12 1 10 5.5-10 5.6L2 6.5zM2 8.4l9 5v9.5l-9-5zM22 8.4l-9 5v9.5l9-5z"/></svg>3D</button>
+            </div>
+            <small class="orbit-hint" aria-live="polite"></small>
+          </div>
+          <section class="product-info">
+            <p class="product-brand" aria-hidden="true">CHESS GAMBIT</p>
+            <h2 id="productName"></h2><p class="product-description"></p>
+            <div class="product-order"><p class="product-spec"></p>
+              <div class="product-stepper"><button type="button" aria-label="수량 줄이기">−</button><output>1</output><button type="button" aria-label="수량 늘리기">+</button></div>
+              <p class="product-total"><strong>상품 금액</strong><strong aria-live="polite"></strong></p>
+              <div class="product-actions"><button type="button" class="product-add">장바구니</button><button type="button" disabled title="구매 기능 준비 중">바로구매</button></div>
+              <span class="product-feedback" role="status"></span>
+            </div>
+          </section>
+        </div>
+      </dialog>
     </main>
   </body>
 </html>

@@ -17,7 +17,15 @@
   "cameraHideAvatarDistance": 1.2,
   "zoomMinDistance": 3,
   "zoomMaxDistance": 45,
-  "zoomMinFov": 30,
-  "zoomMaxFov": 70,
-  "cameraHeightSpeed": 10
+  "cameraHeightSpeed": 10,
+  "cameraCollisionMinDistance": 6,
+  "cameraApproachSpeed": 6,
+  "characterScale": 1.2,
+  "savedSpawnBeforeNpcInspection": {
+    "spawn": [
+      29.35,
+      -9.59
+    ],
+    "spawnYaw": 1.886607
+  }
 }

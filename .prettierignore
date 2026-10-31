@@ -1,0 +1,9 @@
+node_modules/
+dist/
+vendor/
+js/app.bundle.js
+data/map.json
+data/avatar.json
+data/avatar-rig.json
+data/map-packed.json
+data/map-materials.json

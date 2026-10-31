@@ -13,6 +13,7 @@ const rigData =
       )
     : packedRig;
 import { createGeometry } from "./geometry.js";
+import { createGarmentMotion } from "./player-garments.js";
 import { createAvatarMotion } from "./avatar-motion.js";
 
 // [구조 설명] 원본 FBX의 본 계층·정점 가중치를 보존한 웹용 파생 모델.
@@ -80,6 +81,7 @@ export function createAvatar({
   });
   avatar.updateMatrixWorld(true);
   const skeleton = new THREE.Skeleton(bones);
+  const garments = createGarmentMotion();
   for (const data of rigData.meshes) {
     const geometry = createGeometry(data);
     geometry.setAttribute(
@@ -95,11 +97,12 @@ export function createAvatar({
     const mesh = new THREE.SkinnedMesh(geometry, materials);
     mesh.name = data.name;
     mesh.normalizeSkinWeights();
+    garments.attach(mesh);
     avatar.add(mesh);
     mesh.bind(skeleton, new THREE.Matrix4());
     // [구조 설명] 움직이는 팔다리가 정적 경계 밖으로 나가도 잘리지 않도록 한다.
     mesh.frustumCulled = false;
   }
-  avatar.userData.updateMotion = createAvatarMotion(bones);
+  avatar.userData.updateMotion = createAvatarMotion(bones, garments.update);
   return avatar;
 }

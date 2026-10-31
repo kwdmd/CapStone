@@ -1,8 +1,8 @@
 import * as THREE from "../vendor/three.module.js";
-import source from "../data/map-materials.json";
+import defaultSource from "../data/map-materials.json";
 // [구조 설명] 텍스처는 data URI로 포함해 로컬 HTML에서도 외부 경로 없이 표시한다.
 // 색상은 Blender의 선형 RGB 값이다. PNG 색상 텍스처에만 sRGB를 지정한다.
-export function createMapMaterials() {
+export function createMapMaterials(source = defaultSource) {
   const loader = new THREE.TextureLoader(),
     cache = new Map();
   const texture = (name, color) => {

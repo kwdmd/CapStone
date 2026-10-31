@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import * as THREE from '../vendor/three.module.js';
+import { createCameraRig } from '../js/camera-rig.js';
+const camera=new THREE.PerspectiveCamera(48), avatar=new THREE.Group();
+const rig=createCameraRig(camera,[],{thirdPersonDistance:20,thirdPersonElevation:0.7,eyeHeight:1.65,cameraHideAvatarDistance:1,zoomMinDistance:3,zoomMaxDistance:45});
+const player={x:0,y:0,z:0,yaw:0,pitch:0};
+rig(player,avatar,true,1/60);
+const before=camera.position.clone();
+rig.zoom(-120,false);rig.zoom(240,false);
+rig(player,avatar,false,1/60);
+assert.equal(camera.fov,48);assert.deepEqual(camera.position.toArray(),[0,1.65,0]);
+rig(player,avatar,true,1/60);assert.ok(camera.position.distanceTo(before)<1e-9);
+rig.zoom(-120,true);rig(player,avatar,true,1/60);
+assert.ok(camera.position.distanceTo(new THREE.Vector3(0,1,0))<20);
+rig(player,avatar,false,1/60);assert.equal(camera.fov,48);
+console.log('PASS: first-person zoom disabled, third-person zoom preserved across view switches');

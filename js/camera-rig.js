@@ -11,7 +11,6 @@ export function createCameraRig(camera, meshes, settings) {
   const cameraCollision = createCameraCollision();
   let cameraDistance = settings.thirdPersonDistance;
   let desiredDistance = settings.thirdPersonDistance;
-  let firstFov = 48;
   let followY;
   const update = (player, avatar, third, dt) => {
     // [직접 수정] 계단 높이 변화는 부드럽게 따라가되 발보다 지나치게 낮아지지 않게 제한한다.
@@ -20,7 +19,7 @@ export function createCameraRig(camera, meshes, settings) {
       (player.y - followY) *
       (1 - Math.exp(-(settings.cameraHeightSpeed ?? 10) * dt));
     followY = THREE.MathUtils.clamp(followY, player.y - 0.25, player.y + 0.25);
-    const fov = third ? 48 : firstFov;
+    const fov = 48;
     if (camera.fov !== fov) {
       camera.fov = fov;
       camera.updateProjectionMatrix();
@@ -49,9 +48,10 @@ export function createCameraRig(camera, meshes, settings) {
         );
         cameraDistance = recoverCameraDistance(
           cameraDistance,
-          safe,
+          Math.max(safe, Math.min(settings.cameraCollisionMinDistance ?? 0, desiredDistance)),
           dt,
           settings.cameraReturnSpeed,
+          settings.cameraApproachSpeed ?? 6,
         );
       } else {
         ray.far = desiredDistance;
@@ -61,6 +61,12 @@ export function createCameraRig(camera, meshes, settings) {
           ? Math.max(0.3, hit.distance - 0.2)
           : desiredDistance;
       }
+      // [직접 수정] 충돌 자동 확대의 최소 거리. 좁은 공간에서는 벽 가림이 생길 수 있다.
+      // 사용자가 휠로 더 가까이 설정한 경우에는 그 수동 거리를 존중한다.
+      cameraDistance = Math.max(
+        Math.min(settings.cameraCollisionMinDistance ?? 0, desiredDistance),
+        cameraDistance,
+      );
       camera.position.copy(target).addScaledVector(offset, cameraDistance);
       // 거리가 0일 때에도 시선 방향이 뒤집히지 않도록 명시한다.
       camera.lookAt(camera.position.clone().sub(offset));
@@ -75,7 +81,7 @@ export function createCameraRig(camera, meshes, settings) {
       );
     }
   };
-  // [직접 수정] 3인칭은 거리, 1인칭은 시야각으로 줌한다. 충돌 안전 거리는 매 프레임 별도 적용된다.
+  // 3인칭에서만 거리를 조절한다. 1인칭 시야각은 48도로 고정한다.
   update.zoom = (delta, third) => {
     if (third)
       desiredDistance = zoomValue(
@@ -83,13 +89,6 @@ export function createCameraRig(camera, meshes, settings) {
         delta,
         settings.zoomMinDistance ?? 3,
         settings.zoomMaxDistance ?? 45,
-      );
-    else
-      firstFov = zoomValue(
-        firstFov,
-        delta,
-        settings.zoomMinFov ?? 30,
-        settings.zoomMaxFov ?? 70,
       );
   };
   return update;

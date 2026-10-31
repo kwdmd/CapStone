@@ -1,8 +1,8 @@
 {
-  "projectName": "POP - ING",
-  "logo": "🥲",
-  "pageTitle": "POP - ING",
+  "projectName": "Chess Gambit",
+  "logo": "",
+  "pageTitle": "Chess Gambit",
   "initialView": "third-person",
   "soundEnabled": true,
-  "projectNameLines": ["POP - ING"]
+  "projectNameLines": ["Chess Gambit"]
 }
