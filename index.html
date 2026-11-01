@@ -8,7 +8,6 @@
     <!-- [구조 설명] CSS는 디자인, JS는 버튼과 3D 장면을 담당한다. app.bundle.js는 분리된 JS/JSON을 묶은 실행 파일이다. 파일을 이동하면 아래 상대 경로도 함께 바꾼다. -->
     <link rel="stylesheet" href="css/popup.css" />
     <link rel="stylesheet" href="css/dialogue.css" />
-    <link rel="preload" as="image" href="assets/loading/pawn-exhibition.gif" />
     <script src="js/app.bundle.js" defer onerror="document.getElementById('sceneStatus').textContent='전시 파일을 불러오지 못했어요. 페이지를 새로고침해 주세요.'"></script>
     <link rel="stylesheet" href="css/product-detail.css" />
   </head>
@@ -142,9 +141,7 @@
           <div id="cartItems">아직 담은 상품이 없습니다.</div>
         </section>
       </aside>
-      <p class="scene-status" id="sceneStatus" role="status">
-        <img src="assets/loading/pawn-exhibition.gif" alt="폰들이 전시를 준비하는 중입니다." width="720" height="460" />
-      </p>
+      <p class="scene-status" id="sceneStatus" role="status"></p>
       <p id="npcPrompt" class="npc-prompt" role="status" hidden></p>
       <section id="npcDialogue" class="npc-ticket" role="dialog" aria-labelledby="npcName" aria-describedby="npcText" hidden>
         <div class="ticket-stub" aria-hidden="true"><span class="ticket-ribbon"></span><span id="npcSymbol"></span><span id="npcPiece"></span></div>

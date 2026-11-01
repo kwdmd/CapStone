@@ -1,6 +1,6 @@
 #productDetail {
   --forest: #164835;
-  --paper: #fcf9f2;
+  --paper: #F2F0EF;
   --content-inset: clamp(24px, 4vw, 64px);
   --seam-gap: clamp(36px, 6vw, 88px);
   width: min(92vw, 1280px);

@@ -162,13 +162,7 @@ h2 {
   background: #fbf8ef;
   color: #183d30;
 }
-.scene-status img {
-  display: block;
-  width: min(720px, 100%);
-  height: auto;
-  max-height: 90dvh;
-  object-fit: contain;
-}
+.scene-status:empty { display: none; }
 [hidden] {
   display: none !important;
 }

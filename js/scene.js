@@ -40,9 +40,6 @@ export function startScene(initialView) {
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
-  let texturesReady = true;
-  THREE.DefaultLoadingManager.onStart = () => { texturesReady = false; };
-  THREE.DefaultLoadingManager.onLoad = () => { texturesReady = true; };
   const mapMaterials = createMapMaterials();
   for (const data of mapData) {
     const geometry = createGeometry(data);
@@ -167,7 +164,6 @@ export function startScene(initialView) {
     updateNpcs(dt);
     dialogue.update();
     renderer.render(scene, camera);
-    if (texturesReady && !status.hidden) status.hidden = true;
   }
   requestAnimationFrame(animate);
 }
