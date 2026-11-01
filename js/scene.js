@@ -40,9 +40,33 @@ export function startScene(initialView) {
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
+  const pieceCylinders = [];
   const mapMaterials = createMapMaterials();
   for (const data of mapData) {
     const geometry = createGeometry(data);
+    // 리본 기물은 본체의 받침 폭과 높이를 기준으로 이동을 막는다.
+    const giftBox = /^(?:Cube\.(?:01[7-9]|02[0-3]|035|036|040)|Cylinder\.(?:02[1-3]|046|047))_0$/.test(data.name);
+    if (giftBox || /^Cylinder\.(007|015|016|020)_0$/.test(data.name)) {
+      geometry.computeBoundingBox();
+      const { min, max } = geometry.boundingBox;
+      const x = (min.x + max.x) / 2;
+      const z = (min.z + max.z) / 2;
+      let radius = Math.max(max.x - min.x, max.z - min.z) / 2;
+      if (giftBox) {
+        // Include rotated lid corners in the gift collider.
+        const vertices = geometry.getAttribute("position");
+        for (let i = 0; i < vertices.count; i++) {
+          radius = Math.max(radius, Math.hypot(vertices.getX(i) - x, vertices.getZ(i) - z));
+        }
+      }
+      pieceCylinders.push({
+        x,
+        z,
+        radius,
+        bottom: min.y,
+        top: max.y,
+      });
+    }
     // 원본 FBX의 면별 재질을 연결한다.
     for (const [start, count, materialIndex] of data.groups || [])
       geometry.addGroup(start, count, materialIndex);
@@ -78,7 +102,7 @@ export function startScene(initialView) {
       .find((hit) => Math.abs(hit.face.normal.y) > 0.55);
   };
   // [구조 설명] 임시 전시 아바타는 사용자 캐릭터와 별도로 배치한다.
-  const goods = addDisplayGoods(scene);
+  const goods = addDisplayGoods(scene, meshes);
   const updateNpcs = addNpcs(scene);
   const spawnHit = ground(player.x, player.z);
   if (!spawnHit) {
@@ -91,7 +115,7 @@ export function startScene(initialView) {
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
   const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
-  const tryMove = createWalker(player, meshes, settings, updateNpcs.cylinders, fenceWalls);
+  const tryMove = createWalker(player, meshes, settings, [...updateNpcs.cylinders, ...pieceCylinders], fenceWalls);
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
     reset();
@@ -167,3 +191,4 @@ export function startScene(initialView) {
   }
   requestAnimationFrame(animate);
 }
+

@@ -47,6 +47,7 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
     reset(); host.focus();
   }
   buttons.forEach(b=>b.addEventListener("click",()=>topic(b.dataset.topic)));
+  prompt.addEventListener("click", () => open(nearest()));
   closeButton.addEventListener("click",close);
   window.addEventListener("keydown", e => {
     if (e.code === "Escape" && active) { e.preventDefault(); close(); return; }

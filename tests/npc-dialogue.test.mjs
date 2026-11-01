@@ -12,10 +12,11 @@ const dialogue=bindNpcDialogue({host,canvas,camera:{},meshes:[],avatars,player,r
 for(const [i,name] of ['룩 안내자','나이트 안내자','폰 안내자'].entries()){
  player.x=i*20;dialogue.update();assert.equal(elements.npcPrompt.hidden,false);
  assert.ok(elements.npcPrompt.textContent.startsWith('F · '));
- assert.equal(elements.npcPrompt.handlers.click,undefined);
+ assert.equal(typeof elements.npcPrompt.handlers.click,"function");
  assert.equal(canvas.handlers.pointerup,undefined);
  keys.keydown({code:'KeyE',target:make(),preventDefault(){}});assert.equal(dialogue.isOpen(),false);
- keys.keydown({code:'KeyF',target:make(),preventDefault(){}});
+ if (i === 1) elements.npcPrompt.handlers.click();
+ else keys.keydown({code:'KeyF',target:make(),preventDefault(){}});
  assert.equal(dialogue.isOpen(),true);assert.equal(elements.npcName.textContent,name);assert.equal(host.dataset.dialogueOpen,'true');
  buttons[1].handlers.click();assert.ok(elements.npcText.textContent.length>20);assert.equal(buttons[1]['aria-pressed'],'true');
  keys.keydown({code:'Escape',preventDefault(){}});assert.equal(dialogue.isOpen(),false);assert.equal(elements.npcDialogue.hidden,true);assert.equal(host.dataset.dialogueOpen,'false');

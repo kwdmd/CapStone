@@ -1,3 +1,4 @@
+import { addCartItem } from "./cart.js";
 import { createProductOrbit } from "./product-orbit.js";
 
 const commonSpec = "SIZE: 12 × 15cm\n소재: 아크릴";
@@ -33,7 +34,6 @@ export function bindProductDetail(host, reset) {
   const [minus, plus] = dialog.querySelectorAll(".product-stepper button");
   const close = find(".product-close");
   const feedback = find(".product-feedback");
-  const basket = new Map();
   let product, quantity, selectedGroup, orbit;
   const modeButtons = [...dialog.querySelectorAll(".view-ticket button")];
   function setMode(mode) {
@@ -70,15 +70,7 @@ export function bindProductDetail(host, reset) {
   plus.onclick = () => { quantity = Math.min(99, quantity + 1); renderQuantity(); };
   close.onclick = () => dialog.close();
   find(".product-add").onclick = () => {
-    const previous = basket.get(product.name);
-    basket.set(product.name, {
-      name: product.name,
-      quantity: (previous?.quantity ?? 0) + quantity,
-      image: product.image,
-      spec: product.spec,
-    });
-    const items = Array.from(basket.values());
-    document.dispatchEvent(new CustomEvent("popup:cart-update", { detail: { items } }));
+    addCartItem({ name: product.name, image: product.image, spec: product.spec, quantity });
     feedback.textContent = quantity + "개를 장바구니에 담았어요.";
   };
   dialog.addEventListener("close", () => {

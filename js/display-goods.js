@@ -1,23 +1,23 @@
 import * as THREE from "../vendor/three.module.js";
-import { gunzipSync, strFromU8 } from "../vendor/fflate.module.js";
-import packed from "../data/display-goods-packed.json";
-import { createGeometry } from "./geometry.js";
-import { createMapMaterials } from "./map-materials.js";
 
-export function addDisplayGoods(scene) {
-  const bytes = Uint8Array.from(atob(packed), (character) => character.charCodeAt(0));
-  const displays = JSON.parse(strFromU8(gunzipSync(bytes)));
-  return displays.map((display) => {
+// 새 맵에서 받침과 인쇄면을 포함하는 원본 노드 이름이다.
+const standNodes = { queen: "Cylinder.054", king: "Cylinder.055", bishop: "Plane" };
+
+export function addDisplayGoods(scene, meshes) {
+  return Object.entries(standNodes).map(([productId, node]) => {
+    const parts = meshes.filter(mesh => mesh.name.startsWith(node + "_"));
+    if (!parts.length) throw new Error("Missing product stand: " + node);
+
+    // 맵의 실제 메시를 묶고, 상호작용 기준점은 받침 중앙에 둔다.
+    const bounds = new THREE.Box3();
+    for (const mesh of parts) bounds.expandByObject(mesh);
     const group = new THREE.Group();
-    const materials = createMapMaterials(display);
-    for (const part of display.meshes) {
-      group.add(new THREE.Mesh(createGeometry(part), materials[part.material]));
-    }
-    group.name = display.name;
-    group.position.set(display.x, display.y, display.z);
-    group.rotation.y = display.rotation;
-    group.userData.productId = display.id;
+    bounds.getCenter(group.position);
+    group.position.y = bounds.min.y;
+    group.name = node;
+    group.userData.productId = productId;
     scene.add(group);
+    for (const mesh of parts) group.attach(mesh);
     return group;
   });
 }

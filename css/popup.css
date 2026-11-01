@@ -215,4 +215,8 @@ h2 {
   border-radius: 6px;
 }
 
-.cart-item-spec { display:block; margin-top:4px; color:#52606c; font-size:12px; }
+
+.cart-stepper { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.cart-item button { cursor: pointer; font: inherit; color: inherit; background: white; border: 1px solid #c9ceca; border-radius: 5px; min-width: 26px; min-height: 26px; }
+.cart-item button:disabled { opacity: .45; cursor: default; }
+.cart-item .cart-remove { margin-left: auto; align-self: flex-start; flex: none; font-size: 18px; }
