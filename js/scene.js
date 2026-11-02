@@ -1,3 +1,5 @@
+import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
+import objectWalls from "../data/object-walls.json";
 import { addDisplayGoods } from "./display-goods.js";
 import { bindNpcDialogue } from "./npc-dialogue.js";
 import { addNpcs } from "./npcs.js";
@@ -43,7 +45,8 @@ export async function startScene(initialView) {
   const meshes = [];
   const pieceCylinders = [];
   const mapMaterials = createMapMaterials();
-  for (const data of readyMap) {
+  const walkableMap = widenCastleEntrance(readyMap);
+  for (const data of walkableMap) {
     const geometry = createGeometry(data);
     // 리본 기물은 본체의 받침 폭과 높이를 기준으로 이동을 막는다.
     const giftBox = /^(?:Cube\.(?:01[7-9]|02[0-3]|035|036|040)|Cylinder\.(?:02[1-3]|046|047))_0$/.test(data.name);
@@ -63,7 +66,7 @@ export async function startScene(initialView) {
       pieceCylinders.push({
         x,
         z,
-        radius,
+        radius: radius * 0.85,
         bottom: min.y,
         top: max.y,
       });
@@ -116,8 +119,10 @@ export async function startScene(initialView) {
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
   const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
-  const tryMove = createWalker(player, meshes, settings, pieceCylinders.concat(updateNpcs.cylinders), fenceWalls);
+  const boothWalls = addBoothCollision(scene, walkableMap);
+  const tryMove = createWalker(player, meshes, settings, pieceCylinders.concat(updateNpcs.cylinders), [...fenceWalls, ...boothWalls], objectWalls);
   document.addEventListener("popup:view-change", (event) => {
+    if (!third) avatar.rotation.y = player.yaw + Math.PI + avatarFacingOffset;
     third = event.detail !== "first-person";
     reset();
     host.focus();
@@ -171,10 +176,12 @@ export async function startScene(initialView) {
       const dx = x * Math.cos(player.yaw) + z * Math.sin(player.yaw);
       const dz = -x * Math.sin(player.yaw) + z * Math.cos(player.yaw);
       // 원통에 한 축이 막혀도 입력한 이동 방향을 바라본다.
-      if (dt > 0) avatar.rotation.y = Math.atan2(dx, dz) + avatarFacingOffset;
+      if (third && dt > 0) avatar.rotation.y = Math.atan2(dx, dz) + avatarFacingOffset;
       tryMove(dx, 0);
       tryMove(0, dz);
     }
+    // 1인칭에서는 옆걸음과 뒷걸음 중에도 몸이 카메라의 수평 방향을 따른다.
+    if (!third) avatar.rotation.y = player.yaw + Math.PI + avatarFacingOffset;
     const movedX = player.x - oldX,
       movedZ = player.z - oldZ;
     const actualSpeed = dt > 0 ? Math.hypot(movedX, movedZ) / dt : 0;
@@ -193,6 +200,10 @@ export async function startScene(initialView) {
   }
   requestAnimationFrame(animate);
 }
+
+
+
+
 
 
 

@@ -75,5 +75,9 @@ state.view = config.initialView;
 state.soundEnabled = config.soundEnabled;
 renderControls();
 initCart();
-startScene(state.view);
+Promise.resolve(startScene(state.view)).catch(error => {
+  console.error(error);
+  document.getElementById("sceneStatus").textContent = "전시장을 열 수 없습니다: " + error.message;
+});
+
 

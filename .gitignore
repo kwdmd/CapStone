@@ -17,3 +17,4 @@ Thumbs.db
 
 js/docent-worker.bundle.js
 !/data/map.json
+local-assets/

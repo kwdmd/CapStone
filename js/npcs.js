@@ -1,3 +1,4 @@
+import { readResponse } from "./binary.js";
 
 import { createNpcRig } from "./npc-rig.js";
 import { createMapMaterials } from "./map-materials.js";
@@ -9,10 +10,12 @@ export function addNpcs(scene) {
   const cylinders = placements.map(p=>({x:p.x,z:p.z,bottom:p.y,top:p.y+1.82*(p.scale??1),radius:p.collisionRadius*(p.scale??1)}));
   async function load(){
   const url = new URL("js/docent-worker.bundle.js", document.baseURI);
-  const worker=new Worker(url);
+  const local = location.protocol === "file:";
+  const workerUrl = local ? URL.createObjectURL(new Blob([await (await readResponse("js/docent-worker.bundle.js")).text()], {type:"text/javascript"})) : url;
+  const worker = new Worker(workerUrl);
   try {
   for (const placement of placements) {
-    const response = await fetch("data/npc-"+placement.id+".json");
+    const response = await readResponse("data/npc-"+placement.id+".json");
     if (!response.ok) throw new Error("도슨트 파일을 읽을 수 없습니다.");
     const source = await response.text();
     const data = await new Promise((resolve,reject)=>{
@@ -50,7 +53,7 @@ export function addNpcs(scene) {
     // [직접 수정] collisionRadius는 배율 적용 전 의상 폭 기준. 위치·크기는 도슨트 배치를 따른다.
 
   }
-  } finally { worker.terminate(); }
+  } finally { worker.terminate(); if (local) URL.revokeObjectURL(workerUrl); }
   }
   let started=false;
   const update = (dt) => avatars.forEach((avatar) => avatar.userData.updateIdle(dt));
@@ -59,3 +62,4 @@ export function addNpcs(scene) {
   update.cylinders = cylinders;
   return update;
 }
+

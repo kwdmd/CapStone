@@ -1,11 +1,11 @@
+import { playerCollisionSize } from "./player-collision-size.js";
+import { touchesObjectWall } from "./object-walls.js";
 import * as THREE from "../vendor/three.module.js";
 // [구조 설명] 다음 발판 높이를 먼저 구해 계단 앞면과 벽을 구분한다.
-export function createWalker(player, meshes, settings, cylinders = [], fences = []) {
+export function createWalker(player, meshes, settings, cylinders = [], fences = [], objectWalls = null) {
   const ray = new THREE.Raycaster();
   // 도슨트 원통에는 플레이어 치마 반폭도 더한다. 바닥·카메라 레이에는 넣지 않는다.
-  const playerScale = settings.characterScale ?? 1;
-  const playerRadius = 0.68 * playerScale;
-  const playerHeight = 1.8 * playerScale;
+  const { radius: playerRadius, height: playerHeight, surfaceRatio } = playerCollisionSize(settings);
   const down = new THREE.Vector3(0, -1, 0);
   const direction = new THREE.Vector3();
   return (dx, dz) => {
@@ -26,7 +26,8 @@ export function createWalker(player, meshes, settings, cylinders = [], fences = 
       ray.far = settings.stepHeight + settings.maxDrop + 0.02;
       const floor = ray
         .intersectObjects(meshes, false)
-        .find((h) => h.face.normal.y > 0.55);
+        .find((h) => h.face.normal.y > 0.55 && h.object.name !== "Cylinder_1" &&
+          !(h.object.name === "Cylinder.006_0" && h.point.y > 9.50));
       if (
         !floor ||
         floor.point.y - player.y > settings.stepHeight + 0.001 ||
@@ -42,6 +43,7 @@ export function createWalker(player, meshes, settings, cylinders = [], fences = 
         return next < (radius + playerRadius) ** 2 && next <= previous;
       });
       if (blocked) return;
+      if (objectWalls && touchesObjectWall(objectWalls, player, x, z, floor.point.y, playerRadius * surfaceRatio, playerHeight)) return;
       for (const fence of fences) {
         if (Math.min(player.y, floor.point.y) >= fence.top ||
             Math.max(player.y, floor.point.y) + playerHeight <= fence.bottom) continue;
@@ -59,7 +61,8 @@ export function createWalker(player, meshes, settings, cylinders = [], fences = 
         if (
           ray
             .intersectObjects(meshes, false)
-            .some((h) => Math.abs(h.face.normal.y) < 0.65)
+            .some((h) => !/^Cylinder(?:_[012]|\.030(?:_\d+)?)$/.test(h.object.name) &&
+              !(h.object.name === "Cylinder.006_0" && h.point.y >= 7.9) && Math.abs(h.face.normal.y) < 0.65)
         )
           return;
       }
@@ -78,3 +81,4 @@ function distanceToFenceSquared(x, z, { start, end }) {
   const t = Math.max(0, Math.min(1, projection));
   return (x - start[0] - t * dx) ** 2 + (z - start[1] - t * dz) ** 2;
 }
+
