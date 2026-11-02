@@ -5,7 +5,7 @@ import fenceWalls from "../data/fence-walls.json";
 import { createWalker } from "./walker.js";
 import { wheelPixels } from "./camera-zoom.js";
 import { createGeometry } from "./geometry.js";
-import { createAvatar } from "./avatar.js";
+import { createAvatar,rigReady } from "./avatar.js";
 import { bindSceneInput } from "./scene-input.js";
 import { createCameraRig } from "./camera-rig.js";
 import * as THREE from "../vendor/three.module.js";
@@ -17,7 +17,8 @@ import { createMovementInput } from "./movement-input.js";
 
 // [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
 // 원본 재질·UV·노멀을 함께 사용한다.
-export function startScene(initialView) {
+export async function startScene(initialView) {
+  const [readyMap]=await Promise.all([mapData,rigReady]);
   const host = document.getElementById("scene");
   const status = document.getElementById("sceneStatus");
   let renderer;
@@ -42,7 +43,7 @@ export function startScene(initialView) {
   const meshes = [];
   const pieceCylinders = [];
   const mapMaterials = createMapMaterials();
-  for (const data of mapData) {
+  for (const data of readyMap) {
     const geometry = createGeometry(data);
     // 리본 기물은 본체의 받침 폭과 높이를 기준으로 이동을 막는다.
     const giftBox = /^(?:Cube\.(?:01[7-9]|02[0-3]|035|036|040)|Cylinder\.(?:02[1-3]|046|047))_0$/.test(data.name);
@@ -115,7 +116,7 @@ export function startScene(initialView) {
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
   const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
-  const tryMove = createWalker(player, meshes, settings, [...updateNpcs.cylinders, ...pieceCylinders], fenceWalls);
+  const tryMove = createWalker(player, meshes, settings, pieceCylinders.concat(updateNpcs.cylinders), fenceWalls);
   document.addEventListener("popup:view-change", (event) => {
     third = event.detail !== "first-person";
     reset();
@@ -188,7 +189,10 @@ export function startScene(initialView) {
     updateNpcs(dt);
     dialogue.update();
     renderer.render(scene, camera);
+    updateNpcs.begin();
   }
   requestAnimationFrame(animate);
 }
+
+
 

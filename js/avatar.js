@@ -1,17 +1,5 @@
 import * as THREE from "../vendor/three.module.js";
-import packedRig from "../data/avatar-rig.json" with { type: "json" };
-import { gunzipSync, strFromU8 } from "../vendor/fflate.module.js";
-// [구조 설명] 원본의 UV·노멀·리깅을 보존한 데이터를 압축해 저장한다.
-const rigData =
-  packedRig.encoding === "gzip-base64"
-    ? JSON.parse(
-        strFromU8(
-          gunzipSync(
-            Uint8Array.from(atob(packedRig.data), (c) => c.charCodeAt(0)),
-          ),
-        ),
-      )
-    : packedRig;
+import {readAsset} from "./binary.js"; let rigData; export const rigReady=readAsset("rig").then(data=>rigData=data);
 import { createGeometry } from "./geometry.js";
 import { createGarmentMotion } from "./player-garments.js";
 import { createAvatarMotion } from "./avatar-motion.js";

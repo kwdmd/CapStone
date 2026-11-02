@@ -6,7 +6,7 @@ export function createGeometry(data) {
     "position",
     new THREE.Float32BufferAttribute(data.positions, 3),
   );
-  geometry.setIndex(data.indices);
+  geometry.setIndex(ArrayBuffer.isView(data.indices)?new THREE.BufferAttribute(data.indices,1):data.indices);
   // 원본 노멀과 UV 보존. 없는 기존 모델만 노멀 계산.
   if (data.normals)
     geometry.setAttribute(

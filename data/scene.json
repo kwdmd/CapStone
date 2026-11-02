@@ -4,7 +4,7 @@
     -9.59
   ],
   "thirdPersonDistance": 18,
-  "thirdPersonElevation": 0.9,
+  "thirdPersonElevation": 0.42,
   "eyeHeight": 1.65,
   "walkSpeed": 4,
   "runSpeed": 7.5,
@@ -29,3 +29,4 @@
     "spawnYaw": 1.886607
   }
 }
+

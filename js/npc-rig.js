@@ -18,7 +18,7 @@ const idleGarmentBindings = {
   "Rook-1": { "Cylinder.004": "spine" }, // 넓은 치마: 골반의 움직임을 따른다.
 };
 
-export function createNpcRig(data, materials) {
+export async function createNpcRig(data, materials) {
   const group = new THREE.Group();
   group.name = data.name;
   const bones = data.bones.map((d) => {
@@ -34,7 +34,12 @@ export function createNpcRig(data, materials) {
   );
   group.updateMatrixWorld(true);
   const skeleton = new THREE.Skeleton(bones);
+  let sliceStart = performance.now();
   for (const mesh of data.meshes) {
+    if (performance.now()-sliceStart >= 2.5) {
+      await new Promise(resolve=>requestAnimationFrame(resolve));
+      sliceStart=performance.now();
+    }
     const geometry = createGeometry(mesh);
     // [직접 수정] 나이트 부츠의 바지 안쪽 부분만 좁힌다(정규화된 모델 좌표).
     // 발끝/밑창과 높이는 유지하고 y=0.08~0.12에서 점진적으로 폭을 줄인다.
@@ -113,7 +118,7 @@ export function createNpcRig(data, materials) {
         skinWeights[i * 4 + 1] = 1 - amount;
       }
     }
-    const coat = fitKnightCoat(data, mesh, geometry);
+    const coat = mesh.coatWeightsReady ? null : fitKnightCoat(data, mesh, geometry);
     if (coat) {
       skinIndices = coat.indices;
       skinWeights = coat.weights;
@@ -238,3 +243,4 @@ export function createNpcRig(data, materials) {
   };
   return group;
 }
+

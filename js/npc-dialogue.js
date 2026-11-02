@@ -11,8 +11,8 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
   const interactionDistance = 3;
   let active = null;
   const detail = goods.length ? bindProductDetail(host, reset) : null;
-  const targets = [...avatars, ...goods];
-  const nearest = () => targets.filter(a => Math.abs(a.position.y-player.y)<3)
+  const targets = () => [...avatars, ...goods];
+  const nearest = () => targets().filter(a => Math.abs(a.position.y-player.y)<3)
     .map(a => ({a, d: Math.hypot(a.position.x-player.x,a.position.z-player.z)}))
     .filter(v => v.d <= interactionDistance).sort((a,b)=>a.d-b.d)[0]?.a;
   function topic(key) {

@@ -11,3 +11,7 @@ await copyFile("vendor/LICENSE.txt", "dist/licenses/three-LICENSE.txt");
 await writeFile("dist/.nojekyll", "");
 console.log("GitHub Pages 배포 폴더: dist");
 await copyFile("vendor/fflate-LICENSE.txt", "dist/licenses/fflate-LICENSE.txt");
+
+await copyFile("js/docent-worker.bundle.js", "dist/js/docent-worker.bundle.js");
+await mkdir("dist/data", {recursive:true});
+for (const name of ["map.json","map.pack","rig.json","rig.pack","npc-rook.json","npc-knight.json","npc-pawn-b.json"]) await copyFile("data/"+name,"dist/data/"+name);
