@@ -220,3 +220,8 @@ h2 {
 .cart-item button { cursor: pointer; font: inherit; color: inherit; background: white; border: 1px solid #c9ceca; border-radius: 5px; min-width: 26px; min-height: 26px; }
 .cart-item button:disabled { opacity: .45; cursor: default; }
 .cart-item .cart-remove { margin-left: auto; align-self: flex-start; flex: none; font-size: 18px; }
+
+/* 장바구니 상품별 수량을 반영한 금액 */
+.cart-price { display: block; margin-top: 4px; font-weight: 600; }
+
+.product-photo img.product-image-mirrored { transform: scaleX(-1); }

@@ -20,7 +20,7 @@
   "cameraHeightSpeed": 10,
   "cameraCollisionMinDistance": 6,
   "cameraApproachSpeed": 6,
-  "characterScale": 1.2,
+  "characterScale": 1.32,
   "savedSpawnBeforeNpcInspection": {
     "spawn": [
       29.35,

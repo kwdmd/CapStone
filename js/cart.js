@@ -88,7 +88,13 @@ export function initCart() {
         basket.set(item.name, { ...item, quantity: item.quantity + 1 });
       });
       stepper.append(minus, String(item.quantity), plus);
-      label.append(stepper);
+      // 상품별 금액은 단가 × 현재 수량으로 계산해 수량 변경 때 함께 갱신한다.
+      const price = document.createElement("span");
+      price.className = "cart-price";
+      price.textContent = Number.isFinite(item.price) && item.price >= 0
+        ? (item.price * item.quantity).toLocaleString("ko-KR") + "원"
+        : "가격 준비 중";
+      label.append(price, stepper);
       const remove = control("×", "삭제", () => basket.delete(item.name));
       remove.className = "cart-remove";
       row.append(label, remove);

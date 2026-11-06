@@ -53,6 +53,8 @@ export function bindProductDetail(host, reset) {
       const image = new Image();
       image.src = product.image;
       image.alt = product.name;
+      // 비숍 상세 이미지의 표시 방향을 좌우 반전한다.
+      image.classList.toggle("product-image-mirrored", product === products.bishop);
       holder.replaceChildren(image);
     }
     modeButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.mode === mode)));
@@ -70,7 +72,7 @@ export function bindProductDetail(host, reset) {
   plus.onclick = () => { quantity = Math.min(99, quantity + 1); renderQuantity(); };
   close.onclick = () => dialog.close();
   find(".product-add").onclick = () => {
-    addCartItem({ name: product.name, image: product.image, spec: product.spec, quantity });
+    addCartItem({ name: product.name, image: product.image, spec: product.spec, price: product.price, quantity });
     feedback.textContent = quantity + "개를 장바구니에 담았어요.";
   };
   dialog.addEventListener("close", () => {
