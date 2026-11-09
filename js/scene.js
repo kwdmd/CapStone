@@ -1,3 +1,4 @@
+import { setStartupTextureRenderer } from "./startup-textures.js";
 import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
 import objectWalls from "../data/object-walls.json";
 import { addDisplayGoods } from "./display-goods.js";
@@ -12,7 +13,7 @@ import { bindSceneInput } from "./scene-input.js";
 import { createCameraRig } from "./camera-rig.js";
 import * as THREE from "../vendor/three.module.js";
 import mapData from "./map-data.js";
-import { createMapMaterials } from "./map-materials.js";
+import { createMapMaterials, materialsReady } from "./map-materials.js";
 import settings from "../data/scene.json";
 import motionSettings from "../data/motion-settings.json";
 import { createMovementInput } from "./movement-input.js";
@@ -20,7 +21,7 @@ import { createMovementInput } from "./movement-input.js";
 // [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
 // 원본 재질·UV·노멀을 함께 사용한다.
 export async function startScene(initialView) {
-  const [readyMap]=await Promise.all([mapData,rigReady]);
+  const [readyMap]=await Promise.all([mapData,rigReady,materialsReady]);
   const host = document.getElementById("scene");
   const status = document.getElementById("sceneStatus");
   let renderer;
@@ -31,7 +32,8 @@ export async function startScene(initialView) {
       "3D 화면을 열 수 없습니다. WebGL을 지원하는 브라우저로 다시 열어 주세요.";
     return;
   }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  setStartupTextureRenderer(renderer);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   host.appendChild(renderer.domElement);
   // [직접 수정] 맵 바깥 배경색. 오브젝트 재질과 조명은 별도로 설정한다.
@@ -107,7 +109,7 @@ export async function startScene(initialView) {
   };
   // [구조 설명] 임시 전시 아바타는 사용자 캐릭터와 별도로 배치한다.
   const goods = addDisplayGoods(scene, meshes);
-  const updateNpcs = addNpcs(scene);
+  const updateNpcs = addNpcs(scene, renderer, camera);
   const spawnHit = ground(player.x, player.z);
   if (!spawnHit) {
     status.textContent =

@@ -1,34 +1,31 @@
-import {fitKnightCoat} from "./knight-coat.js";
-import * as THREE from "../vendor/three.module.js";
-import { gunzipSync, strFromU8 } from "../vendor/fflate.module.js";
+import { gunzipSync } from "../vendor/fflate.module.js";
+import { decodeNpcBinary } from "./npc-binary.js";
 
-// 압축 해제와 숫자 배열 변환을 렌더 스레드 밖에서 끝낸다.
-self.onmessage = ({ data: source }) => {
+// 브라우저 내장 gzip 해제를 워커에서 사용한다. 미지원 환경은 기존 방식으로 복원한다.
+// 모델 파일 및 복원된 수치는 변경하지 않는다.
+self.onmessage = async ({ data: source }) => {
   try {
-    const packed = JSON.parse(source);
-    const bytes = Uint8Array.fromBase64(packed.data);
-    const rig = JSON.parse(strFromU8(gunzipSync(bytes)));
-    if (rig.name === "Knight-4-2-right-foot") {
-      for (const mesh of rig.meshes.filter(m => ["Cylinder.002","Cube"].includes(m.name))) {
-        const position = new THREE.Float32BufferAttribute(mesh.positions,3);
-        const fit = fitKnightCoat(rig,mesh,{attributes:{position}});
-        mesh.skinIndices=fit.indices; mesh.skinWeights=fit.weights; mesh.coatWeightsReady=true;
+    const start = performance.now();
+    let bytes, decompressor = "javascript-gzip", fallbackReason;
+    if (typeof DecompressionStream === "function") {
+      try {
+        const stream = new Blob([source]).stream().pipeThrough(new DecompressionStream("gzip"));
+        bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+        decompressor = "native-gzip";
+      } catch (error) {
+        fallbackReason = error.message;
       }
     }
-    const transfer = [];
-    for (const mesh of rig.meshes) {
-      for (const [key, Type] of Object.entries({
-        positions: Float32Array, normals: Float32Array, uvs: Float32Array,
-        indices: Uint32Array, skinIndices: Uint16Array, skinWeights: Float32Array,
-      })) {
-        if (!mesh[key]) continue;
-        mesh[key] = new Type(mesh[key]);
-        transfer.push(mesh[key].buffer);
-      }
-    }
-    self.postMessage({ rig }, transfer);
+    if (!bytes) bytes = gunzipSync(new Uint8Array(source));
+    const unpacked = performance.now();
+    const rig = decodeNpcBinary(bytes);
+    const decoded = performance.now();
+    // 공유 버퍼는 복제하지 않고 한 번만 소유권을 이전한다.
+    self.postMessage({ rig, timings: {
+      decompressMs: unpacked - start, metadataAndViewsMs: decoded - unpacked,
+      decompressor, ...(fallbackReason ? { fallbackReason } : {}),
+    } }, [bytes.buffer]);
   } catch (error) {
     self.postMessage({ error: error.message });
   }
 };
-

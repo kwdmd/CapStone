@@ -1,14 +1,21 @@
+import { createStartupTextureLoader } from "./startup-textures.js";
 import * as THREE from "../vendor/three.module.js";
-import defaultSource from "../data/map-materials.json";
+import { readResponse } from "./binary.js";
+let defaultSource;
+// 재질 데이터는 코드 번들과 분리해 맵과 병렬로 읽는다.
+export const materialsReady = readResponse("data/map-materials.json")
+  .then(response => response.json())
+  .then(source => { defaultSource = source; });
 // [구조 설명] 텍스처는 data URI로 포함해 로컬 HTML에서도 외부 경로 없이 표시한다.
 // 색상은 Blender의 선형 RGB 값이다. PNG 색상 텍스처에만 sRGB를 지정한다.
 export function createMapMaterials(source = defaultSource) {
-  const loader = new THREE.TextureLoader(),
+  const loader = source === defaultSource ? createStartupTextureLoader() : new THREE.TextureLoader(),
     cache = new Map();
   const texture = (name, color) => {
     const key = `${name}:${color}`;
     if (!cache.has(key)) {
       const tex = loader.load(source.images[name]);
+      tex.userData.profileLabel = "map:" + name;
       tex.flipY = source.flipY ?? true;
       tex.colorSpace = color ? THREE.SRGBColorSpace : THREE.NoColorSpace;
       tex.wrapS = tex.wrapT = THREE.RepeatWrapping;

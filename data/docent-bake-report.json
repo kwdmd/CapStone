@@ -1,0 +1,4427 @@
+[
+  {
+    "id": "knight",
+    "sourceBytes": 1194625,
+    "binaryBytes": 1085223,
+    "preparationMs": 2953.9238,
+    "meshes": 22,
+    "selection": {
+      "minimumSavedBytes": 8192,
+      "minimumCompressedSavingRatio": 0.25,
+      "minimumSavingPerDecodedByte": 0.12
+    },
+    "transformedArrays": 5,
+    "transformedBytes": 535980,
+    "exactRoundTrip": true,
+    "arrays": [
+      {
+        "mesh": "Cube",
+        "attribute": "positions",
+        "decodedBytes": 32328,
+        "rawGzipBytes": 12913,
+        "selectedGzipBytes": 12913,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube",
+        "attribute": "normals",
+        "decodedBytes": 32328,
+        "rawGzipBytes": 12431,
+        "selectedGzipBytes": 12431,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube",
+        "attribute": "uvs",
+        "decodedBytes": 21552,
+        "rawGzipBytes": 4173,
+        "selectedGzipBytes": 4173,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube",
+        "attribute": "indices",
+        "decodedBytes": 20544,
+        "rawGzipBytes": 8813,
+        "selectedGzipBytes": 8813,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube",
+        "attribute": "skinIndices",
+        "decodedBytes": 21552,
+        "rawGzipBytes": 1507,
+        "selectedGzipBytes": 1507,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube",
+        "attribute": "skinWeights",
+        "decodedBytes": 43104,
+        "rawGzipBytes": 10673,
+        "selectedGzipBytes": 10673,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "positions",
+        "decodedBytes": 7764,
+        "rawGzipBytes": 4671,
+        "selectedGzipBytes": 4671,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "normals",
+        "decodedBytes": 7764,
+        "rawGzipBytes": 5106,
+        "selectedGzipBytes": 5106,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "uvs",
+        "decodedBytes": 5176,
+        "rawGzipBytes": 1024,
+        "selectedGzipBytes": 1024,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "indices",
+        "decodedBytes": 12852,
+        "rawGzipBytes": 4598,
+        "selectedGzipBytes": 4598,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "skinIndices",
+        "decodedBytes": 5176,
+        "rawGzipBytes": 431,
+        "selectedGzipBytes": 431,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "skinWeights",
+        "decodedBytes": 10352,
+        "rawGzipBytes": 3946,
+        "selectedGzipBytes": 3946,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "positions",
+        "decodedBytes": 3888,
+        "rawGzipBytes": 2314,
+        "selectedGzipBytes": 2314,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "normals",
+        "decodedBytes": 3888,
+        "rawGzipBytes": 3439,
+        "selectedGzipBytes": 3439,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "uvs",
+        "decodedBytes": 2592,
+        "rawGzipBytes": 745,
+        "selectedGzipBytes": 745,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "indices",
+        "decodedBytes": 6384,
+        "rawGzipBytes": 2309,
+        "selectedGzipBytes": 2309,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 2592,
+        "rawGzipBytes": 239,
+        "selectedGzipBytes": 239,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 5184,
+        "rawGzipBytes": 2014,
+        "selectedGzipBytes": 2014,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "positions",
+        "decodedBytes": 1764,
+        "rawGzipBytes": 1003,
+        "selectedGzipBytes": 1003,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "normals",
+        "decodedBytes": 1764,
+        "rawGzipBytes": 1297,
+        "selectedGzipBytes": 1297,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "uvs",
+        "decodedBytes": 1176,
+        "rawGzipBytes": 333,
+        "selectedGzipBytes": 333,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "indices",
+        "decodedBytes": 2736,
+        "rawGzipBytes": 897,
+        "selectedGzipBytes": 897,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 1176,
+        "rawGzipBytes": 159,
+        "selectedGzipBytes": 159,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 2352,
+        "rawGzipBytes": 1176,
+        "selectedGzipBytes": 1176,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "positions",
+        "decodedBytes": 348,
+        "rawGzipBytes": 272,
+        "selectedGzipBytes": 272,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "normals",
+        "decodedBytes": 348,
+        "rawGzipBytes": 331,
+        "selectedGzipBytes": 331,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "uvs",
+        "decodedBytes": 232,
+        "rawGzipBytes": 85,
+        "selectedGzipBytes": 85,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "indices",
+        "decodedBytes": 384,
+        "rawGzipBytes": 145,
+        "selectedGzipBytes": 145,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 232,
+        "rawGzipBytes": 81,
+        "selectedGzipBytes": 81,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 464,
+        "rawGzipBytes": 290,
+        "selectedGzipBytes": 290,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "positions",
+        "decodedBytes": 109416,
+        "rawGzipBytes": 71718,
+        "selectedGzipBytes": 46418,
+        "encoding": "byte-shuffle",
+        "savedBytes": 25300
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "normals",
+        "decodedBytes": 109416,
+        "rawGzipBytes": 64808,
+        "selectedGzipBytes": 64808,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "uvs",
+        "decodedBytes": 72944,
+        "rawGzipBytes": 31185,
+        "selectedGzipBytes": 31185,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "indices",
+        "decodedBytes": 197712,
+        "rawGzipBytes": 59984,
+        "selectedGzipBytes": 5397,
+        "encoding": "byte-delta",
+        "savedBytes": 54587
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "skinIndices",
+        "decodedBytes": 72944,
+        "rawGzipBytes": 345,
+        "selectedGzipBytes": 345,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.019",
+        "attribute": "skinWeights",
+        "decodedBytes": 145888,
+        "rawGzipBytes": 81006,
+        "selectedGzipBytes": 81006,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "positions",
+        "decodedBytes": 948,
+        "rawGzipBytes": 665,
+        "selectedGzipBytes": 665,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "normals",
+        "decodedBytes": 948,
+        "rawGzipBytes": 876,
+        "selectedGzipBytes": 876,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "uvs",
+        "decodedBytes": 632,
+        "rawGzipBytes": 331,
+        "selectedGzipBytes": 331,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "indices",
+        "decodedBytes": 1584,
+        "rawGzipBytes": 493,
+        "selectedGzipBytes": 493,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "skinIndices",
+        "decodedBytes": 632,
+        "rawGzipBytes": 72,
+        "selectedGzipBytes": 72,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.021",
+        "attribute": "skinWeights",
+        "decodedBytes": 1264,
+        "rawGzipBytes": 960,
+        "selectedGzipBytes": 960,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "positions",
+        "decodedBytes": 6624,
+        "rawGzipBytes": 2986,
+        "selectedGzipBytes": 2986,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "normals",
+        "decodedBytes": 6624,
+        "rawGzipBytes": 5324,
+        "selectedGzipBytes": 5324,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "uvs",
+        "decodedBytes": 4416,
+        "rawGzipBytes": 681,
+        "selectedGzipBytes": 681,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "indices",
+        "decodedBytes": 7104,
+        "rawGzipBytes": 2796,
+        "selectedGzipBytes": 2796,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "skinIndices",
+        "decodedBytes": 4416,
+        "rawGzipBytes": 730,
+        "selectedGzipBytes": 730,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.022",
+        "attribute": "skinWeights",
+        "decodedBytes": 8832,
+        "rawGzipBytes": 2129,
+        "selectedGzipBytes": 2129,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "positions",
+        "decodedBytes": 81888,
+        "rawGzipBytes": 53433,
+        "selectedGzipBytes": 53433,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "normals",
+        "decodedBytes": 81888,
+        "rawGzipBytes": 57824,
+        "selectedGzipBytes": 57824,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "uvs",
+        "decodedBytes": 54592,
+        "rawGzipBytes": 21066,
+        "selectedGzipBytes": 21066,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "indices",
+        "decodedBytes": 108660,
+        "rawGzipBytes": 42544,
+        "selectedGzipBytes": 20317,
+        "encoding": "byte-delta",
+        "savedBytes": 22227
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "skinIndices",
+        "decodedBytes": 54592,
+        "rawGzipBytes": 332,
+        "selectedGzipBytes": 332,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.023",
+        "attribute": "skinWeights",
+        "decodedBytes": 109184,
+        "rawGzipBytes": 27190,
+        "selectedGzipBytes": 27190,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "positions",
+        "decodedBytes": 2088,
+        "rawGzipBytes": 716,
+        "selectedGzipBytes": 716,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "normals",
+        "decodedBytes": 2088,
+        "rawGzipBytes": 541,
+        "selectedGzipBytes": 541,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "uvs",
+        "decodedBytes": 1392,
+        "rawGzipBytes": 464,
+        "selectedGzipBytes": 464,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "indices",
+        "decodedBytes": 1344,
+        "rawGzipBytes": 548,
+        "selectedGzipBytes": 548,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "skinIndices",
+        "decodedBytes": 1392,
+        "rawGzipBytes": 100,
+        "selectedGzipBytes": 100,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.024",
+        "attribute": "skinWeights",
+        "decodedBytes": 2784,
+        "rawGzipBytes": 736,
+        "selectedGzipBytes": 736,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 2508,
+        "rawGzipBytes": 1447,
+        "selectedGzipBytes": 1447,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 2508,
+        "rawGzipBytes": 1955,
+        "selectedGzipBytes": 1955,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 1672,
+        "rawGzipBytes": 88,
+        "selectedGzipBytes": 88,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 2640,
+        "rawGzipBytes": 844,
+        "selectedGzipBytes": 844,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 1672,
+        "rawGzipBytes": 111,
+        "selectedGzipBytes": 111,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 3344,
+        "rawGzipBytes": 1511,
+        "selectedGzipBytes": 1511,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "positions",
+        "decodedBytes": 70032,
+        "rawGzipBytes": 44443,
+        "selectedGzipBytes": 44443,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "normals",
+        "decodedBytes": 70032,
+        "rawGzipBytes": 47210,
+        "selectedGzipBytes": 47210,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "uvs",
+        "decodedBytes": 46688,
+        "rawGzipBytes": 1203,
+        "selectedGzipBytes": 1203,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "indices",
+        "decodedBytes": 91872,
+        "rawGzipBytes": 31419,
+        "selectedGzipBytes": 2131,
+        "encoding": "byte-delta",
+        "savedBytes": 29288
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "skinIndices",
+        "decodedBytes": 46688,
+        "rawGzipBytes": 1613,
+        "selectedGzipBytes": 1613,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.057",
+        "attribute": "skinWeights",
+        "decodedBytes": 93376,
+        "rawGzipBytes": 38282,
+        "selectedGzipBytes": 38282,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "positions",
+        "decodedBytes": 56520,
+        "rawGzipBytes": 20823,
+        "selectedGzipBytes": 20823,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "normals",
+        "decodedBytes": 56520,
+        "rawGzipBytes": 20299,
+        "selectedGzipBytes": 20299,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "uvs",
+        "decodedBytes": 37680,
+        "rawGzipBytes": 6898,
+        "selectedGzipBytes": 6898,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "indices",
+        "decodedBytes": 28320,
+        "rawGzipBytes": 12981,
+        "selectedGzipBytes": 230,
+        "encoding": "byte-delta",
+        "savedBytes": 12751
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 37680,
+        "rawGzipBytes": 3160,
+        "selectedGzipBytes": 3160,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 75360,
+        "rawGzipBytes": 18039,
+        "selectedGzipBytes": 18039,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "positions",
+        "decodedBytes": 4212,
+        "rawGzipBytes": 2832,
+        "selectedGzipBytes": 2832,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "normals",
+        "decodedBytes": 4212,
+        "rawGzipBytes": 3000,
+        "selectedGzipBytes": 3000,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "uvs",
+        "decodedBytes": 2808,
+        "rawGzipBytes": 649,
+        "selectedGzipBytes": 649,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "indices",
+        "decodedBytes": 8376,
+        "rawGzipBytes": 2869,
+        "selectedGzipBytes": 2869,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "skinIndices",
+        "decodedBytes": 2808,
+        "rawGzipBytes": 319,
+        "selectedGzipBytes": 319,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.016",
+        "attribute": "skinWeights",
+        "decodedBytes": 5616,
+        "rawGzipBytes": 5095,
+        "selectedGzipBytes": 5095,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "positions",
+        "decodedBytes": 13800,
+        "rawGzipBytes": 11328,
+        "selectedGzipBytes": 11328,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "normals",
+        "decodedBytes": 13800,
+        "rawGzipBytes": 11830,
+        "selectedGzipBytes": 11830,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "uvs",
+        "decodedBytes": 9200,
+        "rawGzipBytes": 8014,
+        "selectedGzipBytes": 8014,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "indices",
+        "decodedBytes": 24048,
+        "rawGzipBytes": 9333,
+        "selectedGzipBytes": 9333,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "skinIndices",
+        "decodedBytes": 9200,
+        "rawGzipBytes": 635,
+        "selectedGzipBytes": 635,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.018",
+        "attribute": "skinWeights",
+        "decodedBytes": 18400,
+        "rawGzipBytes": 9819,
+        "selectedGzipBytes": 9819,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "positions",
+        "decodedBytes": 1572,
+        "rawGzipBytes": 668,
+        "selectedGzipBytes": 668,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "normals",
+        "decodedBytes": 1572,
+        "rawGzipBytes": 938,
+        "selectedGzipBytes": 938,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "uvs",
+        "decodedBytes": 1048,
+        "rawGzipBytes": 597,
+        "selectedGzipBytes": 597,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "indices",
+        "decodedBytes": 1512,
+        "rawGzipBytes": 414,
+        "selectedGzipBytes": 414,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "skinIndices",
+        "decodedBytes": 1048,
+        "rawGzipBytes": 33,
+        "selectedGzipBytes": 33,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.019",
+        "attribute": "skinWeights",
+        "decodedBytes": 2096,
+        "rawGzipBytes": 43,
+        "selectedGzipBytes": 43,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "positions",
+        "decodedBytes": 1572,
+        "rawGzipBytes": 673,
+        "selectedGzipBytes": 673,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "normals",
+        "decodedBytes": 1572,
+        "rawGzipBytes": 1023,
+        "selectedGzipBytes": 1023,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "uvs",
+        "decodedBytes": 1048,
+        "rawGzipBytes": 605,
+        "selectedGzipBytes": 605,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "indices",
+        "decodedBytes": 1512,
+        "rawGzipBytes": 467,
+        "selectedGzipBytes": 467,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "skinIndices",
+        "decodedBytes": 1048,
+        "rawGzipBytes": 33,
+        "selectedGzipBytes": 33,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.021",
+        "attribute": "skinWeights",
+        "decodedBytes": 2096,
+        "rawGzipBytes": 43,
+        "selectedGzipBytes": 43,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "positions",
+        "decodedBytes": 20016,
+        "rawGzipBytes": 12742,
+        "selectedGzipBytes": 12742,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "normals",
+        "decodedBytes": 20016,
+        "rawGzipBytes": 13158,
+        "selectedGzipBytes": 13158,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "uvs",
+        "decodedBytes": 13344,
+        "rawGzipBytes": 48,
+        "selectedGzipBytes": 48,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "indices",
+        "decodedBytes": 38928,
+        "rawGzipBytes": 12188,
+        "selectedGzipBytes": 12188,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "skinIndices",
+        "decodedBytes": 13344,
+        "rawGzipBytes": 159,
+        "selectedGzipBytes": 159,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "skinWeights",
+        "decodedBytes": 26688,
+        "rawGzipBytes": 3361,
+        "selectedGzipBytes": 3361,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "positions",
+        "decodedBytes": 648,
+        "rawGzipBytes": 485,
+        "selectedGzipBytes": 485,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "normals",
+        "decodedBytes": 648,
+        "rawGzipBytes": 467,
+        "selectedGzipBytes": 467,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "uvs",
+        "decodedBytes": 432,
+        "rawGzipBytes": 26,
+        "selectedGzipBytes": 26,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "indices",
+        "decodedBytes": 768,
+        "rawGzipBytes": 251,
+        "selectedGzipBytes": 251,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "skinIndices",
+        "decodedBytes": 432,
+        "rawGzipBytes": 44,
+        "selectedGzipBytes": 44,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.010",
+        "attribute": "skinWeights",
+        "decodedBytes": 864,
+        "rawGzipBytes": 496,
+        "selectedGzipBytes": 496,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "positions",
+        "decodedBytes": 432,
+        "rawGzipBytes": 335,
+        "selectedGzipBytes": 335,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "normals",
+        "decodedBytes": 432,
+        "rawGzipBytes": 455,
+        "selectedGzipBytes": 455,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "uvs",
+        "decodedBytes": 288,
+        "rawGzipBytes": 25,
+        "selectedGzipBytes": 25,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "indices",
+        "decodedBytes": 480,
+        "rawGzipBytes": 160,
+        "selectedGzipBytes": 160,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "skinIndices",
+        "decodedBytes": 288,
+        "rawGzipBytes": 34,
+        "selectedGzipBytes": 34,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.011",
+        "attribute": "skinWeights",
+        "decodedBytes": 576,
+        "rawGzipBytes": 329,
+        "selectedGzipBytes": 329,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "positions",
+        "decodedBytes": 2448,
+        "rawGzipBytes": 2311,
+        "selectedGzipBytes": 2311,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "normals",
+        "decodedBytes": 2448,
+        "rawGzipBytes": 2294,
+        "selectedGzipBytes": 2294,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "uvs",
+        "decodedBytes": 1632,
+        "rawGzipBytes": 251,
+        "selectedGzipBytes": 251,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "indices",
+        "decodedBytes": 4848,
+        "rawGzipBytes": 1615,
+        "selectedGzipBytes": 1615,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "skinIndices",
+        "decodedBytes": 1632,
+        "rawGzipBytes": 181,
+        "selectedGzipBytes": 181,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.012",
+        "attribute": "skinWeights",
+        "decodedBytes": 3264,
+        "rawGzipBytes": 938,
+        "selectedGzipBytes": 938,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "positions",
+        "decodedBytes": 1764,
+        "rawGzipBytes": 1008,
+        "selectedGzipBytes": 1008,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "normals",
+        "decodedBytes": 1764,
+        "rawGzipBytes": 1637,
+        "selectedGzipBytes": 1637,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "uvs",
+        "decodedBytes": 1176,
+        "rawGzipBytes": 338,
+        "selectedGzipBytes": 338,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "indices",
+        "decodedBytes": 2736,
+        "rawGzipBytes": 847,
+        "selectedGzipBytes": 847,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "skinIndices",
+        "decodedBytes": 1176,
+        "rawGzipBytes": 163,
+        "selectedGzipBytes": 163,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "RightFoot_Repaired",
+        "attribute": "skinWeights",
+        "decodedBytes": 2352,
+        "rawGzipBytes": 1184,
+        "selectedGzipBytes": 1184,
+        "encoding": "raw",
+        "savedBytes": 0
+      }
+    ]
+  },
+  {
+    "id": "rook",
+    "sourceBytes": 11771836,
+    "binaryBytes": 9890405,
+    "preparationMs": 189.22890000000007,
+    "meshes": 34,
+    "selection": {
+      "minimumSavedBytes": 8192,
+      "minimumCompressedSavingRatio": 0.25,
+      "minimumSavingPerDecodedByte": 0.12
+    },
+    "transformedArrays": 31,
+    "transformedBytes": 7638728,
+    "exactRoundTrip": true,
+    "arrays": [
+      {
+        "mesh": "Cube.001",
+        "attribute": "positions",
+        "decodedBytes": 71916,
+        "rawGzipBytes": 53616,
+        "selectedGzipBytes": 53616,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "normals",
+        "decodedBytes": 71916,
+        "rawGzipBytes": 51830,
+        "selectedGzipBytes": 51830,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "uvs",
+        "decodedBytes": 47944,
+        "rawGzipBytes": 21106,
+        "selectedGzipBytes": 21106,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "indices",
+        "decodedBytes": 136704,
+        "rawGzipBytes": 41674,
+        "selectedGzipBytes": 8907,
+        "encoding": "byte-delta",
+        "savedBytes": 32767
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "skinIndices",
+        "decodedBytes": 47944,
+        "rawGzipBytes": 593,
+        "selectedGzipBytes": 593,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.001",
+        "attribute": "skinWeights",
+        "decodedBytes": 95888,
+        "rawGzipBytes": 33694,
+        "selectedGzipBytes": 33694,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "positions",
+        "decodedBytes": 75180,
+        "rawGzipBytes": 40187,
+        "selectedGzipBytes": 40187,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "normals",
+        "decodedBytes": 75180,
+        "rawGzipBytes": 46532,
+        "selectedGzipBytes": 46532,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "uvs",
+        "decodedBytes": 50120,
+        "rawGzipBytes": 25336,
+        "selectedGzipBytes": 25336,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "indices",
+        "decodedBytes": 141312,
+        "rawGzipBytes": 42182,
+        "selectedGzipBytes": 6670,
+        "encoding": "byte-delta",
+        "savedBytes": 35512
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 50120,
+        "rawGzipBytes": 654,
+        "selectedGzipBytes": 654,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 100240,
+        "rawGzipBytes": 46726,
+        "selectedGzipBytes": 46726,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "positions",
+        "decodedBytes": 8748,
+        "rawGzipBytes": 4651,
+        "selectedGzipBytes": 4651,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "normals",
+        "decodedBytes": 8748,
+        "rawGzipBytes": 5274,
+        "selectedGzipBytes": 5274,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "uvs",
+        "decodedBytes": 5832,
+        "rawGzipBytes": 2601,
+        "selectedGzipBytes": 2601,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "indices",
+        "decodedBytes": 15360,
+        "rawGzipBytes": 4589,
+        "selectedGzipBytes": 4589,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 5832,
+        "rawGzipBytes": 592,
+        "selectedGzipBytes": 592,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 11664,
+        "rawGzipBytes": 9568,
+        "selectedGzipBytes": 9568,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "positions",
+        "decodedBytes": 29064,
+        "rawGzipBytes": 11000,
+        "selectedGzipBytes": 11000,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "normals",
+        "decodedBytes": 29064,
+        "rawGzipBytes": 10812,
+        "selectedGzipBytes": 10812,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "uvs",
+        "decodedBytes": 19376,
+        "rawGzipBytes": 4179,
+        "selectedGzipBytes": 4179,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "indices",
+        "decodedBytes": 17472,
+        "rawGzipBytes": 7531,
+        "selectedGzipBytes": 7531,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 19376,
+        "rawGzipBytes": 214,
+        "selectedGzipBytes": 214,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 38752,
+        "rawGzipBytes": 8363,
+        "selectedGzipBytes": 8363,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "positions",
+        "decodedBytes": 6900,
+        "rawGzipBytes": 3293,
+        "selectedGzipBytes": 3293,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "normals",
+        "decodedBytes": 6900,
+        "rawGzipBytes": 2909,
+        "selectedGzipBytes": 2909,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "uvs",
+        "decodedBytes": 4600,
+        "rawGzipBytes": 759,
+        "selectedGzipBytes": 759,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "indices",
+        "decodedBytes": 5688,
+        "rawGzipBytes": 2103,
+        "selectedGzipBytes": 2103,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 4600,
+        "rawGzipBytes": 93,
+        "selectedGzipBytes": 93,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 9200,
+        "rawGzipBytes": 1032,
+        "selectedGzipBytes": 1032,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "positions",
+        "decodedBytes": 79164,
+        "rawGzipBytes": 52897,
+        "selectedGzipBytes": 52897,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "normals",
+        "decodedBytes": 79164,
+        "rawGzipBytes": 60372,
+        "selectedGzipBytes": 60372,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "uvs",
+        "decodedBytes": 52776,
+        "rawGzipBytes": 20141,
+        "selectedGzipBytes": 20141,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "indices",
+        "decodedBytes": 147456,
+        "rawGzipBytes": 44142,
+        "selectedGzipBytes": 4827,
+        "encoding": "byte-delta",
+        "savedBytes": 39315
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 52776,
+        "rawGzipBytes": 131,
+        "selectedGzipBytes": 131,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 105552,
+        "rawGzipBytes": 44888,
+        "selectedGzipBytes": 44888,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 189252,
+        "rawGzipBytes": 148425,
+        "selectedGzipBytes": 148425,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 189252,
+        "rawGzipBytes": 135706,
+        "selectedGzipBytes": 135706,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 126168,
+        "rawGzipBytes": 22900,
+        "selectedGzipBytes": 22900,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140690,
+        "selectedGzipBytes": 16721,
+        "encoding": "byte-delta",
+        "savedBytes": 123969
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 126168,
+        "rawGzipBytes": 333,
+        "selectedGzipBytes": 333,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 252336,
+        "rawGzipBytes": 11066,
+        "selectedGzipBytes": 11066,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 204372,
+        "rawGzipBytes": 148728,
+        "selectedGzipBytes": 148728,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 204372,
+        "rawGzipBytes": 138143,
+        "selectedGzipBytes": 138143,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 136248,
+        "rawGzipBytes": 39547,
+        "selectedGzipBytes": 39547,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140986,
+        "selectedGzipBytes": 12883,
+        "encoding": "byte-delta",
+        "savedBytes": 128103
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 136248,
+        "rawGzipBytes": 383,
+        "selectedGzipBytes": 383,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 272496,
+        "rawGzipBytes": 123983,
+        "selectedGzipBytes": 123983,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 199776,
+        "rawGzipBytes": 164850,
+        "selectedGzipBytes": 164850,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 199776,
+        "rawGzipBytes": 147524,
+        "selectedGzipBytes": 147524,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 133184,
+        "rawGzipBytes": 21259,
+        "selectedGzipBytes": 21259,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140116,
+        "selectedGzipBytes": 9272,
+        "encoding": "byte-delta",
+        "savedBytes": 130844
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 133184,
+        "rawGzipBytes": 376,
+        "selectedGzipBytes": 376,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 266368,
+        "rawGzipBytes": 53652,
+        "selectedGzipBytes": 53652,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 191484,
+        "rawGzipBytes": 164113,
+        "selectedGzipBytes": 164113,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 191484,
+        "rawGzipBytes": 147294,
+        "selectedGzipBytes": 147294,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 127656,
+        "rawGzipBytes": 13496,
+        "selectedGzipBytes": 13496,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140326,
+        "selectedGzipBytes": 7973,
+        "encoding": "byte-delta",
+        "savedBytes": 132353
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 127656,
+        "rawGzipBytes": 276,
+        "selectedGzipBytes": 276,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 255312,
+        "rawGzipBytes": 97197,
+        "selectedGzipBytes": 97197,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 193308,
+        "rawGzipBytes": 163890,
+        "selectedGzipBytes": 163890,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 193308,
+        "rawGzipBytes": 147467,
+        "selectedGzipBytes": 147467,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 128872,
+        "rawGzipBytes": 42248,
+        "selectedGzipBytes": 21634,
+        "encoding": "byte-shuffle",
+        "savedBytes": 20614
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140432,
+        "selectedGzipBytes": 16885,
+        "encoding": "byte-delta",
+        "savedBytes": 123547
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 128872,
+        "rawGzipBytes": 239,
+        "selectedGzipBytes": 239,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 257744,
+        "rawGzipBytes": 108187,
+        "selectedGzipBytes": 71225,
+        "encoding": "byte-shuffle",
+        "savedBytes": 36962
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 192216,
+        "rawGzipBytes": 165650,
+        "selectedGzipBytes": 165650,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 192216,
+        "rawGzipBytes": 147293,
+        "selectedGzipBytes": 147293,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 128144,
+        "rawGzipBytes": 13999,
+        "selectedGzipBytes": 13999,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 140417,
+        "selectedGzipBytes": 9246,
+        "encoding": "byte-delta",
+        "savedBytes": 131171
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 128144,
+        "rawGzipBytes": 229,
+        "selectedGzipBytes": 229,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 256288,
+        "rawGzipBytes": 40152,
+        "selectedGzipBytes": 40152,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "positions",
+        "decodedBytes": 123096,
+        "rawGzipBytes": 107141,
+        "selectedGzipBytes": 107141,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "normals",
+        "decodedBytes": 123096,
+        "rawGzipBytes": 95293,
+        "selectedGzipBytes": 95293,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "uvs",
+        "decodedBytes": 82064,
+        "rawGzipBytes": 12954,
+        "selectedGzipBytes": 12954,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "indices",
+        "decodedBytes": 116160,
+        "rawGzipBytes": 90732,
+        "selectedGzipBytes": 6717,
+        "encoding": "byte-delta",
+        "savedBytes": 84015
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinIndices",
+        "decodedBytes": 82064,
+        "rawGzipBytes": 163,
+        "selectedGzipBytes": 163,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.026",
+        "attribute": "skinWeights",
+        "decodedBytes": 164128,
+        "rawGzipBytes": 41192,
+        "selectedGzipBytes": 41192,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "positions",
+        "decodedBytes": 155928,
+        "rawGzipBytes": 98789,
+        "selectedGzipBytes": 98789,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "normals",
+        "decodedBytes": 155928,
+        "rawGzipBytes": 89898,
+        "selectedGzipBytes": 89898,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "uvs",
+        "decodedBytes": 103952,
+        "rawGzipBytes": 48535,
+        "selectedGzipBytes": 48535,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "indices",
+        "decodedBytes": 301056,
+        "rawGzipBytes": 91483,
+        "selectedGzipBytes": 17826,
+        "encoding": "byte-delta",
+        "savedBytes": 73657
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "skinIndices",
+        "decodedBytes": 103952,
+        "rawGzipBytes": 2123,
+        "selectedGzipBytes": 2123,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.033",
+        "attribute": "skinWeights",
+        "decodedBytes": 207904,
+        "rawGzipBytes": 106349,
+        "selectedGzipBytes": 106349,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "positions",
+        "decodedBytes": 19440,
+        "rawGzipBytes": 5345,
+        "selectedGzipBytes": 5345,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "normals",
+        "decodedBytes": 19440,
+        "rawGzipBytes": 3142,
+        "selectedGzipBytes": 3142,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "uvs",
+        "decodedBytes": 12960,
+        "rawGzipBytes": 336,
+        "selectedGzipBytes": 336,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "indices",
+        "decodedBytes": 11568,
+        "rawGzipBytes": 5273,
+        "selectedGzipBytes": 5273,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "skinIndices",
+        "decodedBytes": 12960,
+        "rawGzipBytes": 260,
+        "selectedGzipBytes": 260,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.034",
+        "attribute": "skinWeights",
+        "decodedBytes": 25920,
+        "rawGzipBytes": 3749,
+        "selectedGzipBytes": 3749,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "positions",
+        "decodedBytes": 196404,
+        "rawGzipBytes": 164893,
+        "selectedGzipBytes": 164893,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "normals",
+        "decodedBytes": 196404,
+        "rawGzipBytes": 148235,
+        "selectedGzipBytes": 148235,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "uvs",
+        "decodedBytes": 130936,
+        "rawGzipBytes": 48491,
+        "selectedGzipBytes": 48491,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "indices",
+        "decodedBytes": 364032,
+        "rawGzipBytes": 110989,
+        "selectedGzipBytes": 19250,
+        "encoding": "byte-delta",
+        "savedBytes": 91739
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "skinIndices",
+        "decodedBytes": 130936,
+        "rawGzipBytes": 7219,
+        "selectedGzipBytes": 7219,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.035",
+        "attribute": "skinWeights",
+        "decodedBytes": 261872,
+        "rawGzipBytes": 171119,
+        "selectedGzipBytes": 171119,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "positions",
+        "decodedBytes": 11244,
+        "rawGzipBytes": 3756,
+        "selectedGzipBytes": 3756,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "normals",
+        "decodedBytes": 11244,
+        "rawGzipBytes": 3204,
+        "selectedGzipBytes": 3204,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "uvs",
+        "decodedBytes": 7496,
+        "rawGzipBytes": 2015,
+        "selectedGzipBytes": 2015,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "indices",
+        "decodedBytes": 18048,
+        "rawGzipBytes": 5869,
+        "selectedGzipBytes": 5869,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "skinIndices",
+        "decodedBytes": 7496,
+        "rawGzipBytes": 473,
+        "selectedGzipBytes": 473,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "skinWeights",
+        "decodedBytes": 14992,
+        "rawGzipBytes": 7736,
+        "selectedGzipBytes": 7736,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "positions",
+        "decodedBytes": 462096,
+        "rawGzipBytes": 321100,
+        "selectedGzipBytes": 198264,
+        "encoding": "byte-shuffle",
+        "savedBytes": 122836
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "normals",
+        "decodedBytes": 462096,
+        "rawGzipBytes": 309952,
+        "selectedGzipBytes": 213012,
+        "encoding": "byte-shuffle",
+        "savedBytes": 96940
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "uvs",
+        "decodedBytes": 308064,
+        "rawGzipBytes": 119864,
+        "selectedGzipBytes": 32532,
+        "encoding": "byte-shuffle",
+        "savedBytes": 87332
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "indices",
+        "decodedBytes": 884736,
+        "rawGzipBytes": 268320,
+        "selectedGzipBytes": 41367,
+        "encoding": "byte-delta",
+        "savedBytes": 226953
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 308064,
+        "rawGzipBytes": 1903,
+        "selectedGzipBytes": 1903,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 616128,
+        "rawGzipBytes": 1234,
+        "selectedGzipBytes": 1234,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "positions",
+        "decodedBytes": 5736,
+        "rawGzipBytes": 1374,
+        "selectedGzipBytes": 1374,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "normals",
+        "decodedBytes": 5736,
+        "rawGzipBytes": 1084,
+        "selectedGzipBytes": 1084,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "uvs",
+        "decodedBytes": 3824,
+        "rawGzipBytes": 1018,
+        "selectedGzipBytes": 1018,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "indices",
+        "decodedBytes": 3024,
+        "rawGzipBytes": 1387,
+        "selectedGzipBytes": 1387,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 3824,
+        "rawGzipBytes": 52,
+        "selectedGzipBytes": 52,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 7648,
+        "rawGzipBytes": 56,
+        "selectedGzipBytes": 56,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "positions",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 1189,
+        "selectedGzipBytes": 1189,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "normals",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 1335,
+        "selectedGzipBytes": 1335,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "uvs",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 388,
+        "selectedGzipBytes": 388,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "indices",
+        "decodedBytes": 3216,
+        "rawGzipBytes": 1009,
+        "selectedGzipBytes": 1009,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "skinIndices",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 78,
+        "selectedGzipBytes": 78,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.006",
+        "attribute": "skinWeights",
+        "decodedBytes": 2304,
+        "rawGzipBytes": 944,
+        "selectedGzipBytes": 944,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "positions",
+        "decodedBytes": 2760,
+        "rawGzipBytes": 1952,
+        "selectedGzipBytes": 1952,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "normals",
+        "decodedBytes": 2760,
+        "rawGzipBytes": 2436,
+        "selectedGzipBytes": 2436,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "uvs",
+        "decodedBytes": 1840,
+        "rawGzipBytes": 35,
+        "selectedGzipBytes": 35,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "indices",
+        "decodedBytes": 5472,
+        "rawGzipBytes": 1803,
+        "selectedGzipBytes": 1803,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "skinIndices",
+        "decodedBytes": 1840,
+        "rawGzipBytes": 392,
+        "selectedGzipBytes": 392,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.007",
+        "attribute": "skinWeights",
+        "decodedBytes": 3680,
+        "rawGzipBytes": 3002,
+        "selectedGzipBytes": 3002,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 228192,
+        "rawGzipBytes": 172893,
+        "selectedGzipBytes": 172893,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 228192,
+        "rawGzipBytes": 148646,
+        "selectedGzipBytes": 148646,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 152128,
+        "rawGzipBytes": 77128,
+        "selectedGzipBytes": 77128,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 141545,
+        "selectedGzipBytes": 14596,
+        "encoding": "byte-delta",
+        "savedBytes": 126949
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 152128,
+        "rawGzipBytes": 6282,
+        "selectedGzipBytes": 6282,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 304256,
+        "rawGzipBytes": 187375,
+        "selectedGzipBytes": 187375,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 480000,
+        "rawGzipBytes": 207220,
+        "selectedGzipBytes": 207220,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 480000,
+        "rawGzipBytes": 215518,
+        "selectedGzipBytes": 215518,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 320000,
+        "rawGzipBytes": 107629,
+        "selectedGzipBytes": 107629,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 174192,
+        "rawGzipBytes": 147335,
+        "selectedGzipBytes": 15642,
+        "encoding": "byte-delta",
+        "savedBytes": 131693
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 320000,
+        "rawGzipBytes": 6292,
+        "selectedGzipBytes": 6292,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 640000,
+        "rawGzipBytes": 211596,
+        "selectedGzipBytes": 211596,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 254184,
+        "rawGzipBytes": 165850,
+        "selectedGzipBytes": 165850,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 254184,
+        "rawGzipBytes": 165772,
+        "selectedGzipBytes": 165772,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 169456,
+        "rawGzipBytes": 81182,
+        "selectedGzipBytes": 81182,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 141926,
+        "selectedGzipBytes": 11067,
+        "encoding": "byte-delta",
+        "savedBytes": 130859
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 169456,
+        "rawGzipBytes": 4997,
+        "selectedGzipBytes": 4997,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 338912,
+        "rawGzipBytes": 191956,
+        "selectedGzipBytes": 191956,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 199788,
+        "rawGzipBytes": 149563,
+        "selectedGzipBytes": 149563,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 199788,
+        "rawGzipBytes": 153241,
+        "selectedGzipBytes": 153241,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 133192,
+        "rawGzipBytes": 64264,
+        "selectedGzipBytes": 64264,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 139542,
+        "selectedGzipBytes": 8450,
+        "encoding": "byte-delta",
+        "savedBytes": 131092
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 133192,
+        "rawGzipBytes": 2934,
+        "selectedGzipBytes": 2934,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 266384,
+        "rawGzipBytes": 171239,
+        "selectedGzipBytes": 171239,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 196992,
+        "rawGzipBytes": 152368,
+        "selectedGzipBytes": 152368,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 196992,
+        "rawGzipBytes": 150869,
+        "selectedGzipBytes": 150869,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 131328,
+        "rawGzipBytes": 60294,
+        "selectedGzipBytes": 60294,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 139223,
+        "selectedGzipBytes": 6918,
+        "encoding": "byte-delta",
+        "savedBytes": 132305
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 131328,
+        "rawGzipBytes": 2709,
+        "selectedGzipBytes": 2709,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 262656,
+        "rawGzipBytes": 190774,
+        "selectedGzipBytes": 135936,
+        "encoding": "byte-delta",
+        "savedBytes": 54838
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 195264,
+        "rawGzipBytes": 149024,
+        "selectedGzipBytes": 149024,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 195264,
+        "rawGzipBytes": 144291,
+        "selectedGzipBytes": 144291,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 130176,
+        "rawGzipBytes": 51280,
+        "selectedGzipBytes": 51280,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 139668,
+        "selectedGzipBytes": 8429,
+        "encoding": "byte-delta",
+        "savedBytes": 131239
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 130176,
+        "rawGzipBytes": 2961,
+        "selectedGzipBytes": 2961,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 260352,
+        "rawGzipBytes": 187702,
+        "selectedGzipBytes": 135302,
+        "encoding": "byte-delta",
+        "savedBytes": 52400
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "positions",
+        "decodedBytes": 54852,
+        "rawGzipBytes": 42099,
+        "selectedGzipBytes": 42099,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "normals",
+        "decodedBytes": 54852,
+        "rawGzipBytes": 40043,
+        "selectedGzipBytes": 40043,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "uvs",
+        "decodedBytes": 36568,
+        "rawGzipBytes": 11995,
+        "selectedGzipBytes": 11995,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "indices",
+        "decodedBytes": 48624,
+        "rawGzipBytes": 37428,
+        "selectedGzipBytes": 1545,
+        "encoding": "byte-delta",
+        "savedBytes": 35883
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinIndices",
+        "decodedBytes": 36568,
+        "rawGzipBytes": 967,
+        "selectedGzipBytes": 967,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.009",
+        "attribute": "skinWeights",
+        "decodedBytes": 73136,
+        "rawGzipBytes": 51914,
+        "selectedGzipBytes": 37863,
+        "encoding": "byte-delta",
+        "savedBytes": 14051
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "positions",
+        "decodedBytes": 9660,
+        "rawGzipBytes": 5239,
+        "selectedGzipBytes": 5239,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "normals",
+        "decodedBytes": 9660,
+        "rawGzipBytes": 6740,
+        "selectedGzipBytes": 6740,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "uvs",
+        "decodedBytes": 6440,
+        "rawGzipBytes": 1707,
+        "selectedGzipBytes": 1707,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "indices",
+        "decodedBytes": 15264,
+        "rawGzipBytes": 5275,
+        "selectedGzipBytes": 5275,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "skinIndices",
+        "decodedBytes": 6440,
+        "rawGzipBytes": 518,
+        "selectedGzipBytes": 518,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.010",
+        "attribute": "skinWeights",
+        "decodedBytes": 12880,
+        "rawGzipBytes": 6503,
+        "selectedGzipBytes": 6503,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "positions",
+        "decodedBytes": 127920,
+        "rawGzipBytes": 106004,
+        "selectedGzipBytes": 106004,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "normals",
+        "decodedBytes": 127920,
+        "rawGzipBytes": 97172,
+        "selectedGzipBytes": 97172,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "uvs",
+        "decodedBytes": 85280,
+        "rawGzipBytes": 12989,
+        "selectedGzipBytes": 12989,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "indices",
+        "decodedBytes": 235488,
+        "rawGzipBytes": 60927,
+        "selectedGzipBytes": 1277,
+        "encoding": "byte-delta",
+        "savedBytes": 59650
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "skinIndices",
+        "decodedBytes": 85280,
+        "rawGzipBytes": 277,
+        "selectedGzipBytes": 277,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "NurbsPath.021",
+        "attribute": "skinWeights",
+        "decodedBytes": 170560,
+        "rawGzipBytes": 53273,
+        "selectedGzipBytes": 53273,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "positions",
+        "decodedBytes": 423192,
+        "rawGzipBytes": 355863,
+        "selectedGzipBytes": 355863,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "normals",
+        "decodedBytes": 423192,
+        "rawGzipBytes": 306796,
+        "selectedGzipBytes": 306796,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "uvs",
+        "decodedBytes": 282128,
+        "rawGzipBytes": 308,
+        "selectedGzipBytes": 308,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "indices",
+        "decodedBytes": 846336,
+        "rawGzipBytes": 256330,
+        "selectedGzipBytes": 35132,
+        "encoding": "byte-delta",
+        "savedBytes": 221198
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "skinIndices",
+        "decodedBytes": 282128,
+        "rawGzipBytes": 2139,
+        "selectedGzipBytes": 2139,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane",
+        "attribute": "skinWeights",
+        "decodedBytes": 564256,
+        "rawGzipBytes": 95513,
+        "selectedGzipBytes": 95513,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "positions",
+        "decodedBytes": 8328,
+        "rawGzipBytes": 5532,
+        "selectedGzipBytes": 5532,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "normals",
+        "decodedBytes": 8328,
+        "rawGzipBytes": 7502,
+        "selectedGzipBytes": 7502,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "uvs",
+        "decodedBytes": 5552,
+        "rawGzipBytes": 40,
+        "selectedGzipBytes": 40,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "indices",
+        "decodedBytes": 16560,
+        "rawGzipBytes": 5578,
+        "selectedGzipBytes": 5578,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "skinIndices",
+        "decodedBytes": 5552,
+        "rawGzipBytes": 147,
+        "selectedGzipBytes": 147,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "skinWeights",
+        "decodedBytes": 11104,
+        "rawGzipBytes": 918,
+        "selectedGzipBytes": 918,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "positions",
+        "decodedBytes": 25560,
+        "rawGzipBytes": 17400,
+        "selectedGzipBytes": 17400,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "normals",
+        "decodedBytes": 25560,
+        "rawGzipBytes": 17331,
+        "selectedGzipBytes": 17331,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "uvs",
+        "decodedBytes": 17040,
+        "rawGzipBytes": 51,
+        "selectedGzipBytes": 51,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "indices",
+        "decodedBytes": 47616,
+        "rawGzipBytes": 14122,
+        "selectedGzipBytes": 2781,
+        "encoding": "byte-delta",
+        "savedBytes": 11341
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 17040,
+        "rawGzipBytes": 68,
+        "selectedGzipBytes": 68,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 34080,
+        "rawGzipBytes": 15808,
+        "selectedGzipBytes": 15808,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "positions",
+        "decodedBytes": 6936,
+        "rawGzipBytes": 4423,
+        "selectedGzipBytes": 4423,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "normals",
+        "decodedBytes": 6936,
+        "rawGzipBytes": 4635,
+        "selectedGzipBytes": 4635,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "uvs",
+        "decodedBytes": 4624,
+        "rawGzipBytes": 38,
+        "selectedGzipBytes": 38,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "indices",
+        "decodedBytes": 12288,
+        "rawGzipBytes": 3644,
+        "selectedGzipBytes": 3644,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 4624,
+        "rawGzipBytes": 45,
+        "selectedGzipBytes": 45,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 9248,
+        "rawGzipBytes": 59,
+        "selectedGzipBytes": 59,
+        "encoding": "raw",
+        "savedBytes": 0
+      }
+    ]
+  },
+  {
+    "id": "pawn-b",
+    "sourceBytes": 9825416,
+    "binaryBytes": 11009548,
+    "preparationMs": 228.6244999999999,
+    "meshes": 25,
+    "selection": {
+      "minimumSavedBytes": 8192,
+      "minimumCompressedSavingRatio": 0.25,
+      "minimumSavingPerDecodedByte": 0.12
+    },
+    "transformedArrays": 18,
+    "transformedBytes": 4925436,
+    "exactRoundTrip": true,
+    "arrays": [
+      {
+        "mesh": "Cube.004",
+        "attribute": "positions",
+        "decodedBytes": 341952,
+        "rawGzipBytes": 301583,
+        "selectedGzipBytes": 301583,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "normals",
+        "decodedBytes": 341952,
+        "rawGzipBytes": 262354,
+        "selectedGzipBytes": 262354,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "uvs",
+        "decodedBytes": 227968,
+        "rawGzipBytes": 183214,
+        "selectedGzipBytes": 183214,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "indices",
+        "decodedBytes": 621696,
+        "rawGzipBytes": 207851,
+        "selectedGzipBytes": 81282,
+        "encoding": "byte-delta",
+        "savedBytes": 126569
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 227968,
+        "rawGzipBytes": 370,
+        "selectedGzipBytes": 370,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 455936,
+        "rawGzipBytes": 924,
+        "selectedGzipBytes": 924,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 424812,
+        "rawGzipBytes": 209063,
+        "selectedGzipBytes": 209063,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 424812,
+        "rawGzipBytes": 186129,
+        "selectedGzipBytes": 186129,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 283208,
+        "rawGzipBytes": 119557,
+        "selectedGzipBytes": 119557,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 148694,
+        "selectedGzipBytes": 45293,
+        "encoding": "byte-delta",
+        "savedBytes": 103401
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 283208,
+        "rawGzipBytes": 452,
+        "selectedGzipBytes": 452,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 566416,
+        "rawGzipBytes": 1139,
+        "selectedGzipBytes": 1139,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 391404,
+        "rawGzipBytes": 314509,
+        "selectedGzipBytes": 230282,
+        "encoding": "byte-shuffle",
+        "savedBytes": 84227
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 391404,
+        "rawGzipBytes": 302709,
+        "selectedGzipBytes": 302709,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 260936,
+        "rawGzipBytes": 218893,
+        "selectedGzipBytes": 218893,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 149587,
+        "selectedGzipBytes": 72025,
+        "encoding": "byte-delta",
+        "savedBytes": 77562
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 260936,
+        "rawGzipBytes": 419,
+        "selectedGzipBytes": 419,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 521872,
+        "rawGzipBytes": 1053,
+        "selectedGzipBytes": 1053,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 365496,
+        "rawGzipBytes": 292392,
+        "selectedGzipBytes": 214193,
+        "encoding": "byte-shuffle",
+        "savedBytes": 78199
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 365496,
+        "rawGzipBytes": 283985,
+        "selectedGzipBytes": 283985,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 243664,
+        "rawGzipBytes": 202885,
+        "selectedGzipBytes": 202885,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 147792,
+        "selectedGzipBytes": 74244,
+        "encoding": "byte-delta",
+        "savedBytes": 73548
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 243664,
+        "rawGzipBytes": 394,
+        "selectedGzipBytes": 394,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 487328,
+        "rawGzipBytes": 985,
+        "selectedGzipBytes": 985,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 347520,
+        "rawGzipBytes": 281777,
+        "selectedGzipBytes": 206643,
+        "encoding": "byte-shuffle",
+        "savedBytes": 75134
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 347520,
+        "rawGzipBytes": 269793,
+        "selectedGzipBytes": 269793,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 231680,
+        "rawGzipBytes": 194484,
+        "selectedGzipBytes": 194484,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 180000,
+        "rawGzipBytes": 147070,
+        "selectedGzipBytes": 74857,
+        "encoding": "byte-delta",
+        "savedBytes": 72213
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 231680,
+        "rawGzipBytes": 375,
+        "selectedGzipBytes": 375,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 463360,
+        "rawGzipBytes": 938,
+        "selectedGzipBytes": 938,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 254359,
+        "selectedGzipBytes": 254359,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 239703,
+        "selectedGzipBytes": 239703,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 158265,
+        "selectedGzipBytes": 158265,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 178524,
+        "rawGzipBytes": 151258,
+        "selectedGzipBytes": 49652,
+        "encoding": "byte-delta",
+        "savedBytes": 101606
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 505,
+        "selectedGzipBytes": 505,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 639984,
+        "rawGzipBytes": 1281,
+        "selectedGzipBytes": 1281,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "positions",
+        "decodedBytes": 5364,
+        "rawGzipBytes": 2271,
+        "selectedGzipBytes": 2271,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "normals",
+        "decodedBytes": 5364,
+        "rawGzipBytes": 2264,
+        "selectedGzipBytes": 2264,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "uvs",
+        "decodedBytes": 3576,
+        "rawGzipBytes": 1133,
+        "selectedGzipBytes": 1133,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "indices",
+        "decodedBytes": 1476,
+        "rawGzipBytes": 1067,
+        "selectedGzipBytes": 1067,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinIndices",
+        "decodedBytes": 3576,
+        "rawGzipBytes": 45,
+        "selectedGzipBytes": 45,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cube.013",
+        "attribute": "skinWeights",
+        "decodedBytes": 7152,
+        "rawGzipBytes": 55,
+        "selectedGzipBytes": 55,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "positions",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 634,
+        "selectedGzipBytes": 634,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "normals",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 371,
+        "selectedGzipBytes": 371,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "uvs",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 471,
+        "selectedGzipBytes": 471,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "indices",
+        "decodedBytes": 1584,
+        "rawGzipBytes": 468,
+        "selectedGzipBytes": 468,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "skinIndices",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 38,
+        "selectedGzipBytes": 38,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder",
+        "attribute": "skinWeights",
+        "decodedBytes": 2304,
+        "rawGzipBytes": 1159,
+        "selectedGzipBytes": 1159,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "positions",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 635,
+        "selectedGzipBytes": 635,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "normals",
+        "decodedBytes": 1728,
+        "rawGzipBytes": 369,
+        "selectedGzipBytes": 369,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "uvs",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 471,
+        "selectedGzipBytes": 471,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "indices",
+        "decodedBytes": 1584,
+        "rawGzipBytes": 468,
+        "selectedGzipBytes": 468,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "skinIndices",
+        "decodedBytes": 1152,
+        "rawGzipBytes": 67,
+        "selectedGzipBytes": 67,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.001",
+        "attribute": "skinWeights",
+        "decodedBytes": 2304,
+        "rawGzipBytes": 1146,
+        "selectedGzipBytes": 1146,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "positions",
+        "decodedBytes": 3840,
+        "rawGzipBytes": 902,
+        "selectedGzipBytes": 902,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "normals",
+        "decodedBytes": 3840,
+        "rawGzipBytes": 534,
+        "selectedGzipBytes": 534,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "uvs",
+        "decodedBytes": 2560,
+        "rawGzipBytes": 1280,
+        "selectedGzipBytes": 1280,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "indices",
+        "decodedBytes": 2256,
+        "rawGzipBytes": 958,
+        "selectedGzipBytes": 958,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 2560,
+        "rawGzipBytes": 42,
+        "selectedGzipBytes": 42,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 5120,
+        "rawGzipBytes": 51,
+        "selectedGzipBytes": 51,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "positions",
+        "decodedBytes": 11616,
+        "rawGzipBytes": 8834,
+        "selectedGzipBytes": 8834,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "normals",
+        "decodedBytes": 11616,
+        "rawGzipBytes": 8596,
+        "selectedGzipBytes": 8596,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "uvs",
+        "decodedBytes": 7744,
+        "rawGzipBytes": 6824,
+        "selectedGzipBytes": 6824,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "indices",
+        "decodedBytes": 17952,
+        "rawGzipBytes": 6672,
+        "selectedGzipBytes": 6672,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 7744,
+        "rawGzipBytes": 50,
+        "selectedGzipBytes": 50,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 15488,
+        "rawGzipBytes": 70,
+        "selectedGzipBytes": 70,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "positions",
+        "decodedBytes": 121428,
+        "rawGzipBytes": 92394,
+        "selectedGzipBytes": 92394,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "normals",
+        "decodedBytes": 121428,
+        "rawGzipBytes": 85539,
+        "selectedGzipBytes": 85539,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "uvs",
+        "decodedBytes": 80952,
+        "rawGzipBytes": 65268,
+        "selectedGzipBytes": 65268,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "indices",
+        "decodedBytes": 180228,
+        "rawGzipBytes": 70035,
+        "selectedGzipBytes": 38039,
+        "encoding": "byte-delta",
+        "savedBytes": 31996
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 80952,
+        "rawGzipBytes": 3279,
+        "selectedGzipBytes": 3279,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 161904,
+        "rawGzipBytes": 355,
+        "selectedGzipBytes": 355,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "positions",
+        "decodedBytes": 3840,
+        "rawGzipBytes": 908,
+        "selectedGzipBytes": 908,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "normals",
+        "decodedBytes": 3840,
+        "rawGzipBytes": 526,
+        "selectedGzipBytes": 526,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "uvs",
+        "decodedBytes": 2560,
+        "rawGzipBytes": 1290,
+        "selectedGzipBytes": 1290,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "indices",
+        "decodedBytes": 2256,
+        "rawGzipBytes": 959,
+        "selectedGzipBytes": 959,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "skinIndices",
+        "decodedBytes": 2560,
+        "rawGzipBytes": 42,
+        "selectedGzipBytes": 42,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Cylinder.008",
+        "attribute": "skinWeights",
+        "decodedBytes": 5120,
+        "rawGzipBytes": 51,
+        "selectedGzipBytes": 51,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "positions",
+        "decodedBytes": 28008,
+        "rawGzipBytes": 8625,
+        "selectedGzipBytes": 8625,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "normals",
+        "decodedBytes": 28008,
+        "rawGzipBytes": 6630,
+        "selectedGzipBytes": 6630,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "uvs",
+        "decodedBytes": 18672,
+        "rawGzipBytes": 53,
+        "selectedGzipBytes": 53,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "indices",
+        "decodedBytes": 14208,
+        "rawGzipBytes": 6493,
+        "selectedGzipBytes": 6493,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "skinIndices",
+        "decodedBytes": 18672,
+        "rawGzipBytes": 132,
+        "selectedGzipBytes": 132,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.001",
+        "attribute": "skinWeights",
+        "decodedBytes": 37344,
+        "rawGzipBytes": 9092,
+        "selectedGzipBytes": 9092,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "positions",
+        "decodedBytes": 6072,
+        "rawGzipBytes": 2870,
+        "selectedGzipBytes": 2870,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "normals",
+        "decodedBytes": 6072,
+        "rawGzipBytes": 3569,
+        "selectedGzipBytes": 3569,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "uvs",
+        "decodedBytes": 4048,
+        "rawGzipBytes": 39,
+        "selectedGzipBytes": 39,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "indices",
+        "decodedBytes": 5376,
+        "rawGzipBytes": 1901,
+        "selectedGzipBytes": 1901,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "skinIndices",
+        "decodedBytes": 4048,
+        "rawGzipBytes": 49,
+        "selectedGzipBytes": 49,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.002",
+        "attribute": "skinWeights",
+        "decodedBytes": 8096,
+        "rawGzipBytes": 2392,
+        "selectedGzipBytes": 2392,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "positions",
+        "decodedBytes": 9432,
+        "rawGzipBytes": 8681,
+        "selectedGzipBytes": 8681,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "normals",
+        "decodedBytes": 9432,
+        "rawGzipBytes": 8436,
+        "selectedGzipBytes": 8436,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "uvs",
+        "decodedBytes": 6288,
+        "rawGzipBytes": 41,
+        "selectedGzipBytes": 41,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "indices",
+        "decodedBytes": 17568,
+        "rawGzipBytes": 5330,
+        "selectedGzipBytes": 5330,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 6288,
+        "rawGzipBytes": 406,
+        "selectedGzipBytes": 406,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 12576,
+        "rawGzipBytes": 7071,
+        "selectedGzipBytes": 7071,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "positions",
+        "decodedBytes": 19740,
+        "rawGzipBytes": 14945,
+        "selectedGzipBytes": 14945,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "normals",
+        "decodedBytes": 19740,
+        "rawGzipBytes": 14707,
+        "selectedGzipBytes": 14707,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "uvs",
+        "decodedBytes": 13160,
+        "rawGzipBytes": 45,
+        "selectedGzipBytes": 45,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "indices",
+        "decodedBytes": 37656,
+        "rawGzipBytes": 12509,
+        "selectedGzipBytes": 12509,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 13160,
+        "rawGzipBytes": 1666,
+        "selectedGzipBytes": 1666,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 26320,
+        "rawGzipBytes": 18637,
+        "selectedGzipBytes": 18637,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 286799,
+        "selectedGzipBytes": 286799,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 296315,
+        "selectedGzipBytes": 296315,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 37609,
+        "selectedGzipBytes": 37609,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 165924,
+        "rawGzipBytes": 144132,
+        "selectedGzipBytes": 45869,
+        "encoding": "byte-delta",
+        "savedBytes": 98263
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 7580,
+        "selectedGzipBytes": 7580,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 639984,
+        "rawGzipBytes": 205360,
+        "selectedGzipBytes": 205360,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 479976,
+        "rawGzipBytes": 197742,
+        "selectedGzipBytes": 197742,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 479976,
+        "rawGzipBytes": 207007,
+        "selectedGzipBytes": 207007,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 319984,
+        "rawGzipBytes": 77349,
+        "selectedGzipBytes": 77349,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 145272,
+        "rawGzipBytes": 125256,
+        "selectedGzipBytes": 14827,
+        "encoding": "byte-delta",
+        "savedBytes": 110429
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 319984,
+        "rawGzipBytes": 2026,
+        "selectedGzipBytes": 2026,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 639968,
+        "rawGzipBytes": 36648,
+        "selectedGzipBytes": 36648,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 213814,
+        "selectedGzipBytes": 213814,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 227255,
+        "selectedGzipBytes": 227255,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 42698,
+        "selectedGzipBytes": 42698,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 153642,
+        "rawGzipBytes": 131106,
+        "selectedGzipBytes": 20756,
+        "encoding": "byte-delta",
+        "savedBytes": 110350
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 1918,
+        "selectedGzipBytes": 1918,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 639984,
+        "rawGzipBytes": 29088,
+        "selectedGzipBytes": 29088,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 287646,
+        "selectedGzipBytes": 287646,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 289108,
+        "selectedGzipBytes": 289108,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 62995,
+        "selectedGzipBytes": 62995,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 140436,
+        "rawGzipBytes": 122014,
+        "selectedGzipBytes": 30454,
+        "encoding": "byte-delta",
+        "savedBytes": 91560
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 5656,
+        "selectedGzipBytes": 5656,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 639984,
+        "rawGzipBytes": 176459,
+        "selectedGzipBytes": 176459,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 226180,
+        "selectedGzipBytes": 226180,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 479988,
+        "rawGzipBytes": 252632,
+        "selectedGzipBytes": 252632,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 58025,
+        "selectedGzipBytes": 58025,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 157320,
+        "rawGzipBytes": 134412,
+        "selectedGzipBytes": 26696,
+        "encoding": "byte-delta",
+        "savedBytes": 107716
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 319992,
+        "rawGzipBytes": 6794,
+        "selectedGzipBytes": 6794,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 639984,
+        "rawGzipBytes": 215533,
+        "selectedGzipBytes": 215533,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "positions",
+        "decodedBytes": 398532,
+        "rawGzipBytes": 200439,
+        "selectedGzipBytes": 200439,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "normals",
+        "decodedBytes": 398532,
+        "rawGzipBytes": 236056,
+        "selectedGzipBytes": 236056,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "uvs",
+        "decodedBytes": 265688,
+        "rawGzipBytes": 42941,
+        "selectedGzipBytes": 42941,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "indices",
+        "decodedBytes": 137406,
+        "rawGzipBytes": 116242,
+        "selectedGzipBytes": 23100,
+        "encoding": "byte-delta",
+        "savedBytes": 93142
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinIndices",
+        "decodedBytes": 265688,
+        "rawGzipBytes": 4126,
+        "selectedGzipBytes": 4126,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Plane.005",
+        "attribute": "skinWeights",
+        "decodedBytes": 531376,
+        "rawGzipBytes": 161889,
+        "selectedGzipBytes": 161889,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "positions",
+        "decodedBytes": 144204,
+        "rawGzipBytes": 130226,
+        "selectedGzipBytes": 130226,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "normals",
+        "decodedBytes": 144204,
+        "rawGzipBytes": 113912,
+        "selectedGzipBytes": 113912,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "uvs",
+        "decodedBytes": 96136,
+        "rawGzipBytes": 43094,
+        "selectedGzipBytes": 43094,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "indices",
+        "decodedBytes": 282072,
+        "rawGzipBytes": 112081,
+        "selectedGzipBytes": 73496,
+        "encoding": "byte-delta",
+        "savedBytes": 38585
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "skinIndices",
+        "decodedBytes": 96136,
+        "rawGzipBytes": 6540,
+        "selectedGzipBytes": 6540,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.003",
+        "attribute": "skinWeights",
+        "decodedBytes": 192272,
+        "rawGzipBytes": 95475,
+        "selectedGzipBytes": 95475,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "positions",
+        "decodedBytes": 485112,
+        "rawGzipBytes": 423966,
+        "selectedGzipBytes": 423966,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "normals",
+        "decodedBytes": 485112,
+        "rawGzipBytes": 373286,
+        "selectedGzipBytes": 373286,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "uvs",
+        "decodedBytes": 323408,
+        "rawGzipBytes": 124749,
+        "selectedGzipBytes": 124749,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "indices",
+        "decodedBytes": 938496,
+        "rawGzipBytes": 289984,
+        "selectedGzipBytes": 50570,
+        "encoding": "byte-delta",
+        "savedBytes": 239414
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "skinIndices",
+        "decodedBytes": 323408,
+        "rawGzipBytes": 2115,
+        "selectedGzipBytes": 2115,
+        "encoding": "raw",
+        "savedBytes": 0
+      },
+      {
+        "mesh": "Sphere.004",
+        "attribute": "skinWeights",
+        "decodedBytes": 646816,
+        "rawGzipBytes": 107421,
+        "selectedGzipBytes": 107421,
+        "encoding": "raw",
+        "savedBytes": 0
+      }
+    ]
+  }
+]

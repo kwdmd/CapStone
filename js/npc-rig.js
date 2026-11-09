@@ -1,3 +1,4 @@
+import { recordStage, yieldFrame } from "./docent-performance.js";
 import { createRookPose } from "./rook-pose.js";
 import { fitKnightCoat } from "./knight-coat.js";
 import * as THREE from "../vendor/three.module.js";
@@ -37,9 +38,10 @@ export async function createNpcRig(data, materials) {
   let sliceStart = performance.now();
   for (const mesh of data.meshes) {
     if (performance.now()-sliceStart >= 2.5) {
-      await new Promise(resolve=>requestAnimationFrame(resolve));
+      await yieldFrame();
       sliceStart=performance.now();
     }
+    const meshStart = performance.now();
     const geometry = createGeometry(mesh);
     // [직접 수정] 나이트 부츠의 바지 안쪽 부분만 좁힌다(정규화된 모델 좌표).
     // 발끝/밑창과 높이는 유지하고 y=0.08~0.12에서 점진적으로 폭을 줄인다.
@@ -147,9 +149,11 @@ export async function createNpcRig(data, materials) {
       geometry.addGroup(start, count, index);
     const object = new THREE.SkinnedMesh(geometry, materials);
     object.name = mesh.name;
+    object.userData.sourcePart = mesh.sourcePart ?? null;
     object.frustumCulled = false;
     group.add(object);
     object.bind(skeleton, new THREE.Matrix4());
+    recordStage(data.name, "rig-mesh:"+mesh.name, meshStart);
   }
   const poseRook = data.name === "Rook-1" ? createRookPose(group, bones) : null;
   const mixer = new THREE.AnimationMixer(group);

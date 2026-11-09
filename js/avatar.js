@@ -1,15 +1,17 @@
+import { createStartupTextureLoader } from "./startup-textures.js";
 import * as THREE from "../vendor/three.module.js";
 import {readAsset} from "./binary.js"; let rigData; export const rigReady=readAsset("rig").then(data=>rigData=data);
 import { createGeometry } from "./geometry.js";
 import { createGarmentMotion } from "./player-garments.js";
 import { createAvatarMotion } from "./avatar-motion.js";
+import renderBounds from "../data/player-render-bounds.json" with { type: "json" };
 
 // [구조 설명] 원본 FBX의 본 계층·정점 가중치를 보존한 웹용 파생 모델.
 // 위치와 회전은 scene.js, 팔다리 동작은 avatar-motion.js가 담당한다.
 export function createAvatar({
   textureLoader = typeof document === "undefined"
     ? null
-    : new THREE.TextureLoader(),
+    : createStartupTextureLoader(),
 } = {}) {
   // [구조 설명] 재질을 메시 간 공유한다. Node 테스트에서는 이미지 로더를 주입할 수 있다.
   const textureCache = new Map();
@@ -38,6 +40,7 @@ export function createAvatar({
       const cacheKey = JSON.stringify([data[key], key, transform]);
       if (!textureCache.has(cacheKey)) {
         const tex = textureLoader.load(rigData.images[data[key]]);
+        tex.userData.profileLabel = "player:" + data[key];
         tex.colorSpace =
           key === "map" || key === "emissiveMap"
             ? THREE.SRGBColorSpace
@@ -90,6 +93,11 @@ export function createAvatar({
     mesh.bind(skeleton, new THREE.Matrix4());
     // [구조 설명] 움직이는 팔다리가 정적 경계 밖으로 나가도 잘리지 않도록 한다.
     mesh.frustumCulled = false;
+    // [구조 설명] 최초 Idle 자세에서 미리 계산한 렌더 정렬용 경계 구.
+    // 충돌 원통과 무관하다. 형상/리깅 수정 시 경계 데이터를 다시 생성한다.
+    const bounds = renderBounds.meshes.find(entry => entry.name === data.name);
+    if (bounds && bounds.vertices === geometry.attributes.position.count)
+      mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3().fromArray(bounds.center), bounds.radius);
   }
   avatar.userData.updateMotion = createAvatarMotion(bones, garments.update);
   return avatar;

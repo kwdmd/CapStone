@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "esbuild js/popup.js --bundle --format=iife --target=es2022 --minify --outfile=js/app.bundle.js && esbuild js/docent-worker.js --bundle --minify --target=es2022 --outfile=js/docent-worker.bundle.js && node scripts/prepare-dist.mjs",
-    "test": "node tests/camera-collision.test.mjs && node tests/walker.test.mjs && node tests/npc-dialogue.test.mjs && node tests/popup-init.test.mjs && node tests/first-person-zoom.test.mjs"
+    "test": "node tests/camera-collision.test.mjs && node tests/walker.test.mjs && node tests/npc-dialogue.test.mjs && node tests/popup-init.test.mjs && node tests/first-person-zoom.test.mjs",
+    "bake:docents": "node scripts/bake-docents.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.10",

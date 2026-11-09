@@ -3,7 +3,7 @@ import * as THREE from "../vendor/three.module.js";
 // 별도의 카메라가 전시 모델의 복제본 주위를 돈다.
 export function createProductOrbit() {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   const canvas = renderer.domElement;
   canvas.setAttribute("aria-label", "상품 3D 보기. 드래그하거나 방향키로 회전");
   canvas.tabIndex = 0;
