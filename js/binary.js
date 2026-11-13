@@ -1,3 +1,4 @@
+import { restoreArrayBytes } from "./array-storage.js";
 const pending = new Map();
 
 // file://에서는 fetch 대신 빌드 시 만든 로컬 전용 스크립트로 데이터를 읽는다.
@@ -33,7 +34,12 @@ export async function readAsset(name) {
   for (const mesh of meta.meshes ?? meta) {
     for (const key of ["positions","normals","uvs","indices","skinIndices","skinWeights"]) {
       const v = mesh[key];
-      if (v) mesh[key] = new types[v.type](bytes, v.off, v.len);
+      if (v) {
+        restoreArrayBytes(bytes, v);
+        mesh[key] = new types[v.type](bytes, v.off, v.len);
+        // 큰 배열 복원 사이에는 UI에 실행 기회를 돌려준다.
+        if (v.encoding) await new Promise(resolve => setTimeout(resolve, 0));
+      }
     }
   }
   return meta;

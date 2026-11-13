@@ -20,6 +20,19 @@ export function initCart() {
   const panel = document.getElementById("cartPanel");
   const badge = document.getElementById("cartBadge");
   const list = document.getElementById("cartItems");
+  const countLabel = document.getElementById("cartCount");
+  const totalLabel = document.getElementById("cartTotal");
+  const checkout = document.getElementById("cartCheckout");
+  const notice = document.getElementById("cartNotice");
+  // 결제 서버가 연결되기 전에는 주문을 생성하지 않고 안내만 표시한다.
+  checkout.addEventListener("click", () => {
+    notice.hidden = false;
+    notice.textContent = "구매 기능은 준비 중입니다.";
+  });
+  document.getElementById("cartClose").addEventListener("click", () => {
+    close();
+    button.focus();
+  });
   const close = () => {
     panel.hidden = true;
     button.setAttribute("aria-expanded", "false");
@@ -52,6 +65,14 @@ export function initCart() {
     badge.hidden = count === 0;
     badge.textContent = count > 99 ? "99+" : String(count);
     button.setAttribute("aria-label", `장바구니, 상품 ${count}개`);
+    // 상단은 상품 종류 수, 아이콘 배지는 담긴 총 수량을 표시한다.
+    countLabel.textContent = `${items.length}개 상품`;
+    const hasPrices = items.every(item => Number.isFinite(item.price) && item.price >= 0);
+    const total = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
+    totalLabel.textContent = hasPrices ? total.toLocaleString("ko-KR") + "원" : "가격 준비 중";
+    checkout.disabled = count === 0 || !hasPrices;
+    notice.hidden = true;
+    list.classList.toggle("cart-empty", count === 0);
     list.replaceChildren();
     if (!count) list.textContent = "아직 담은 상품이 없습니다.";
     for (const item of items) {
@@ -61,9 +82,12 @@ export function initCart() {
         const thumbnail = document.createElement("img");
         thumbnail.src = item.image;
         thumbnail.alt = "";
+        // [직접 수정] 비숍 키링의 장바구니 썸네일만 좌우반전한다.
+        thumbnail.classList.toggle("cart-image-mirrored", item.image === "assets/products/bishop_2D.png");
         row.append(thumbnail);
       }
       const label = document.createElement("span");
+      label.className = "cart-item-info";
       label.textContent = item.name;
       const control = (symbol, action, change) => {
         const btn = document.createElement("button");
@@ -87,7 +111,9 @@ export function initCart() {
       const plus = control("+", "수량 늘리기", () => {
         basket.set(item.name, { ...item, quantity: item.quantity + 1 });
       });
-      stepper.append(minus, String(item.quantity), plus);
+      const quantity = document.createElement("span");
+      quantity.textContent = String(item.quantity);
+      stepper.append(minus, quantity, plus);
       // 상품별 금액은 단가 × 현재 수량으로 계산해 수량 변경 때 함께 갱신한다.
       const price = document.createElement("span");
       price.className = "cart-price";
@@ -97,8 +123,10 @@ export function initCart() {
       label.append(price, stepper);
       const remove = control("×", "삭제", () => basket.delete(item.name));
       remove.className = "cart-remove";
+      remove.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></svg>';
       row.append(label, remove);
       list.append(row);
     }
   });
+  publishCart();
 }

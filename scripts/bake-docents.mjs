@@ -84,5 +84,6 @@ for (const id of ["knight", "rook", "pawn-b"]) {
   await fs.writeFile(path.join(root, `data/npc-${id}.pack`), packed);
   report.push({ id, sourceBytes: oldPacked.length, binaryBytes: packed.length, preparationMs, meshes: rig.meshes.length, selection, transformedArrays: arrays.filter(a => a.encoding !== "raw").length, transformedBytes: arrays.filter(a => a.encoding !== "raw").reduce((n,a) => n+a.decodedBytes,0), exactRoundTrip: true, arrays });
 }
-await fs.writeFile(path.join(root, "data/docent-bake-report.json"), JSON.stringify(report, null, 2));
+await fs.mkdir(path.join(root, "scripts/reports"), { recursive: true });
+await fs.writeFile(path.join(root, "scripts/reports/docent-bake-report.json"), JSON.stringify(report, null, 2));
 console.log(report.map(({ arrays, ...summary }) => summary));

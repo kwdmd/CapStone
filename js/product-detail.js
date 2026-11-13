@@ -4,6 +4,21 @@ import { createProductOrbit } from "./product-orbit.js";
 const commonSpec = "SIZE: 12 × 15cm\n소재: 아크릴";
 
 export const products = {
+  // [직접 수정] 포토카드 가격·규격·설명을 이곳에서 변경하세요.
+  "photocard-a": {
+    image: "assets/products/photocard-a.png",
+    name: "폰 (남) 포토카드",
+    price: 6000,
+    spec: "SIZE: 55 × 85 mm\n소재: 아트지",
+    description: "체스 갬빗의 캐릭터를 선명한 컬러로 담은 포토카드.\n작은 카드 한 장으로 전시의 즐거운 순간을 간직하고, 좋아하는 공간을 꾸며 보세요."
+  },
+  "photocard-b": {
+    image: "assets/products/photocard-b.png",
+    name: "폰 (여) 포토카드",
+    price: 6000,
+    spec: "SIZE: 55 × 85 mm\n소재: 아트지",
+    description: "장난스러운 표정과 경쾌한 색감이 매력적인 체스 갬빗 포토카드.\n다이어리나 카드 홀더에 넣어 나만의 컬렉션을 완성해 보세요."
+  },
   "queen": {
     image: "assets/products/queen_2D.png",
     "name": "QUEEN 아크릴 스탠드",

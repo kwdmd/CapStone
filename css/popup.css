@@ -1,4 +1,4 @@
-/* [구조 설명] PC 전용 전체 화면 전시장. 모바일 전용 분기와 헤더/푸터는 사용하지 않는다. */
+/* [구조 설명] 전체 화면 전시장 기본 배치. 모바일은 mobile.css, 공통 디자인은 마지막에 불러오는 theme.css에서 조절합니다. */
 @font-face {
   font-family: Pretendard;
   src: url("../assets/fonts/PretendardVariable.woff2") format("woff2");
@@ -182,46 +182,46 @@ h2 {
   text-align: center;
   pointer-events: none;
 }
+/* [직접 수정] 장바구니 폭·배경·강조색은 여기에서 조절한다. */
 .cart {
   position: absolute;
   top: 54.88px;
   right: 0;
-  width: 280px;
-  max-height: 60vh;
+  width: 326px;
+  max-height: calc(100vh - 110px);
   overflow: auto;
-  background: #fffffff0;
-  border: 1px solid #14223220;
-  box-shadow: 0 8px 24px #14223220;
-  border-radius: 16px;
-  padding: 16px;
+  background: #bfbfbf;
+  color: #242733;
+  border: 1px solid #999;
+  box-shadow: 0 8px 24px #0003;
+  border-radius: 24px;
+  padding: 14px 12px;
 }
-#cartItems {
-  font-size: 14px;
-  margin-top: 12px;
-}
-
-.cart-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 10px 0 0;
-}
-.cart-item img {
-  width: 48px;
-  height: 48px;
-  flex: none;
-  object-fit: contain;
-  background: white;
-  border-radius: 6px;
-}
-
-
-.cart-stepper { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.cart-item button { cursor: pointer; font: inherit; color: inherit; background: white; border: 1px solid #c9ceca; border-radius: 5px; min-width: 26px; min-height: 26px; }
-.cart-item button:disabled { opacity: .45; cursor: default; }
-.cart-item .cart-remove { margin-left: auto; align-self: flex-start; flex: none; font-size: 18px; }
-
-/* 장바구니 상품별 수량을 반영한 금액 */
-.cart-price { display: block; margin-top: 4px; font-weight: 600; }
+.cart-header { display: flex; align-items: center; gap: 10px; }
+.cart-header h2 { margin: 0; font-size: 17px; font-weight: 600; }
+.cart-count { padding: 4px 10px; border-radius: 20px; background: #cac8cd; color: #676370; font-size: 12px; }
+.cart button { font: inherit; cursor: pointer; }
+.cart-close { margin-left: auto; border: 0; background: none; color: #656171; font-size: 25px !important; width: 28px; height: 28px; padding: 0; }
+#cartItems { font-size: 14px; margin-top: 12px; max-height: 46vh; overflow-y: auto; }
+#cartItems.cart-empty { display: grid; place-items: center; min-height: 120px; color: #77727e; font-size: 13px; }
+.cart-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px; padding: 12px 9px; border-radius: 18px; background: #cecece; }
+.cart-item img { width: 50px; height: 76px; flex: none; object-fit: contain; background: #dedede; border-radius: 12px; }
+.cart-item-info { flex: 1; min-width: 0; height: 76px; display: flex; flex-direction: column; align-items: flex-start; font-size: 13px; line-height: 1.35; }
+.cart-price { display: block; margin-top: 3px; color: #d51e37; font-size: 18px; font-weight: 600; }
+/* [직접 수정] 수량 버튼: 세 칸을 동일한 26px로 맞춘다. 정보 영역과 썸네일은 76px 높이로 상하 정렬한다. */
+.cart-stepper { display: inline-grid; grid-template-columns: repeat(3, 26px); align-items: center; margin-top: auto; flex-shrink: 0; background: #f0edf3; border-radius: 10px; overflow: hidden; text-align: center; font-size: 14px; }
+.cart-stepper button { border: 0; background: transparent; color: #252735; height: 26px; padding: 0; }
+.cart-stepper span { display: grid; place-items: center; height: 26px; border-inline: 1px solid #dad7df; font-weight: 600; }
+.cart-stepper button:disabled { color: #797483; cursor: default; }
+.cart-remove { margin-left: auto; flex: none; padding: 0; width: 22px; height: 24px; border: 0; background: none; color: #656171; }
+.cart-total { display: flex; align-items: center; justify-content: space-between; margin: 12px 4px 8px; font-size: 13px; font-weight: 600; color: #66616e; }
+.cart-total strong { font-size: 19px; color: #242733; }
+.cart-checkout { display: block; width: calc(100% - 8px); margin: 0 4px; padding: 8px; border: 0; border-radius: 11px; background: #c51d32; color: white; font-size: 18px !important; font-weight: 700 !important; }
+.cart-checkout:disabled { background: #a59fac; cursor: default; }
+.cart button:focus-visible { outline: 2px solid #154b38; outline-offset: 2px; }
+.cart-notice { font-size: 12px; text-align: center; margin: 10px 0 0; }
 
 .product-photo img.product-image-mirrored { transform: scaleX(-1); }
+
+/* 비숍 키링 썸네일 방향: 상품명·가격·다른 상품에는 적용하지 않는다. */
+.cart-item img.cart-image-mirrored { transform: scaleX(-1); }

@@ -1,3 +1,4 @@
+import { initTouchGuide } from "./touch-controls.js";
 import { initCart } from "./cart.js";
 import config from "../data/project.json";
 import { startScene } from "./scene.js";
@@ -75,6 +76,7 @@ state.view = config.initialView;
 state.soundEnabled = config.soundEnabled;
 renderControls();
 initCart();
+initTouchGuide();
 Promise.resolve(startScene(state.view)).catch(error => {
   console.error(error);
   document.getElementById("sceneStatus").textContent = "전시장을 열 수 없습니다: " + error.message;

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { bindNpcDialogue } from '../js/npc-dialogue.js';
 const make=()=>({hidden:true,dataset:{},textContent:'',handlers:{},addEventListener(k,f){this.handlers[k]=f;},setAttribute(k,v){this[k]=v;},focus(){},closest(){return null;}});
 const elements=Object.fromEntries(['npcDialogue','npcPrompt','npcClose','npcText','npcName','npcSymbol','npcPiece'].map(k=>[k,make()]));
-const buttons=['intro','piece','guide'].map(topic=>Object.assign(make(),{dataset:{topic}}));
+const buttons=['0','1','2','3'].map(topic=>Object.assign(make(),{dataset:{topic}}));
 elements.npcDialogue.querySelectorAll=()=>buttons;
 globalThis.document={getElementById:k=>elements[k],querySelector:()=>({classList:{add(){},remove(){}}})};
 const keys={};globalThis.window={addEventListener:(k,f)=>keys[k]=f};
@@ -35,3 +35,21 @@ assert.equal(elements.npcName.textContent,'나이트 안내자');assert.equal(di
 keys.keydown({code:'Escape',preventDefault(){}});
 player.x=22.2;player.z=2.2;dialogue.update();assert.equal(elements.npcPrompt.hidden,true);
 console.log('PASS: 3-unit interaction boundary, out-of-range F blocked, diagonal distance');
+
+// 모바일 이동 안내 및 폰B의 네 번째 구매 안내도 확인한다.
+globalThis.matchMedia = () => ({ matches: true });
+player.x=20;player.z=0;
+elements.npcPrompt.handlers.click();
+buttons[0].handlers.click();
+assert.ok(elements.npcText.textContent.includes('조이스틱'));
+assert.equal(buttons[3].hidden,true);
+elements.npcClose.handlers.click();
+player.x=40;
+elements.npcPrompt.handlers.click();
+assert.equal(buttons[3].hidden,false);
+buttons[3].handlers.click();
+assert.ok(elements.npcText.textContent.includes('결제 기능은 아직 준비 중'));
+assert.equal(elements.npcClose.textContent,'×');
+assert.equal(elements.npcClose['aria-label'],'NPC 대화창 닫기');
+elements.npcClose.handlers.click();
+console.log('PASS: touch instructions, per-NPC questions and checkout notice');

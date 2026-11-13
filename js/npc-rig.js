@@ -145,8 +145,12 @@ export async function createNpcRig(data, materials) {
       "skinWeight",
       new THREE.Float32BufferAttribute(skinWeights, 4),
     );
+    // [직접 수정] 룩 손만 얼굴 피부 재질(Material.019)을 사용한다.
+    // 공유 빨간 재질을 변경하지 않아 의상과 모션은 유지된다.
+    const rookHand = data.name === "Rook-1" && (mesh.sourcePart ?? mesh.name) === "Cube.035";
+    const faceMaterial = rookHand ? data.materials.findIndex(m => m.name === "Material.019") : -1;
     for (const [start, count, index] of mesh.groups)
-      geometry.addGroup(start, count, index);
+      geometry.addGroup(start, count, faceMaterial >= 0 ? faceMaterial : index);
     const object = new THREE.SkinnedMesh(geometry, materials);
     object.name = mesh.name;
     object.userData.sourcePart = mesh.sourcePart ?? null;

@@ -17,3 +17,7 @@
 .npc-prompt { position:absolute; z-index:4; bottom:90px; left:50%; transform:translateX(-50%); padding:12px 22px; color:#fffaf0; background:#104c2d; border:2px solid #fffaf0; border-radius:24px; font:inherit; margin:0; cursor:pointer; pointer-events:auto; }
 .dialogue-open .move-guide { visibility:hidden; }
 @media(max-width:700px) { .ticket-content { padding:14px 14px 48px; } .ticket-stub { flex-basis:74px; min-width:65px; } #npcSymbol { font-size:40px; } #npcPiece { font-size:10px; } .ticket-actions { gap:6px; } .ticket-actions button { min-width:0; padding:8px; font-size:12px; } .ticket-close { top:8px; bottom:auto; } #npcName { padding-right:72px; } }
+
+/* 긴 닫기 문구와 질문이 겹치지 않도록 상단 여백 확보 */
+.ticket-content { padding-top:42px; padding-right:20px; }
+.ticket-actions button[hidden] { display:none; }

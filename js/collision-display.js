@@ -68,11 +68,11 @@ export function createPlayerCollisionDisplay(scene, settings) {
   const {radius, height, surfaceRatio} = playerCollisionSize(settings);
   const display = new T.Group();
   const shell = new T.Mesh(new T.CylinderGeometry(radius, radius, height, 48),
-    new T.MeshBasicMaterial({color:0x53ddd1, transparent:true, opacity:0.12, depthWrite:false}));
+    new T.MeshBasicMaterial({color:0xffbd59, transparent:true, opacity:0.20, depthWrite:false}));
   shell.position.y = height / 2;
   const inner = radius * surfaceRatio;
   const ring = new T.Mesh(new T.RingGeometry(inner - 0.015, inner, 48),
-    new T.MeshBasicMaterial({color:0x53ddd1, transparent:true, opacity:0.55, depthWrite:false}));
+    new T.MeshBasicMaterial({color:0xffbd59, transparent:true, opacity:0.80, depthWrite:false}));
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.015;
   display.add(shell, ring);

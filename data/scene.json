@@ -5,7 +5,7 @@
   ],
   "thirdPersonDistance": 18,
   "thirdPersonElevation": 0.42,
-  "eyeHeight": 1.65,
+  "eyeHeight": 2.189,
   "walkSpeed": 4,
   "runSpeed": 7.5,
   "stepHeight": 0.75,
@@ -20,13 +20,14 @@
   "cameraHeightSpeed": 10,
   "cameraCollisionMinDistance": 6,
   "cameraApproachSpeed": 6,
-  "characterScale": 1.32,
+  "characterScale": 1.452,
   "savedSpawnBeforeNpcInspection": {
     "spawn": [
       29.35,
       -9.59
     ],
     "spawnYaw": 1.886607
-  }
+  },
+  "showCollisionBounds": false,
+  "playerCollisionScale": 1.32
 }
-

@@ -1,0 +1,146 @@
+/* [직접 수정] 시험판 공통 디자인. 색·모서리·간격은 이 토큰을 수정하세요.
+   기존 레이아웃 CSS 다음에 불러오며, 카메라·충돌·상품 동작에는 관여하지 않습니다. */
+:root {
+  --ui-paper: #f2f0ef;
+  --ui-white: #fff;
+  --ui-ink: #242824;
+  --ui-muted: #72766f;
+  --ui-green: #174b3a;
+  --ui-hover: #236249;
+  --ui-red: #be2034;
+  --ui-line: #d5d1c8;
+  --ui-glass: rgba(18, 48, 37, .84);
+  --ui-shadow: 0 16px 48px #07170f30;
+  --ink: var(--ui-ink);
+  --panel: var(--ui-paper);
+}
+button { -webkit-tap-highlight-color: transparent; }
+button:focus-visible { outline: 3px solid #b88b43; outline-offset: 3px; }
+.controls {
+  gap: 4px; padding: 6px; border-radius: 16px;
+  background: var(--ui-glass); border: 1px solid #f2f0ef30;
+  box-shadow: 0 4px 20px #0002;
+}
+.controls button { width: 40px; height: 40px; border-radius: 10px; }
+.controls button:hover, .controls button[aria-expanded="true"] { background: #f2f0ef24; }
+.stable-icon { width: 25px; height: 25px; }
+.stable-icon [fill="#ffffff"] { fill: var(--ui-paper); }
+.stable-icon [stroke="#ffffff"] { stroke: var(--ui-paper); }
+#cameraStateText { fill: var(--ui-green); }
+.cart-badge { right: 0; bottom: 0; min-width: 16px; height: 16px; padding: 0 4px; background: var(--ui-red); font-size: 10px; line-height: 16px; }
+.move-guide, .npc-prompt { background: var(--ui-glass); color: var(--ui-paper); border: 1px solid #f2f0ef40; border-radius: 12px; }
+.move-guide { padding: 12px 20px; }
+.npc-prompt:hover { background: var(--ui-hover); }
+/* [직접 수정] 장바구니: 썸네일과 정보 영역을 같은 높이로 맞춥니다. */
+.cart { top: 64px; width: min(352px, calc(100vw - 24px)); padding: 20px 16px; border: 1px solid var(--ui-line); border-radius: 20px; background: var(--ui-paper); color: var(--ui-ink); box-shadow: var(--ui-shadow); }
+.cart-header { gap: 8px; padding-bottom: 16px; border-bottom: 1px solid var(--ui-line); }
+.cart-header h2 { font-size: 18px; font-weight: 700; }
+.cart-count { color: var(--ui-green); background: #174b3a0c; padding: 4px 8px; font-size: 12px; }
+.cart .cart-close, #productDetail .product-close { width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; color: var(--ui-green); font-size: 24px !important; display: grid; place-items: center; }
+.cart .cart-close:hover, #productDetail .product-close:hover { background: #174b3a0b; }
+#cartItems { margin-top: 16px; }
+#cartItems.cart-empty { min-height: 160px; color: var(--ui-muted); line-height: 1.6; text-align: center; }
+.cart-item { gap: 12px; padding: 12px; margin-bottom: 8px; border-radius: 12px; background: var(--ui-white); }
+.cart-item img { width: 56px; height: 88px; background: var(--ui-paper); border-radius: 8px; }
+.cart-item-info { height: 88px; font-size: 13px; line-height: 1.4; }
+.cart-price { color: var(--ui-ink); font-size: 16px; font-weight: 700; margin-top: 4px; }
+.cart-stepper { grid-template-columns: repeat(3, 28px); border-radius: 8px; background: var(--ui-paper); border: 1px solid var(--ui-line); font-size: 13px; }
+.cart-stepper button, .cart-stepper span { height: 28px; color: var(--ui-ink); }
+.cart-stepper span { border-color: var(--ui-line); }
+.cart-stepper button:disabled { color: #aaa9a4; }
+.cart-remove { color: var(--ui-muted); width: 24px; height: 28px; }
+.cart-remove:hover { color: var(--ui-red); }
+.cart-total { margin: 16px 0; padding-top: 16px; border-top: 1px solid var(--ui-line); color: var(--ui-muted); }
+.cart-total strong { color: var(--ui-ink); font-size: 20px; }
+.cart-checkout { width: 100%; margin: 0; min-height: 44px; border-radius: 8px; background: var(--ui-green); font-size: 16px !important; }
+.cart-checkout:hover:not(:disabled) { background: var(--ui-hover); }
+.cart-checkout:disabled { background: #dddad5; color: #787a74; }
+.cart-notice { color: var(--ui-muted); line-height: 1.5; }
+/* [구조 설명] 상품 상세도 공통 카드 규격을 사용합니다. 이전 티켓 테두리 장식은 제거합니다. */
+#productDetail { --forest: var(--ui-green); --paper: var(--ui-paper); --seam-gap: 48px; width: min(1080px, 92vw); padding: 56px 32px 24px; border: 1px solid var(--ui-line); border-radius: 20px; background: var(--ui-paper); color: var(--ui-ink); box-shadow: var(--ui-shadow); }
+#productDetail::before, #productDetail::after, .product-info::before, .product-order::after { display: none; }
+#productDetail::backdrop { background: #07170fa8; backdrop-filter: blur(5px); }
+#productDetail .product-close { top: 12px; right: 16px; }
+.product-photo { border-color: var(--ui-line); border-radius: 12px; }
+.product-info { padding: 8px 0 0; }
+.product-brand { font-family: Pretendard, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .16em; margin-bottom: 12px; }
+#productName { font-size: clamp(24px, 2.5vw, 34px); font-weight: 700; line-height: 1.25; }
+.product-description { font-size: 15px; line-height: 1.75; margin-top: 16px; }
+.product-spec { color: var(--ui-muted); border-color: var(--ui-line); line-height: 1.7; }
+.product-stepper { grid-template-columns: repeat(3, 36px); gap: 0; border: 1px solid var(--ui-line); border-radius: 8px; background: white; font-size: 16px; }
+.product-stepper button { height: 36px; }
+.product-stepper output { border-inline: 1px solid var(--ui-line); }
+.product-total { font-size: 18px; margin: 20px 0 16px; }
+.product-actions { gap: 8px; }
+#productDetail .product-actions button { min-height: 44px; padding: 12px; border-radius: 8px; font-size: 16px; border-color: var(--ui-line); }
+#productDetail .product-actions button:disabled { background: #dddad5; color: #787a74; }
+#productDetail .product-add { background: var(--ui-green); border-color: var(--ui-green); }
+.view-ticket { border-color: var(--ui-line); border-radius: 8px; background: white; overflow: visible; }
+#productDetail .view-ticket button { min-height: 40px; color: var(--ui-green); }
+#productDetail .view-ticket button[aria-pressed=true] { background: var(--ui-green); color: var(--ui-paper); }
+.orbit-hint, .product-feedback { color: var(--ui-muted); }
+/* [직접 수정] NPC 대화창. 이름과 본문은 JSON을 사용하고, 장식보다 읽기 쉬운 여백을 우선합니다. */
+.npc-ticket { bottom: 24px; width: min(820px, calc(100% - 32px)); max-height: 60dvh; background: var(--ui-paper); color: var(--ui-ink); border: 1px solid var(--ui-line); border-radius: 20px; box-shadow: var(--ui-shadow); }
+.ticket-stub { flex-basis: 104px; background: var(--ui-green); color: var(--ui-paper); border: 0; padding: 24px 12px; }
+/* [직접 수정] 원래의 리본·티켓 절취선·체크 장식을 복구합니다. */
+.ticket-ribbon, .npc-ticket::after { display: block; }
+.ticket-stub { border-right: 4px dotted var(--ui-paper); }
+.npc-ticket::after { background: conic-gradient(var(--ui-green) 25%, var(--ui-paper) 0 50%, var(--ui-green) 0 75%, var(--ui-paper) 0) 0 0 / 16px 16px; }
+.ticket-content { padding: 24px 24px 32px; }
+#npcName { color: var(--ui-green); font-size: 16px; font-weight: 700; padding-right: 120px; }
+#npcText { font-size: 16px; font-weight: 400; line-height: 1.75; margin: 12px 0 20px; }
+.ticket-actions { gap: 8px; }
+.ticket-actions button { min-width: 0; min-height: 40px; padding: 10px 12px; font-size: 13px; font-weight: 600; border: 1px solid var(--ui-line); border-radius: 8px; background: white; color: var(--ui-green); }
+.ticket-actions button[aria-pressed=true] { background: var(--ui-green); border-color: var(--ui-green); color: var(--ui-paper); }
+.ticket-close { top: 16px; right: 16px; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 8px; color: var(--ui-green); font-size: 24px; line-height: 1; }
+.touch-joystick { background: #174b3a55; border-color: #f2f0ef90; }
+.joystick-knob { background: #f2f0efbb; }
+/* [직접 수정] 모바일: 44px 터치 버튼, 좁은 화면의 브랜드/설정 겹침 방지, 스크롤 가능한 상세창. */
+@media (pointer: coarse) {
+  .controls button { width: 44px; height: 44px; }
+  .cart-stepper { grid-template-columns: repeat(3, 32px); }
+  .cart-stepper button, .cart-stepper span { height: 36px; }
+  .cart-item img, .cart-item-info { height: 96px; }
+  .cart-close, .cart-remove { min-width: 36px; min-height: 36px; }
+}
+@media (max-width: 700px) {
+  .brand { top: 18px; } .brand-name { font-size: 18px; }
+  .controls { gap: 2px; padding: 4px; border-radius: 12px; }
+  .controls button { width: 36px; height: 40px; }
+  .controls button svg { width: 23px; height: 23px; }
+  .cart { top: 60px; max-height: calc(100dvh - 92px); }
+  #productDetail { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); padding: 56px 20px 16px; }
+  .product-layout { grid-template-columns: 1fr; gap: 16px; }
+  .product-media .product-photo { width: min(100%, 30dvh); }
+  .product-info { padding: 0; }
+  #productName { font-size: 24px; }
+  .product-description { font-size: 14px; margin: 12px 0; }
+  .product-total { margin: 16px 0; }
+  .npc-ticket { display: block; bottom: 12px; max-height: 70dvh; }
+  .ticket-stub { flex-direction: row; justify-content: flex-start; padding: 12px 56px 12px 64px; gap: 12px; min-height: 52px; border-right: 0; border-bottom: 4px dotted var(--ui-paper); }
+  #npcSymbol { font-size: 28px; } #npcPiece { font-size: 11px; }
+  .ticket-content { padding: 16px 16px 32px; }
+  #npcName { padding: 0; } #npcText { font-size: 14px; margin: 10px 0 16px; }
+  .ticket-close { top: 8px; right: 10px; color: var(--ui-paper); border-color: #f2f0ef55; }
+  .ticket-actions { display: grid; grid-template-columns: 1fr; }
+  .ticket-actions button { min-height: 44px; text-align: left; }
+}
+@media (max-width: 420px) {
+  .brand-name { font-size: 16px; }
+  .right-panel { top: 54px; } /* 상단 브랜드와 별도의 행으로 배치 */
+  .controls button { width: 44px; height: 44px; }
+  .cart { max-height: calc(100dvh - 130px); }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  #productDetail { padding: 48px 24px 16px; }
+  .product-layout { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .product-media .product-photo { width: min(100%, 52dvh); }
+  .npc-ticket { max-height: 85dvh; }
+}
+
+/* [직접 수정] 상세창을 열 때 닫기 버튼에 자동 표시되던 주황색 포커스 테두리를 제거합니다. */
+#productDetail .product-close:focus,
+#productDetail .product-close:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

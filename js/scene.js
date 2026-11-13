@@ -1,3 +1,9 @@
+import { bindTouchControls } from "./touch-controls.js";
+import { softenFloorReflections } from "./floor-materials.js";
+import { createLightingMeter } from "./lighting-meter.js";
+import { createWarmLighting } from "./warm-lighting.js";
+import lighting from "../data/lighting.json" with { type: "json" };
+import { showCollisionWalls, createPlayerCollisionDisplay } from "./collision-display.js";
 import { setStartupTextureRenderer } from "./startup-textures.js";
 import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
 import objectWalls from "../data/object-walls.json";
@@ -40,8 +46,8 @@ export async function startScene(initialView) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color("#000000");
   const camera = new THREE.PerspectiveCamera(48, 1, 0.08, 250);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x77818d, 2.2));
-  const sunlight = new THREE.DirectionalLight(0xfff1dc, 2.5);
+  scene.add(new THREE.HemisphereLight(0xffefd9, 0x77818d, lighting.hemisphereIntensity));
+  const sunlight = new THREE.DirectionalLight(0xffe4bf, lighting.directionalIntensity);
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
@@ -78,9 +84,11 @@ export async function startScene(initialView) {
       geometry.addGroup(start, count, materialIndex);
     const mesh = new THREE.Mesh(geometry, mapMaterials);
     mesh.name = data.name;
+    softenFloorReflections(mesh);
     meshes.push(mesh);
     scene.add(mesh);
   }
+  const updateWarmLighting = createWarmLighting(scene, meshes);
   scene.updateMatrixWorld(true);
   // [직접 수정] 현재 FBX의 정면이 -Z이므로 180도 보정. +Z 정면 모델로 교체하면 0으로 변경하세요.
   const avatarFacingOffset = Math.PI;
@@ -122,6 +130,10 @@ export async function startScene(initialView) {
   const reset = bindSceneInput(host, renderer.domElement, player, input);
   const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
   const boothWalls = addBoothCollision(scene, walkableMap);
+  // [직접 수정] scene.json의 showCollisionBounds를 false로 바꾸면 표시를 숨긴다.
+  // 표시용 메시는 실제 충돌 검사에 추가하지 않는다.
+  if (settings.showCollisionBounds) showCollisionWalls(scene, objectWalls, pieceCylinders.concat(updateNpcs.cylinders), [...fenceWalls, ...boothWalls]);
+  const playerCollisionDisplay = settings.showCollisionBounds ? createPlayerCollisionDisplay(scene, settings) : null;
   const tryMove = createWalker(player, meshes, settings, pieceCylinders.concat(updateNpcs.cylinders), [...fenceWalls, ...boothWalls], objectWalls);
   document.addEventListener("popup:view-change", (event) => {
     if (!third) avatar.rotation.y = player.yaw + Math.PI + avatarFacingOffset;
@@ -157,14 +169,17 @@ export async function startScene(initialView) {
     },
     { passive: false },
   );
+  bindTouchControls(host, renderer.domElement, player, input,
+    delta => updateCamera.zoom(delta, third));
+  const measureLighting = createLightingMeter();
   let previous = performance.now();
   let visualHeight = player.y;
   function animate(now) {
     requestAnimationFrame(animate);
+    measureLighting(now);
     const dt = Math.min((now - previous) / 1000, 0.05);
     previous = now;
-    let x = +input.has("right") - input.has("left"),
-      z = +input.has("down") - input.has("up");
+    let { x, z } = input.axes();
     const length = Math.hypot(x, z);
     const oldX = player.x,
       oldZ = player.z;
@@ -193,8 +208,11 @@ export async function startScene(initialView) {
       (player.y - visualHeight) *
       (1 - Math.exp(-motionSettings.visualHeightResponse * dt));
     avatar.position.set(player.x, visualHeight, player.z);
+    // 시각적으로 보정된 캐릭터 높이가 아니라 실제 충돌 좌표를 표시한다.
+    playerCollisionDisplay?.position.set(player.x, player.y, player.z);
     avatar.visible = third;
     updateCamera(player, avatar, third, dt);
+    updateWarmLighting(player, dt);
     updateNpcs(dt);
     dialogue.update();
     renderer.render(scene, camera);

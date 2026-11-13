@@ -20,13 +20,13 @@ export function bindSceneInput(host, canvas, player, input) {
   window.addEventListener("blur", reset);
   document.addEventListener("visibilitychange", reset);
   canvas.addEventListener("pointerdown", (event) => {
-    if (host.dataset.dialogueOpen === "true" || event.button !== 0) return;
+    if (event.pointerType === "touch" || host.dataset.dialogueOpen === "true" || event.button !== 0) return;
     host.focus();
     drag = { x: event.clientX, y: event.clientY };
     canvas.setPointerCapture(event.pointerId);
   });
   canvas.addEventListener("pointermove", (event) => {
-    if (!drag) return;
+    if (event.pointerType === "touch" || !drag) return;
     applyLookDelta(player, event.clientX - drag.x, event.clientY - drag.y);
     drag = { x: event.clientX, y: event.clientY };
   });

@@ -73,6 +73,8 @@ export function createCameraRig(camera, meshes, settings) {
       avatar.visible = cameraDistance > settings.cameraHideAvatarDistance;
     } else {
       const direction = viewDirection(player.yaw, player.pitch);
+      // [직접 수정] scene.json의 eyeHeight: 배율 1.452에서 눈높이 2.189 (이전 1.99 × 1.1).
+      // 머리 모션을 직접 따라가지 않아 걷기·달리기 중 시야 흔들림을 방지한다.
       camera.position.set(player.x, followY + settings.eyeHeight, player.z);
       camera.lookAt(
         player.x + direction.x,

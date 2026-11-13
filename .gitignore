@@ -12,9 +12,9 @@ Thumbs.db
 *.fbx
 *.blend
 *.unitypackage
-/data/map.json
-/data/avatar.json
 
 js/docent-worker.bundle.js
-!/data/map.json
 local-assets/
+
+# 재가공 진단 결과는 실행에 필요하지 않습니다.
+scripts/reports/

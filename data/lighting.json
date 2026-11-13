@@ -1,0 +1,23 @@
+{
+  "hemisphereIntensity": 0.78,
+  "directionalIntensity": 0.95,
+  "lampIntensity": 28,
+  "lampDistance": 13,
+  "stringIntensity": 8,
+  "stringDistance": 7,
+  "activeLamps": 4,
+  "activeStrings": 3,
+  "transitionSpeed": 5,
+  "showLightObjects": false,
+  "allLightsOn": false,
+  "stringBulbIntensity": 1.2,
+  "stringBulbDistance": 3.5,
+  "halosEnabled": true,
+  "lampHaloSize": 0.75,
+  "stringHaloSize": 0.45,
+  "haloOpacity": 0.65,
+  "bulbColor": "#FFCA8A",
+  "lampEmissiveIntensity": 1.6,
+  "stringEmissiveIntensity": 1.2,
+  "postEmissiveIntensity": 1.6
+}
