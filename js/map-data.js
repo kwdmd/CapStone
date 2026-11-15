@@ -1,2 +1,1 @@
-import { readAsset } from "./binary.js";
-export default readAsset("map");
+import {readAsset} from "./binary.js"; export default readAsset("map");

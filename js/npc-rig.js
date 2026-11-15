@@ -1,6 +1,5 @@
 import { recordStage, yieldFrame } from "./docent-performance.js";
 import { createRookPose } from "./rook-pose.js";
-import { fitKnightCoat } from "./knight-coat.js";
 import * as THREE from "../vendor/three.module.js";
 import { createGeometry } from "./geometry.js";
 // [구조 설명] 각 모델의 원래 스킨 웨이트와 본을 사용하고, Idle.fbx에서 변환한 회전 트랙을 재생한다.
@@ -11,11 +10,6 @@ const idleGarmentBindings = {
   // 망토 천과 흰 테두리는 Cylinder.005에 함께 들어 있다.
   // Plane.004는 별도 의상이므로 원래 웨이트를 유지한다.
   "pawn-B-11": { "Cylinder.005": "spine.002" },
-  "Knight-4-2-right-foot": {
-    "Plane.012": "spine.003", // 망토는 팔 대신 상체를 따라간다.
-    "Cube.024": "shoulder.R", // 견장 판과 술이 동일한 어깨를 따라간다.
-    "Cube.026": "shoulder.R",
-  },
   "Rook-1": { "Cylinder.004": "spine" }, // 넓은 치마: 골반의 움직임을 따른다.
 };
 
@@ -37,44 +31,12 @@ export async function createNpcRig(data, materials) {
   const skeleton = new THREE.Skeleton(bones);
   let sliceStart = performance.now();
   for (const mesh of data.meshes) {
-    if (performance.now() - sliceStart >= 2.5) {
+    if (performance.now()-sliceStart >= 2.5) {
       await yieldFrame();
-      sliceStart = performance.now();
+      sliceStart=performance.now();
     }
     const meshStart = performance.now();
     const geometry = createGeometry(mesh);
-    // [직접 수정] 나이트 부츠의 바지 안쪽 부분만 좁힌다(정규화된 모델 좌표).
-    // 발끝/밑창과 높이는 유지하고 y=0.08~0.12에서 점진적으로 폭을 줄인다.
-    if (
-      data.name === "Knight-4-2-right-foot" &&
-      ["Cube.003", "RightFoot_Repaired"].includes(mesh.name)
-    ) {
-      const position = geometry.attributes.position;
-      const centerX = mesh.name === "Cube.003" ? -0.079754 : 0.079754;
-      for (let i = 0; i < position.count; i++) {
-        const t = THREE.MathUtils.smoothstep(position.getY(i), 0.08, 0.12);
-        const scale = 1 - 0.55 * t;
-        position.setX(i, centerX + (position.getX(i) - centerX) * scale);
-        position.setZ(i, -0.03 + (position.getZ(i) + 0.03) * scale);
-      }
-      geometry.computeVertexNormals();
-    }
-    if (data.name === "Knight-4-2-right-foot") {
-      const position = geometry.attributes.position;
-      if (mesh.name === "Plane.012") {
-        // [직접 수정] 뒤쪽 이동은 제거하고 망토를 위로만 0.04 올린다.
-        for (let i = 0; i < position.count; i++) {
-          position.setY(i, position.getY(i) + 0.04);
-        }
-      }
-      if (["Cube.024", "Cube.026"].includes(mesh.name)) {
-        // 견장 전체 크기는 유지하고, 어깨 표면 위/바깥으로 조금 이동한다.
-        for (let i = 0; i < position.count; i++) {
-          position.setX(i, position.getX(i) + 0.012);
-          position.setY(i, position.getY(i) + 0.03);
-        }
-      }
-    }
     const garmentBone = idleGarmentBindings[data.name]?.[mesh.name];
     let skinIndices = mesh.skinIndices;
     let skinWeights = mesh.skinWeights;
@@ -120,13 +82,6 @@ export async function createNpcRig(data, materials) {
         skinWeights[i * 4 + 1] = 1 - amount;
       }
     }
-    const coat = mesh.coatWeightsReady
-      ? null
-      : fitKnightCoat(data, mesh, geometry);
-    if (coat) {
-      skinIndices = coat.indices;
-      skinWeights = coat.weights;
-    }
     if (garmentBone) {
       const boneIndex = data.bones.findIndex(
         (bone) => bone.name === garmentBone,
@@ -149,11 +104,8 @@ export async function createNpcRig(data, materials) {
     );
     // [직접 수정] 룩 손만 얼굴 피부 재질(Material.019)을 사용한다.
     // 공유 빨간 재질을 변경하지 않아 의상과 모션은 유지된다.
-    const rookHand =
-      data.name === "Rook-1" && (mesh.sourcePart ?? mesh.name) === "Cube.035";
-    const faceMaterial = rookHand
-      ? data.materials.findIndex((m) => m.name === "Material.019")
-      : -1;
+    const rookHand = data.name === "Rook-1" && (mesh.sourcePart ?? mesh.name) === "Cube.035";
+    const faceMaterial = rookHand ? data.materials.findIndex(m => m.name === "Material.019") : -1;
     for (const [start, count, index] of mesh.groups)
       geometry.addGroup(start, count, faceMaterial >= 0 ? faceMaterial : index);
     const object = new THREE.SkinnedMesh(geometry, materials);
@@ -162,14 +114,12 @@ export async function createNpcRig(data, materials) {
     object.frustumCulled = false;
     group.add(object);
     object.bind(skeleton, new THREE.Matrix4());
-    recordStage(data.name, "rig-mesh:" + mesh.name, meshStart);
+    recordStage(data.name, "rig-mesh:"+mesh.name, meshStart);
   }
   const poseRook = data.name === "Rook-1" ? createRookPose(group, bones) : null;
   const mixer = new THREE.AnimationMixer(group);
   // 본 이름에 점이 있으므로 UUID로 트랙을 연결한다.
-  // [직접 수정] 폰 B만 하체를 고정한다. 나이트는 하체 Idle을 그대로 재생한다.
-  // 나이트 부츠 형태는 위에서 별도로 보정한다.
-  // 나이트 손목도 원래 로컬 각도를 유지하여 보정된 아래팔 방향을 자연스럽게 따른다.
+  // [직접 수정] 폰 B만 하체와 손목의 기존 자세를 유지한다.
   // 골반과 상체의 Idle은 계속 재생한다. 걷기 모션에는 이 제한을 그대로 사용하지 않는다.
   const animatedBones = bones.filter((bone) => {
     if (
@@ -191,8 +141,6 @@ export async function createNpcRig(data, materials) {
       return false;
     if (stationaryLegs && /^(thigh|shin|foot|toe)\.[LR]$/.test(bone.name))
       return false;
-    if (data.name === "Knight-4-2-right-foot" && /^hand\.[LR]$/.test(bone.name))
-      return false;
     return true;
   });
   const tracks = animatedBones.map(
@@ -205,29 +153,23 @@ export async function createNpcRig(data, materials) {
   );
   const clip = new THREE.AnimationClip("Idle", data.idle.duration, tracks);
   mixer.clipAction(clip).setLoop(THREE.LoopRepeat, Infinity).play();
-  // [직접 수정] 폰 B: 앞쪽 6도/바깥 4도. 나이트: 앞쪽 10도/바깥 4도. 매 프레임
+  // [직접 수정] 폰 B: 앞쪽 6도/바깥 4도. 매 프레임
   // 원래 Idle을 계산한 다음 보정하므로 회전이 누적되지 않는다.
   const rawArmRotations = new Map();
   const correctArms = () => {
-    if (!["Knight-4-2-right-foot", "pawn-B-11"].includes(data.name)) return;
+    if (data.name !== "pawn-B-11") return;
     group.updateMatrixWorld(true);
     const modelRotation = group.getWorldQuaternion(new THREE.Quaternion());
-    for (const [name, sign] of [
-      ["upper_arm.L", -1],
-      ["upper_arm.R", 1],
-    ]) {
+    for (const name of ["upper_arm.L", "upper_arm.R"]) {
       const arm = bones.find((b) => b.name === name);
       const parent = arm.parent.getWorldQuaternion(new THREE.Quaternion());
-      const pawn = data.name === "pawn-B-11";
       // 모델별 좌우 본 이름 차이를 고려해 폰 B는 실제 어깨 위치로 바깥 방향을 구한다.
-      const outward = pawn
-        ? Math.sign(
+      const outward = Math.sign(
             group.worldToLocal(arm.getWorldPosition(new THREE.Vector3())).x,
-          )
-        : sign;
+          );
       const delta = new THREE.Quaternion().setFromEuler(
         new THREE.Euler(
-          THREE.MathUtils.degToRad(pawn ? 6 : 10),
+          THREE.MathUtils.degToRad(6),
           0,
           THREE.MathUtils.degToRad(outward * 4),
           "XYZ",
@@ -256,3 +198,4 @@ export async function createNpcRig(data, materials) {
   };
   return group;
 }
+

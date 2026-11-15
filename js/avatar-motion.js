@@ -1,4 +1,5 @@
 import * as THREE from "../vendor/three.module.js";
+import { decodeBase64 } from "./base64.js";
 import packed from "../data/avatar-clips.json" with { type: "json" };
 import settings from "../data/motion-settings.json" with { type: "json" };
 import { gunzipSync, strFromU8 } from "../vendor/fflate.module.js";
@@ -7,7 +8,7 @@ import { createLocomotionState } from "./locomotion-state.js";
 // [구조 설명] 메시와 텍스처를 복제하지 않고 기존 본에 대기·걷기·달리기 클립을 적용한다.
 export const playerClips = JSON.parse(
   strFromU8(
-    gunzipSync(Uint8Array.from(atob(packed.data), (c) => c.charCodeAt(0))),
+    gunzipSync(decodeBase64(packed.data)),
   ),
 ).clips;
 
@@ -16,17 +17,9 @@ export function createAvatarMotion(bones, updateGarments) {
   const rest = bones.map((b) => b.quaternion.clone());
   const from = rest.map((q) => q.clone());
   // 위치 트랙이 있는 팔·망토 본만 보간한다. 쇄골과 목 뒤는 원래 자세를 따른다.
-  const translatedJoints = bones
-    .filter((b) =>
-      Object.values(playerClips).some((clip) => clip.positions?.[b.name]),
-    )
-    .map((bone) => ({
-      bone,
-      rest: bone.position.clone(),
-      from: bone.position.clone(),
-    }));
-  const target = new THREE.Vector3(),
-    nextPosition = new THREE.Vector3();
+  const translatedJoints = bones.filter(b => Object.values(playerClips).some(clip => clip.positions?.[b.name]))
+    .map(bone => ({ bone, rest: bone.position.clone(), from: bone.position.clone() }));
+  const target = new THREE.Vector3(), nextPosition = new THREE.Vector3();
   const qa = new THREE.Quaternion(),
     qb = new THREE.Quaternion();
   let state = "idle",
@@ -38,8 +31,7 @@ export function createAvatarMotion(bones, updateGarments) {
     if (next !== state) {
       // 전환 도중 다시 전환해도 현재 자세에서 출발하여 튀는 현상을 줄인다.
       bones.forEach((b, i) => from[i].copy(b.quaternion));
-      for (const joint of translatedJoints)
-        joint.from.copy(joint.bone.position);
+      for (const joint of translatedJoints) joint.from.copy(joint.bone.position);
       state = next;
       time = 0;
       blend = 0;
@@ -72,10 +64,7 @@ export function createAvatarMotion(bones, updateGarments) {
     });
     for (const joint of translatedJoints) {
       const positions = clip.positions?.[joint.bone.name];
-      if (positions)
-        target
-          .fromArray(positions, a * 3)
-          .lerp(nextPosition.fromArray(positions, b * 3), fraction);
+      if (positions) target.fromArray(positions, a*3).lerp(nextPosition.fromArray(positions, b*3), fraction);
       else target.copy(joint.rest);
       joint.bone.position.lerpVectors(joint.from, target, eased);
     }

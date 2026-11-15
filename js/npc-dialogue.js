@@ -10,6 +10,7 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
   // NPC 중심과 플레이어 사이의 수평 거리. 안내 표시와 F 입력에 함께 적용합니다.
   const interactionDistance = 3;
   let active = null;
+  let speaker = null;
   // 화면 검수 전용: ?npcPreview=knight|rook|pawn-b. 일반 접속에는 영향을 주지 않는다.
   const previewId =
     typeof location !== "undefined"
@@ -57,6 +58,8 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
       active = null;
       return;
     }
+    speaker = avatar;
+    speaker.userData.setTalking?.(true);
     reset();
     host.dataset.dialogueOpen = "true";
     document.querySelector(".popup").classList.add("dialogue-open");
@@ -83,6 +86,8 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
   }
   function close() {
     if (!active) return;
+    speaker?.userData.setTalking?.(false);
+    speaker = null;
     active = null;
     panel.hidden = true;
     host.dataset.dialogueOpen = "false";

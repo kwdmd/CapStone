@@ -1,167 +1,118 @@
-import * as THREE from "../vendor/three.module.js";
-import { prepareLightShaders } from "./light-shader-warmup.js";
 import { measureStage, yieldFrame, recordStage } from "./docent-performance.js";
 import { warmupDocent } from "./docent-warmup.js";
 import { waitForStartupTextures } from "./startup-textures.js";
 import { readResponse } from "./binary.js";
-
 import { createNpcRig } from "./npc-rig.js";
 import { createMapMaterials } from "./map-materials.js";
+import { loadKnightModel } from "./knight-model.js";
 import placements from "../data/npcs.json";
-// [직접 수정] data/npcs.json에서 x/y/z와 rotation(라디안)을 바꾼다. scale은 높이 1.8 기준 배율이다.
-// Idle.fbx 대기 모션을 반복 재생한다. 이동·대화 기능은 별도이다.
-export function addNpcs(scene, renderer, camera) {
+
+// Positions and common 1.8-unit model scaling come from data/npcs.json.
+// Knight uses its native GLB rig; Rook and Pawn B retain the binary worker path.
+export function addNpcs(scene, renderer, camera, getAttentionTarget = () => null) {
   const avatars = [];
-  let lightingPreparation = Promise.resolve();
-  const cylinders = placements.map((p) => ({
-    x: p.x,
-    z: p.z,
-    bottom: p.y,
-    top: p.y + 1.82 * (p.scale ?? 1),
-    radius: p.collisionRadius * (p.scale ?? 1),
+  const cylinders = placements.map(placement => ({
+    x: placement.x,
+    z: placement.z,
+    bottom: placement.y,
+    top: placement.y + 1.82 * (placement.scale ?? 1),
+    radius: placement.collisionRadius * (placement.scale ?? 1),
   }));
+
   async function load() {
-    const workerStart = performance.now();
-    const url = new URL("js/docent-worker.bundle.js", document.baseURI);
+    let worker;
+    let workerUrl;
     const local = location.protocol === "file:";
-    const workerUrl = local
-      ? URL.createObjectURL(
-          new Blob(
-            [await (await readResponse("js/docent-worker.bundle.js")).text()],
-            { type: "text/javascript" },
-          ),
-        )
-      : url;
-    const worker = new Worker(workerUrl);
-    recordStage("all", "worker-bootstrap", workerStart);
+
+    async function legacyWorker() {
+      if (worker) return worker;
+      const start = performance.now();
+      workerUrl = local
+        ? URL.createObjectURL(new Blob([
+          await (await readResponse("js/docent-worker.bundle.js")).text(),
+        ], { type: "text/javascript" }))
+        : new URL("js/docent-worker.bundle.js", document.baseURI);
+      worker = new Worker(workerUrl);
+      recordStage("all", "worker-bootstrap", start);
+      return worker;
+    }
+
+    async function loadLegacyNpc(placement) {
+      const decoder = await legacyWorker();
+      const response = await measureStage(placement.id, "asset-read", () =>
+        readResponse(`data/npc-${placement.id}.pack`));
+      if (!response.ok) throw new Error("도슨트 파일을 읽을 수 없습니다.");
+      const source = await measureStage(placement.id, "asset-buffer", () => response.arrayBuffer());
+      const data = await measureStage(placement.id, "worker-decode", () => new Promise((resolve, reject) => {
+        decoder.onmessage = ({ data: message }) => {
+          if (message.error) return reject(new Error(message.error));
+          if (message.timings) recordStage(placement.id, "worker-decode-detail", performance.now(), {
+            workerTimings: message.timings,
+          });
+          resolve(message.rig);
+        };
+        decoder.onerror = event => reject(new Error(event.message));
+        decoder.postMessage(source, [source]);
+      }));
+      await yieldFrame();
+      const materials = await measureStage(placement.id, "materials", () => createMapMaterials(data));
+      // Preserve the original texture transforms of the two legacy models.
+      materials.forEach((material, index) => {
+        for (const key of ["map", "normalMap", "roughnessMap", "metalnessMap", "emissiveMap"]) {
+          const transform = data.materials[index][`${key}Transform`];
+          if (!material[key] || !transform) continue;
+          const texture = material[key].clone();
+          texture.offset.fromArray(transform.offset);
+          texture.repeat.fromArray(transform.repeat);
+          texture.rotation = transform.rotation;
+          material[key] = texture;
+        }
+      });
+      return measureStage(placement.id, "rig-total-including-yields", () => createNpcRig(data, materials));
+    }
+
     try {
       for (const placement of placements) {
-        const response = await measureStage(placement.id, "asset-read", () =>
-          readResponse("data/npc-" + placement.id + ".pack"),
-        );
-        if (!response.ok) throw new Error("도슨트 파일을 읽을 수 없습니다.");
-        const source = await measureStage(placement.id, "asset-buffer", () =>
-          response.arrayBuffer(),
-        );
-        const data = await measureStage(
-          placement.id,
-          "worker-decode",
-          () =>
-            new Promise((resolve, reject) => {
-              worker.onmessage = ({ data }) => {
-                if (data.error) return reject(new Error(data.error));
-                if (data.timings)
-                  recordStage(
-                    placement.id,
-                    "worker-decode-detail",
-                    performance.now(),
-                    { workerTimings: data.timings },
-                  );
-                resolve(data.rig);
-              };
-              worker.onerror = (e) => reject(new Error(e.message));
-              worker.postMessage(source, [source]);
-            }),
-        );
-        await yieldFrame();
-        const materials = await measureStage(placement.id, "materials", () =>
-          createMapMaterials(data),
-        );
-        // Blender에서 가져온 이미지의 UV 변환도 보존한다. 공유 텍스처는 복제 후 개별 설정한다.
-        materials.forEach((material, i) => {
-          for (const key of [
-            "map",
-            "normalMap",
-            "roughnessMap",
-            "metalnessMap",
-            "emissiveMap",
-          ]) {
-            const transform = data.materials[i][key + "Transform"];
-            if (!material[key] || !transform) continue;
-            const texture = material[key].clone();
-            texture.offset.fromArray(transform.offset);
-            texture.repeat.fromArray(transform.repeat);
-            texture.rotation = transform.rotation;
-            material[key] = texture;
-          }
-        });
-        const group = await measureStage(
-          placement.id,
-          "rig-total-including-yields",
-          () => createNpcRig(data, materials),
-        );
+        const group = placement.id === "knight"
+          ? (await measureStage(placement.id, "native-glb-load", () => loadKnightModel())).group
+          : await loadLegacyNpc(placement);
         group.userData.npcId = placement.id;
-
-        // 개별 크기·위치·방향은 data/npcs.json에서 조절한다.
         group.scale.setScalar(placement.scale ?? 1);
         group.position.set(placement.x, placement.y, placement.z);
         group.rotation.y = placement.rotation;
-        // 파일 읽기·해독은 병행하고, GPU 준비는 맵·플레이어 조명 준비 이후 진행한다.
-        await lightingPreparation;
         await warmupDocent(group, scene, camera, renderer, placement.id);
-        // 도슨트가 나타나기 전에 별도 장면에서 광원 개수별 셰이더를 준비한다.
-        const lightingStage = new THREE.Scene();
-        lightingStage.environment = scene.environment;
-        lightingStage.fog = scene.fog;
-        lightingStage.userData.lightWarmupMaxCount =
-          scene.userData.lightWarmupMaxCount;
-        scene.children
-          .filter((object) => object.isLight)
-          .forEach((light) => lightingStage.add(light.clone()));
-        lightingStage.add(group);
-        try {
-          group.userData.lightShaderWarmup = await prepareLightShaders(
-            renderer,
-            lightingStage,
-            camera,
-          );
-          group.userData.lightShaderWarmupMaterials =
-            lightingStage.userData.lightShaderWarmupMaterials;
-        } finally {
-          lightingStage.remove(group);
-        }
         await yieldFrame();
         avatars.push(group);
         scene.add(group);
-        // [직접 수정] collisionRadius는 배율 적용 전 의상 폭 기준. 위치·크기는 도슨트 배치를 따른다.
       }
     } finally {
-      worker.terminate();
-      if (local) URL.revokeObjectURL(workerUrl);
+      worker?.terminate();
+      if (local && workerUrl) URL.revokeObjectURL(workerUrl);
     }
   }
-  let resolveReady, rejectReady;
-  const ready = new Promise((resolve, reject) => {
-    resolveReady = resolve;
-    rejectReady = reject;
-  });
+
   let started = false;
-  const update = (dt) =>
-    avatars.forEach((avatar) => avatar.userData.updateIdle(dt));
+  const update = dt => {
+    const target = getAttentionTarget();
+    for (const avatar of avatars) {
+      avatar.userData.setAttention?.(target);
+      avatar.userData.updateIdle(dt);
+    }
+  };
   update.begin = () => {
     if (started) return;
     started = true;
-    // 입력/렌더 루프는 계속 실행하고 도슨트 I/O만 뒤로 미룬다.
-    measureStage("all", "wait-startup-textures-including-yields", () =>
-      waitForStartupTextures(),
-    )
+    // Keep the map responsive while NPC textures, rigs and shaders prepare.
+    measureStage("all", "wait-startup-textures-including-yields", () => waitForStartupTextures())
       .then(load)
-      .then(resolveReady)
-      .catch((e) => {
-        rejectReady(e);
-        console.error(e);
-        window.dispatchEvent(
-          new ErrorEvent("error", {
-            message: "도슨트 로드 실패: " + e.message,
-            error: e,
-          }),
-        );
+      .catch(error => {
+        console.error(error);
+        window.dispatchEvent(new ErrorEvent("error", {
+          message: `도슨트 로드 실패: ${error.message}`,
+          error,
+        }));
       });
   };
-  update.setLightingPreparation = (promise) => {
-    lightingPreparation = promise;
-  };
-  update.ready = ready;
   update.avatars = avatars;
   update.cylinders = cylinders;
   return update;

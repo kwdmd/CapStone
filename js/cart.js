@@ -6,17 +6,12 @@ const basket = new Map();
 // 상품 상세창과 장바구니 버튼이 같은 수량을 사용한다.
 function publishCart() {
   const items = Array.from(basket.values());
-  document.dispatchEvent(
-    new CustomEvent("popup:cart-update", { detail: { items } }),
-  );
+  document.dispatchEvent(new CustomEvent("popup:cart-update", { detail: { items } }));
 }
 
 export function addCartItem(item) {
   const previous = basket.get(item.name);
-  basket.set(item.name, {
-    ...item,
-    quantity: (previous?.quantity ?? 0) + item.quantity,
-  });
+  basket.set(item.name, { ...item, quantity: (previous?.quantity ?? 0) + item.quantity });
   publishCart();
 }
 
@@ -72,16 +67,9 @@ export function initCart() {
     button.setAttribute("aria-label", `장바구니, 상품 ${count}개`);
     // 상단은 상품 종류 수, 아이콘 배지는 담긴 총 수량을 표시한다.
     countLabel.textContent = `${items.length}개 상품`;
-    const hasPrices = items.every(
-      (item) => Number.isFinite(item.price) && item.price >= 0,
-    );
-    const total = items.reduce(
-      (sum, item) => sum + (item.price || 0) * item.quantity,
-      0,
-    );
-    totalLabel.textContent = hasPrices
-      ? total.toLocaleString("ko-KR") + "원"
-      : "가격 준비 중";
+    const hasPrices = items.every(item => Number.isFinite(item.price) && item.price >= 0);
+    const total = items.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
+    totalLabel.textContent = hasPrices ? total.toLocaleString("ko-KR") + "원" : "가격 준비 중";
     checkout.disabled = count === 0 || !hasPrices;
     notice.hidden = true;
     list.classList.toggle("cart-empty", count === 0);
@@ -95,10 +83,7 @@ export function initCart() {
         thumbnail.src = item.image;
         thumbnail.alt = "";
         // [직접 수정] 비숍 키링의 장바구니 썸네일만 좌우반전한다.
-        thumbnail.classList.toggle(
-          "cart-image-mirrored",
-          item.image === "assets/products/bishop_2D.png",
-        );
+        thumbnail.classList.toggle("cart-image-mirrored", item.image === "assets/products/bishop_2D.png");
         row.append(thumbnail);
       }
       const label = document.createElement("span");
@@ -109,28 +94,19 @@ export function initCart() {
         btn.type = "button";
         btn.textContent = symbol;
         btn.setAttribute("aria-label", item.name + " " + action);
-        btn.onclick = (event) => {
+        btn.onclick = event => {
           event.stopPropagation();
           change();
           publishCart();
-          const next = [...list.querySelectorAll("button")].find(
-            (b) =>
-              !b.disabled &&
-              b.getAttribute("aria-label") === btn.getAttribute("aria-label"),
-          );
-          (
-            next ||
-            list.querySelector("button:not(:disabled)") ||
-            button
-          ).focus();
+          const next = [...list.querySelectorAll("button")].find(b =>
+            !b.disabled && b.getAttribute("aria-label") === btn.getAttribute("aria-label"));
+          (next || list.querySelector("button:not(:disabled)") || button).focus();
         };
         return btn;
       };
       const stepper = document.createElement("span");
       stepper.className = "cart-stepper";
-      const minus = control("−", "수량 줄이기", () =>
-        basket.set(item.name, { ...item, quantity: item.quantity - 1 }),
-      );
+      const minus = control("−", "수량 줄이기", () => basket.set(item.name, { ...item, quantity: item.quantity - 1 }));
       minus.disabled = item.quantity <= 1;
       const plus = control("+", "수량 늘리기", () => {
         basket.set(item.name, { ...item, quantity: item.quantity + 1 });
@@ -141,15 +117,13 @@ export function initCart() {
       // 상품별 금액은 단가 × 현재 수량으로 계산해 수량 변경 때 함께 갱신한다.
       const price = document.createElement("span");
       price.className = "cart-price";
-      price.textContent =
-        Number.isFinite(item.price) && item.price >= 0
-          ? (item.price * item.quantity).toLocaleString("ko-KR") + "원"
-          : "가격 준비 중";
+      price.textContent = Number.isFinite(item.price) && item.price >= 0
+        ? (item.price * item.quantity).toLocaleString("ko-KR") + "원"
+        : "가격 준비 중";
       label.append(price, stepper);
       const remove = control("×", "삭제", () => basket.delete(item.name));
       remove.className = "cart-remove";
-      remove.innerHTML =
-        '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></svg>';
+      remove.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></svg>';
       row.append(label, remove);
       list.append(row);
     }

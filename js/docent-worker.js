@@ -6,14 +6,10 @@ import { decodeNpcBinary } from "./npc-binary.js";
 self.onmessage = async ({ data: source }) => {
   try {
     const start = performance.now();
-    let bytes,
-      decompressor = "javascript-gzip",
-      fallbackReason;
+    let bytes, decompressor = "javascript-gzip", fallbackReason;
     if (typeof DecompressionStream === "function") {
       try {
-        const stream = new Blob([source])
-          .stream()
-          .pipeThrough(new DecompressionStream("gzip"));
+        const stream = new Blob([source]).stream().pipeThrough(new DecompressionStream("gzip"));
         bytes = new Uint8Array(await new Response(stream).arrayBuffer());
         decompressor = "native-gzip";
       } catch (error) {
@@ -25,18 +21,10 @@ self.onmessage = async ({ data: source }) => {
     const rig = decodeNpcBinary(bytes);
     const decoded = performance.now();
     // 공유 버퍼는 복제하지 않고 한 번만 소유권을 이전한다.
-    self.postMessage(
-      {
-        rig,
-        timings: {
-          decompressMs: unpacked - start,
-          metadataAndViewsMs: decoded - unpacked,
-          decompressor,
-          ...(fallbackReason ? { fallbackReason } : {}),
-        },
-      },
-      [bytes.buffer],
-    );
+    self.postMessage({ rig, timings: {
+      decompressMs: unpacked - start, metadataAndViewsMs: decoded - unpacked,
+      decompressor, ...(fallbackReason ? { fallbackReason } : {}),
+    } }, [bytes.buffer]);
   } catch (error) {
     self.postMessage({ error: error.message });
   }

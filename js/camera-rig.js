@@ -48,10 +48,7 @@ export function createCameraRig(camera, meshes, settings) {
         );
         cameraDistance = recoverCameraDistance(
           cameraDistance,
-          Math.max(
-            safe,
-            Math.min(settings.cameraCollisionMinDistance ?? 0, desiredDistance),
-          ),
+          Math.max(safe, Math.min(settings.cameraCollisionMinDistance ?? 0, desiredDistance)),
           dt,
           settings.cameraReturnSpeed,
           settings.cameraApproachSpeed ?? 6,

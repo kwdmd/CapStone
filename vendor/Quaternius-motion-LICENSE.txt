@@ -1,0 +1,12 @@
+Quaternius Universal Animation Library - Standard
+Author: Quaternius
+Source: https://quaternius.com/packs/universalanimationlibrary.html
+Download: https://quaternius.itch.io/universal-animation-library
+Clips used: Idle_Loop, Idle_Talking_Loop (in-place GLB export)
+
+License: CC0 1.0 Universal - Public Domain Dedication
+https://creativecommons.org/publicdomain/zero/1.0/
+
+The animation tracks have been retargeted to the existing Knight skeleton.
+The original character model and textures in this project are separate assets;
+this notice only describes the Quaternius animation source.

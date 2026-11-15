@@ -20,12 +20,10 @@
   "lampEmissiveIntensity": 1.6,
   "stringEmissiveIntensity": 1.2,
   "postEmissiveIntensity": 1.6,
-  "playerLightRadius": 15,
-  "playerLightFadeStart": 12,
-  "maxPlayerLights": null,
-  "showPlayerLightRange": false,
   "candleIntensity": 0.45,
   "candleDistance": 2.5,
   "candleHaloSize": 0.22,
-  "candleGroupRadius": 1.3
+  "candleGroupRadius": 1.3,
+  "playerLightRadius": 15,
+  "playerLightFadeStart": 12
 }

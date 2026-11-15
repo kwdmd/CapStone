@@ -1,4 +1,5 @@
 import * as THREE from "../vendor/three.module.js";
+import { decodeBase64 } from "./base64.js";
 import { gunzipSync } from "../vendor/fflate.module.js";
 import fit from "../data/cape-clearance.json" with { type: "json" };
 
@@ -14,14 +15,8 @@ function contactTexture() {
   const width = angles * tiles;
   const height = heights * Math.ceil(frames / tiles);
   const pixels = new Uint16Array(width * height);
-  const bytes = gunzipSync(
-    Uint8Array.from(atob(fit.grid), (c) => c.charCodeAt(0)),
-  );
-  const rows = new Uint16Array(
-    bytes.buffer,
-    bytes.byteOffset,
-    bytes.byteLength / 2,
-  );
+  const bytes = gunzipSync(decodeBase64(fit.grid));
+  const rows = new Uint16Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 2);
   for (let f = 0; f < frames; f++) {
     const x = (f % tiles) * angles;
     const y = Math.floor(f / tiles) * heights;
@@ -30,13 +25,7 @@ function contactTexture() {
       pixels.set(rows.subarray(src, src + angles), (y + h) * width + x);
     }
   }
-  sharedTexture = new THREE.DataTexture(
-    pixels,
-    width,
-    height,
-    THREE.RedIntegerFormat,
-    THREE.UnsignedShortType,
-  );
+  sharedTexture = new THREE.DataTexture(pixels, width, height, THREE.RedIntegerFormat, THREE.UnsignedShortType);
   sharedTexture.internalFormat = "R16UI";
   sharedTexture.needsUpdate = true;
   return sharedTexture;
@@ -49,7 +38,7 @@ uniform vec2 capeWeights;
 float clearanceAt(int frame, vec2 uv) {
   ivec2 tile = ivec2(frame % ${tiles}, frame / ${tiles}) * ivec2(${angles}, ${heights});
   ivec2 a = ivec2(floor(uv));
-  ivec2 b = ivec2((a.x + 1) % ${angles}, min(a.y + 1, ${heights - 1}));
+  ivec2 b = ivec2((a.x + 1) % ${angles}, min(a.y + 1, ${heights-1}));
   vec2 t = fract(uv);
   float low = mix(float(texelFetch(capeGrid,tile+a,0).r), float(texelFetch(capeGrid,tile+ivec2(b.x,a.y),0).r), t.x);
   float high = mix(float(texelFetch(capeGrid,tile+ivec2(a.x,b.y),0).r), float(texelFetch(capeGrid,tile+b,0).r), t.x);
@@ -59,7 +48,7 @@ vec3 capeContactOffset(vec3 point) {
   vec2 radial = point.xz - vec2(${center[0]},${center[1]});
   float radius = length(radial);
   float angle = fract(atan(radial.y, radial.x)/6.28318530718) * ${angles}.0;
-  vec2 uv = vec2(angle, clamp((point.y-${bottom})/(${top}-${bottom}),0.0,1.0)*${heights - 1}.0);
+  vec2 uv = vec2(angle, clamp((point.y-${bottom})/(${top}-${bottom}),0.0,1.0)*${heights-1}.0);
   float push = 0.0;
   for (int i=0; i<2; i++) {
     if (capeWeights[i] <= 0.0) continue;
@@ -77,32 +66,20 @@ vec3 capeContactOffset(vec3 point) {
 
 export function createCapeClearance() {
   const samples = states.map(() => new THREE.Vector3());
-  const weights = new THREE.Vector2(),
-    from = new THREE.Vector2();
+  const weights = new THREE.Vector2(), from = new THREE.Vector2();
   let previous;
   return {
     uniforms() {
-      return {
-        capeGrid: { value: contactTexture() },
-        capeFrames: { value: samples },
-        capeWeights: { value: weights },
-      };
+      return { capeGrid: {value:contactTexture()}, capeFrames: {value:samples}, capeWeights: {value:weights} };
     },
     update(state, a, b, fraction, blend) {
-      if (state !== previous) {
-        from.copy(weights);
-        previous = state;
-      }
+      if (state !== previous) { from.copy(weights); previous = state; }
       const index = states.indexOf(state);
       if (index >= 0) {
         const start = index === 0 ? 0 : fit.frames.idle;
-        samples[index].set(start + a, start + b, fraction);
+        samples[index].set(start+a,start+b,fraction);
       }
-      for (let i = 0; i < 2; i++)
-        weights.setComponent(
-          i,
-          from.getComponent(i) * (1 - blend) + (i === index ? blend : 0),
-        );
+      for (let i=0;i<2;i++) weights.setComponent(i,from.getComponent(i)*(1-blend)+(i===index?blend:0));
     },
   };
 }

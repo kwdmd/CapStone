@@ -23,15 +23,10 @@ export function createMovementInput(onChange = () => {}) {
   const held = new Map();
   let touch = { x: 0, z: 0, sprint: false };
   return {
-    setTouch(x, z, sprint = false) {
-      touch = { x, z, sprint };
-      onChange();
-    },
+    setTouch(x, z, sprint = false) { touch = { x, z, sprint }; onChange(); },
     axes() {
-      return {
-        x: Number(this.has("right")) - Number(this.has("left")) + touch.x,
-        z: Number(this.has("down")) - Number(this.has("up")) + touch.z,
-      };
+      return { x: Number(this.has("right")) - Number(this.has("left")) + touch.x,
+        z: Number(this.has("down")) - Number(this.has("up")) + touch.z };
     },
     has(direction) {
       if (direction === "sprint" && touch.sprint) return true;
