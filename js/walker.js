@@ -45,6 +45,8 @@ export function createWalker(player, meshes, settings, cylinders = [], fences = 
       if (blocked) return;
       if (objectWalls && touchesObjectWall(objectWalls, player, x, z, floor.point.y, playerRadius * surfaceRatio, playerHeight)) return;
       for (const fence of fences) {
+        // 낮은 부스 앞턱만 계단으로 취급합니다. 높은 측면·난간은 계속 차단합니다.
+        if (fence.isStep && fence.top - Math.min(player.y, floor.point.y) <= settings.stepHeight + 0.001) continue;
         if (Math.min(player.y, floor.point.y) >= fence.top ||
             Math.max(player.y, floor.point.y) + playerHeight <= fence.bottom) continue;
         const clearance = playerRadius + fence.thickness / 2;

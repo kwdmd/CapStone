@@ -49,7 +49,7 @@ export function addBoothCollision(scene, map) {
 
         const start=[a[0],a[2]],end=[b[0],b[2]];
         const key=[start,end].map(v=>v.map(n=>n.toFixed(2)).join(",")).sort().join("|")+low.toFixed(2)+high.toFixed(2);
-        if(!seen.has(key)){seen.add(key);barriers.push({start,end,bottom:low,top:high,thickness:0.04});}
+        if(!seen.has(key)){seen.add(key);barriers.push({start,end,bottom:low,top:high,thickness:0.04,isStep:frontLip});}
       }
     }
   }
@@ -63,7 +63,7 @@ export function addBoothCollision(scene, map) {
   const rails = new Map();
   for (const part of map) {
     const red = part.name === "Cylinder_1";
-    const castle = part.name === "Cylinder.006_0";
+    const castle = /^Cylinder\.006_\d+$/.test(part.name);
     if (!red && !castle && part.name !== "Cylinder_0") continue;
     for (let i = 0; i < part.indices.length; i += 3) {
       const points = [0, 1, 2].map(j => {
@@ -75,7 +75,8 @@ export function addBoothCollision(scene, map) {
       if (high - low < 0.1) continue;
       const radii = points.map(([x,,z]) => Math.hypot(x - 4, z - 14.27));
       if (castle) {
-        if (Math.abs(low - 9.48) > 0.03 || high > 10.02) continue;
+        // 새 성곽의 높이가 달라도 바닥에서 시작하는 안쪽 벽과 입구 단면을 선택합니다.
+        if (low < 9.43 || low > 9.65) continue;
         // 원본의 안쪽 성벽과 입구 양끝의 방사형 단면을 선택하고, 넓힌 좌표에 벽을 세운다.
         const source = part.castleSourcePositions ?? part.positions;
         const originalRadii = [0, 1, 2].map(j => {
@@ -94,7 +95,8 @@ export function addBoothCollision(scene, map) {
         if (Math.hypot(a[0] - b[0], a[2] - b[2]) < 0.035) continue;
         const start = [a[0], a[2]], end = [b[0], b[2]];
         const key = [start, end].map(p => p.map(n => n.toFixed(3)).join(",")).sort().join("|");
-        const bottom = castle || red ? low : high;
+        // 성벽 밑단이 바닥보다 살짝 높아도 충돌벽은 바닥부터 이어집니다.
+        const bottom = castle ? Math.min(low, 9.47677) : red ? low : high;
         const previous = rails.get(key);
         if (!previous || bottom > previous.bottom)
           rails.set(key, {start, end, bottom, top: bottom + 2.7, thickness: 0.04, isStairRail: true});
@@ -109,7 +111,8 @@ export function widenCastleEntrance(map) {
   const angle = 48.4 * Math.PI / 180;
   const dx = Math.cos(angle), dz = Math.sin(angle);
   return map.map(part => {
-    if (!/^Cylinder(?:_[012]|\.006_0)$/.test(part.name)) return part;
+    // 재질별로 분리된 성곽 전체에 같은 변형을 적용해 흑백 바닥의 경계를 유지합니다.
+    if (!/^Cylinder(?:_[012]|\.006_\d+)$/.test(part.name)) return part;
     const positions = part.positions.slice();
     for (let i = 0; i < positions.length; i += 3) {
       const x = positions[i] - 4, z = positions[i+2] - 14.27;
@@ -119,7 +122,9 @@ export function widenCastleEntrance(map) {
       positions[i] -= dz * offset;
       positions[i+2] += dx * offset;
     }
-    if (part.name === "Cylinder.006_0") return {...part, positions, castleSourcePositions: part.positions};
+    if (/^Cylinder\.006_\d+$/.test(part.name)) return {...part, positions, castleSourcePositions: part.positions};
     return {...part, positions};
   });
 }
+
+

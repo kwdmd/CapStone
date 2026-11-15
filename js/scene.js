@@ -1,10 +1,11 @@
+import { prepareLightShaders } from "./light-shader-warmup.js";
 import { bindTouchControls } from "./touch-controls.js";
 import { softenFloorReflections } from "./floor-materials.js";
 import { createLightingMeter } from "./lighting-meter.js";
 import { createWarmLighting } from "./warm-lighting.js";
 import lighting from "../data/lighting.json" with { type: "json" };
 import { showCollisionWalls, createPlayerCollisionDisplay } from "./collision-display.js";
-import { setStartupTextureRenderer } from "./startup-textures.js";
+import { setStartupTextureRenderer, waitForStartupTextures } from "./startup-textures.js";
 import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
 import objectWalls from "../data/object-walls.json";
 import { addDisplayGoods } from "./display-goods.js";
@@ -171,6 +172,22 @@ export async function startScene(initialView) {
   );
   bindTouchControls(host, renderer.domElement, player, input,
     delta => updateCamera.zoom(delta, third));
+  // 이동은 즉시 허용하고, 실제 광원만 준비 완료된 셰이더 개수까지 단계적으로 켠다.
+  scene.userData.lightPreparedCount = 0;
+  // 조명은 백그라운드에서 사전 준비하며 별도 안내 화면은 표시하지 않는다.
+  // Prepare map/player lighting without waiting for all docents; movement stays enabled.
+  const baseLightingReady = waitForStartupTextures()
+    .then(() => prepareLightShaders(renderer, scene, camera, count => {
+      scene.userData.lightPreparedCount = count;
+    }))
+    .then(result => {
+      scene.userData.baseLightShaderWarmup = result;
+      return result;
+    });
+  updateNpcs.setLightingPreparation(baseLightingReady);
+  Promise.all([baseLightingReady, updateNpcs.ready])
+    .then(([result]) => { scene.userData.lightShaderWarmup = result; })
+    .catch(error => { console.error("Lighting preparation failed", error); });
   const measureLighting = createLightingMeter();
   let previous = performance.now();
   let visualHeight = player.y;

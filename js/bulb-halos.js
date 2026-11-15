@@ -1,9 +1,9 @@
 import * as THREE from "../vendor/three.module.js";
 
 // 모든 후광을 한 번의 드로콜로 그린다. 실제 광원·충돌 메시를 추가하지 않는다.
-export function addBulbHalos(scene, lamps, bulbs, config) {
+export function addBulbHalos(scene, lamps, bulbs, config, candles = []) {
   const positions = [], sizes = [];
-  for (const [centers, size] of [[lamps, config.lampHaloSize], [bulbs, config.stringHaloSize]]) {
+  for (const [centers, size] of [[lamps, config.lampHaloSize], [bulbs, config.stringHaloSize], [candles, config.candleHaloSize]]) {
     for (const center of centers) {
       positions.push(center.x, center.y, center.z);
       sizes.push(size);

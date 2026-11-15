@@ -80,7 +80,12 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
     prompt.hidden=!nearby;
     if (nearby) {
       const product = products[nearby.userData.productId];
-      prompt.textContent = product ? "F · " + product.name + " 보기" : "F · " + profiles[nearby.userData.npcId].name + "와 대화";
+      // 터치 기기(태블릿 포함)는 클릭 안내만 표시하고, PC는 F 키 안내를 유지합니다.
+      const touch = (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0)
+        || (typeof matchMedia === "function" && matchMedia("(any-pointer: coarse)").matches);
+      const prefix = touch ? "" : "F · ";
+      prompt.textContent = prefix + (product ? product.name + " 보기" : profiles[nearby.userData.npcId].name + "와 대화");
     }
   }};
 }
+

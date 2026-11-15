@@ -14,7 +14,7 @@ export function initTouchGuide() {
   if (!enabled) return;
   document.documentElement.classList.add("touch-device");
   const guide = document.querySelector(".move-guide");
-  if (guide) guide.textContent = "조이스틱 살짝 밀기: 걷기 · 끝까지 밀기: 달리기\n한 손가락 드래그: 시점 회전\n두 손가락 벌리기·오므리기: 3인칭 확대·축소";
+  if (guide) guide.textContent = "밀어서 이동 · 달리기\n드래그로 둘러보기\n두 손가락으로 확대·축소";
 }
 
 export function bindTouchControls(host, canvas, player, input, zoom) {
@@ -25,7 +25,7 @@ export function bindTouchControls(host, canvas, player, input, zoom) {
   const pad = document.createElement("div");
   pad.className = "touch-joystick";
   pad.setAttribute("aria-label", "이동 조이스틱: 바깥쪽까지 밀면 달리기");
-  pad.innerHTML = '<span class="joystick-ring"></span><span class="joystick-knob"></span><span class="joystick-label">걷기 / 달리기</span>';
+  pad.innerHTML = '<span class="joystick-ring"></span><span class="joystick-knob"></span>';
   host.parentElement.append(pad);
   const knob = pad.querySelector(".joystick-knob");
   let stickId = null, running = false;
@@ -88,3 +88,8 @@ export function bindTouchControls(host, canvas, player, input, zoom) {
   }).observe(host, { attributes: true, attributeFilter: ["data-dialogue-open"] });
 
 }
+
+
+
+
+

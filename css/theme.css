@@ -144,3 +144,108 @@ button:focus-visible { outline: 3px solid #b88b43; outline-offset: 3px; }
   outline: none;
   box-shadow: none;
 }
+
+/* [직접 수정] 닫기 X의 호버 배경과 주황색 포커스 링을 표시하지 않습니다. */
+.cart .cart-close:hover, #productDetail .product-close:hover, .ticket-close:hover {
+  background: transparent;
+  box-shadow: none;
+}
+button:focus-visible, .controls button:focus-visible, .cart button:focus-visible,
+.npc-ticket button:focus-visible, .npc-prompt:focus-visible {
+  outline: none;
+}
+
+/* [직접 수정] 상단 도구 모음·이동 안내·상호작용 안내는 양 끝이 반원인 캡슐 형태입니다.
+   모바일 미디어 규칙 뒤에 두어 화면 크기에 관계없이 같은 형태를 유지합니다. */
+.controls,
+.move-guide,
+.npc-prompt {
+  border-radius: 999px;
+}
+/* 도구 버튼의 호버 배경도 둥근 외곽에 맞춥니다. */
+.controls button {
+  border-radius: 999px;
+}
+
+/* [직접 수정] 모바일 대화창 최대 높이: 65를 60으로 바꾸면 더 작아집니다.
+   dvh는 Safari 주소창이 차지하는 높이를 반영합니다. 헤더/X는 고정하고 본문만 스크롤합니다. */
+@media (max-width: 700px), (pointer: coarse) {
+  .npc-ticket {
+    max-height: 65vh;
+    max-height: 65dvh;
+    min-height: 0;
+    overflow: hidden;
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .ticket-content {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 16px 24px;
+  }
+  #npcText { margin: 8px 0 12px; line-height: 1.6; }
+  .ticket-actions { gap: 6px; }
+}
+@media (max-width: 700px) {
+  .npc-ticket { display: flex; flex-direction: column; }
+  .ticket-stub {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 8px 52px 8px 60px;
+    gap: 10px;
+  }
+  .ticket-content { flex: 0 1 auto; }
+  .ticket-actions button { padding: 8px 12px; min-height: 44px; }
+}
+
+
+/* [직접 수정] 로고와 우측 아이콘의 세로 중심을 같은 상단 행에 정렬합니다.
+   모바일에서도 아이콘을 두 번째 행으로 내리지 않습니다. */
+.brand { top: var(--edge); min-height: 54px; }
+.right-panel { top: var(--edge); }
+@media (max-width: 700px) {
+  .brand { min-height: 50px; }
+}
+@media (max-width: 420px) {
+  .brand { min-height: 54px; }
+}
+@media (max-width: 340px) {
+  .controls button { width: 40px; }
+  .brand-name { font-size: 15px; }
+}
+
+/* [직접 수정] 휴대폰 도구 모음: 화면 폭에 따라 버튼 30~36px, 아이콘 18~21px.
+   로고와 세로 중심을 맞추며 PC/태블릿의 기존 크기는 유지합니다. */
+@media (max-width: 700px) {
+  .controls {
+    --mobile-control-size: clamp(30px, 8.2vw, 36px);
+    gap: 2px;
+    padding: 3px 5px;
+  }
+  .controls button {
+    width: var(--mobile-control-size);
+    height: var(--mobile-control-size);
+    flex: 0 0 var(--mobile-control-size);
+  }
+  .controls button svg,
+  .controls .stable-icon {
+    width: clamp(18px, 5vw, 21px);
+    height: clamp(18px, 5vw, 21px);
+  }
+  .brand { min-height: calc(clamp(30px, 8.2vw, 36px) + 8px); }
+}
+
+
+/* [직접 수정] 터치 화면의 조이스틱과 안내문 하단을 같은 기준선에 맞춥니다. */
+.touch-device { --touch-bottom: max(36px, env(safe-area-inset-bottom)); }
+.touch-device .touch-joystick,
+.touch-device .move-guide { bottom: var(--touch-bottom); }
+@media (max-height: 500px) and (orientation: landscape) {
+  .touch-device { --touch-bottom: max(28px, env(safe-area-inset-bottom)); }
+}
+
+
+/* [직접 수정] 모바일 상품 보기/NPC 대화 버튼도 하단 공통 기준선을 사용합니다. */
+.touch-device .npc-prompt { bottom: var(--touch-bottom); }
+

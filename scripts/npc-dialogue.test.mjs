@@ -36,20 +36,13 @@ keys.keydown({code:'Escape',preventDefault(){}});
 player.x=22.2;player.z=2.2;dialogue.update();assert.equal(elements.npcPrompt.hidden,true);
 console.log('PASS: 3-unit interaction boundary, out-of-range F blocked, diagonal distance');
 
-// 모바일 이동 안내 및 폰B의 네 번째 구매 안내도 확인한다.
-globalThis.matchMedia = () => ({ matches: true });
-player.x=20;player.z=0;
-elements.npcPrompt.handlers.click();
-buttons[0].handlers.click();
-assert.ok(elements.npcText.textContent.includes('조이스틱'));
-assert.equal(buttons[3].hidden,true);
-elements.npcClose.handlers.click();
-player.x=40;
-elements.npcPrompt.handlers.click();
-assert.equal(buttons[3].hidden,false);
-buttons[3].handlers.click();
-assert.ok(elements.npcText.textContent.includes('결제 기능은 아직 준비 중'));
-assert.equal(elements.npcClose.textContent,'×');
-assert.equal(elements.npcClose['aria-label'],'NPC 대화창 닫기');
-elements.npcClose.handlers.click();
-console.log('PASS: touch instructions, per-NPC questions and checkout notice');
+// 복구된 이전 대사와 세 개의 질문, 닫기 버튼을 확인한다.
+const profiles=JSON.parse((await import('node:fs')).readFileSync(new URL('../data/npc-dialogues.json',import.meta.url)));
+for(const [i,id] of ['rook','knight','pawn-b'].entries()){
+ player.x=i*20;player.z=0;elements.npcPrompt.handlers.click();
+ assert.equal(elements.npcText.textContent,profiles[id].intro);
+ assert.equal(buttons[3].hidden,true);
+ for(let j=0;j<3;j++){buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].text);}
+ assert.equal(elements.npcClose.textContent,'×');elements.npcClose.handlers.click();
+}
+console.log('PASS: restored introductions, chess explanations and visitor guidance');

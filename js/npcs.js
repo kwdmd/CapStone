@@ -1,3 +1,5 @@
+import * as THREE from "../vendor/three.module.js";
+import { prepareLightShaders } from "./light-shader-warmup.js";
 import { measureStage, yieldFrame, recordStage } from "./docent-performance.js";
 import { warmupDocent } from "./docent-warmup.js";
 import { waitForStartupTextures } from "./startup-textures.js";
@@ -10,6 +12,7 @@ import placements from "../data/npcs.json";
 // Idle.fbx 대기 모션을 반복 재생한다. 이동·대화 기능은 별도이다.
 export function addNpcs(scene, renderer, camera) {
   const avatars = [];
+  let lightingPreparation = Promise.resolve();
   const cylinders = placements.map(p=>({x:p.x,z:p.z,bottom:p.y,top:p.y+1.82*(p.scale??1),radius:p.collisionRadius*(p.scale??1)}));
   async function load(){
   const workerStart=performance.now();
@@ -59,7 +62,22 @@ export function addNpcs(scene, renderer, camera) {
     group.scale.setScalar(placement.scale ?? 1);
     group.position.set(placement.x, placement.y, placement.z);
     group.rotation.y = placement.rotation;
+    // Fetch/decode can overlap base preparation; GPU work waits for it.
+    await lightingPreparation;
     await warmupDocent(group, scene, camera, renderer, placement.id);
+    // Prepare each docent off-scene before revealing it under dynamic lights.
+    const lightingStage = new THREE.Scene();
+    lightingStage.environment = scene.environment;
+    lightingStage.fog = scene.fog;
+    lightingStage.userData.lightWarmupMaxCount = scene.userData.lightWarmupMaxCount;
+    scene.children.filter(object => object.isLight).forEach(light => lightingStage.add(light.clone()));
+    lightingStage.add(group);
+    try {
+      group.userData.lightShaderWarmup = await prepareLightShaders(renderer, lightingStage, camera);
+      group.userData.lightShaderWarmupMaterials = lightingStage.userData.lightShaderWarmupMaterials;
+    } finally {
+      lightingStage.remove(group);
+    }
     await yieldFrame();
     avatars.push(group);
     scene.add(group);
@@ -68,6 +86,8 @@ export function addNpcs(scene, renderer, camera) {
   }
   } finally { worker.terminate(); if (local) URL.revokeObjectURL(workerUrl); }
   }
+  let resolveReady, rejectReady;
+  const ready = new Promise((resolve,reject) => {resolveReady=resolve;rejectReady=reject;});
   let started=false;
   const update = (dt) => avatars.forEach((avatar) => avatar.userData.updateIdle(dt));
   update.begin=()=>{
@@ -75,9 +95,11 @@ export function addNpcs(scene, renderer, camera) {
     started=true;
     // 입력/렌더 루프는 계속 실행하고 도슨트 I/O만 뒤로 미룬다.
     measureStage("all", "wait-startup-textures-including-yields", () => waitForStartupTextures())
-      .then(load)
-      .catch(e=>{console.error(e);window.dispatchEvent(new ErrorEvent("error", {message: "도슨트 로드 실패: "+e.message, error:e}));});
+      .then(load).then(resolveReady)
+      .catch(e=>{rejectReady(e);console.error(e);window.dispatchEvent(new ErrorEvent("error", {message: "도슨트 로드 실패: "+e.message, error:e}));});
   };
+  update.setLightingPreparation = promise => { lightingPreparation = promise; };
+  update.ready = ready;
   update.avatars = avatars;
   update.cylinders = cylinders;
   return update;
