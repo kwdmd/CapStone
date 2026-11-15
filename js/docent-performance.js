@@ -2,12 +2,24 @@
 export const docentTimings = [];
 export function recordStage(id, stage, start, details = {}) {
   const end = performance.now();
-  docentTimings.push({ id, stage, startMs: start, endMs: end, durationMs: end - start, ...details });
+  docentTimings.push({
+    id,
+    stage,
+    startMs: start,
+    endMs: end,
+    durationMs: end - start,
+    ...details,
+  });
 }
 // rAF 콜백 안에서 바로 무거운 작업을 하면 그 프레임의 paint를 막는다.
 // 다음 프레임의 paint 기회를 준 뒤 작업을 이어간다.
-export const yieldFrame = () => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
+export const yieldFrame = () =>
+  new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
 export async function measureStage(id, stage, task) {
   const start = performance.now();
-  try { return await task(); } finally { recordStage(id, stage, start); }
+  try {
+    return await task();
+  } finally {
+    recordStage(id, stage, start);
+  }
 }

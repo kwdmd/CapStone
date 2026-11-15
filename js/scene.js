@@ -4,8 +4,14 @@ import { softenFloorReflections } from "./floor-materials.js";
 import { createLightingMeter } from "./lighting-meter.js";
 import { createWarmLighting } from "./warm-lighting.js";
 import lighting from "../data/lighting.json" with { type: "json" };
-import { showCollisionWalls, createPlayerCollisionDisplay } from "./collision-display.js";
-import { setStartupTextureRenderer, waitForStartupTextures } from "./startup-textures.js";
+import {
+  showCollisionWalls,
+  createPlayerCollisionDisplay,
+} from "./collision-display.js";
+import {
+  setStartupTextureRenderer,
+  waitForStartupTextures,
+} from "./startup-textures.js";
 import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
 import objectWalls from "../data/object-walls.json";
 import { addDisplayGoods } from "./display-goods.js";
@@ -15,7 +21,7 @@ import fenceWalls from "../data/fence-walls.json";
 import { createWalker } from "./walker.js";
 import { wheelPixels } from "./camera-zoom.js";
 import { createGeometry } from "./geometry.js";
-import { createAvatar,rigReady } from "./avatar.js";
+import { createAvatar, rigReady } from "./avatar.js";
 import { bindSceneInput } from "./scene-input.js";
 import { createCameraRig } from "./camera-rig.js";
 import * as THREE from "../vendor/three.module.js";
@@ -25,10 +31,9 @@ import settings from "../data/scene.json";
 import motionSettings from "../data/motion-settings.json";
 import { createMovementInput } from "./movement-input.js";
 
-// [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
-// 원본 재질·UV·노멀을 함께 사용한다.
+// 변환된 맵 데이터와 원본 재질·UV·노멀을 함께 사용한다.
 export async function startScene(initialView) {
-  const [readyMap]=await Promise.all([mapData,rigReady,materialsReady]);
+  const [readyMap] = await Promise.all([mapData, rigReady, materialsReady]);
   const host = document.getElementById("scene");
   const status = document.getElementById("sceneStatus");
   let renderer;
@@ -47,8 +52,13 @@ export async function startScene(initialView) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color("#000000");
   const camera = new THREE.PerspectiveCamera(48, 1, 0.08, 250);
-  scene.add(new THREE.HemisphereLight(0xffefd9, 0x77818d, lighting.hemisphereIntensity));
-  const sunlight = new THREE.DirectionalLight(0xffe4bf, lighting.directionalIntensity);
+  scene.add(
+    new THREE.HemisphereLight(0xffefd9, 0x77818d, lighting.hemisphereIntensity),
+  );
+  const sunlight = new THREE.DirectionalLight(
+    0xffe4bf,
+    lighting.directionalIntensity,
+  );
   sunlight.position.set(-25, 55, 30);
   scene.add(sunlight);
   const meshes = [];
@@ -58,7 +68,10 @@ export async function startScene(initialView) {
   for (const data of walkableMap) {
     const geometry = createGeometry(data);
     // 리본 기물은 본체의 받침 폭과 높이를 기준으로 이동을 막는다.
-    const giftBox = /^(?:Cube\.(?:01[7-9]|02[0-3]|035|036|040)|Cylinder\.(?:02[1-3]|046|047))_0$/.test(data.name);
+    const giftBox =
+      /^(?:Cube\.(?:01[7-9]|02[0-3]|035|036|040)|Cylinder\.(?:02[1-3]|046|047))_0$/.test(
+        data.name,
+      );
     if (giftBox || /^Cylinder\.(007|015|016|020)_0$/.test(data.name)) {
       geometry.computeBoundingBox();
       const { min, max } = geometry.boundingBox;
@@ -69,7 +82,10 @@ export async function startScene(initialView) {
         // Include rotated lid corners in the gift collider.
         const vertices = geometry.getAttribute("position");
         for (let i = 0; i < vertices.count; i++) {
-          radius = Math.max(radius, Math.hypot(vertices.getX(i) - x, vertices.getZ(i) - z));
+          radius = Math.max(
+            radius,
+            Math.hypot(vertices.getX(i) - x, vertices.getZ(i) - z),
+          );
         }
       }
       pieceCylinders.push({
@@ -80,7 +96,7 @@ export async function startScene(initialView) {
         top: max.y,
       });
     }
-    // 원본 FBX의 면별 재질을 연결한다.
+    // 원본 모델의 면별 재질을 연결한다.
     for (const [start, count, materialIndex] of data.groups || [])
       geometry.addGroup(start, count, materialIndex);
     const mesh = new THREE.Mesh(geometry, mapMaterials);
@@ -94,11 +110,10 @@ export async function startScene(initialView) {
   // [직접 수정] 현재 FBX의 정면이 -Z이므로 180도 보정. +Z 정면 모델로 교체하면 0으로 변경하세요.
   const avatarFacingOffset = Math.PI;
   const avatar = createAvatar();
-  // [직접 수정] 모든 캐릭터의 공통 크기는 scene.json의 characterScale에서 조절한다.
+  // [직접 수정] 플레이어 크기는 scene.json의 characterScale에서 조절한다.
   avatar.scale.setScalar(settings.characterScale ?? 1);
   scene.add(avatar);
-  // [직접 수정] data/scene.json의 spawn=[X,Z]는 시작 위치. 높이 Y는 바닥에서 자동 계산.
-  // 시작 위치와 방향은 scene.json의 spawn, spawnYaw에서 설정한다.
+  // [직접 수정] scene.json의 spawn=[X,Z], spawnYaw로 시작 위치·방향을 설정한다. 높이는 바닥에서 계산한다.
   const player = {
     x: settings.spawn[0],
     y: 0,
@@ -116,7 +131,7 @@ export async function startScene(initialView) {
       .intersectObjects(meshes, false)
       .find((hit) => Math.abs(hit.face.normal.y) > 0.55);
   };
-  // [구조 설명] 임시 전시 아바타는 사용자 캐릭터와 별도로 배치한다.
+  // 전시 상품의 상호작용과 도슨트를 연결한다.
   const goods = addDisplayGoods(scene, meshes);
   const updateNpcs = addNpcs(scene, renderer, camera);
   const spawnHit = ground(player.x, player.z);
@@ -129,13 +144,34 @@ export async function startScene(initialView) {
   let third = initialView !== "first-person";
   const input = createMovementInput();
   const reset = bindSceneInput(host, renderer.domElement, player, input);
-  const dialogue = bindNpcDialogue({ host, avatars: updateNpcs.avatars, goods, player, reset });
+  const dialogue = bindNpcDialogue({
+    host,
+    avatars: updateNpcs.avatars,
+    goods,
+    player,
+    reset,
+  });
   const boothWalls = addBoothCollision(scene, walkableMap);
   // [직접 수정] scene.json의 showCollisionBounds를 false로 바꾸면 표시를 숨긴다.
   // 표시용 메시는 실제 충돌 검사에 추가하지 않는다.
-  if (settings.showCollisionBounds) showCollisionWalls(scene, objectWalls, pieceCylinders.concat(updateNpcs.cylinders), [...fenceWalls, ...boothWalls]);
-  const playerCollisionDisplay = settings.showCollisionBounds ? createPlayerCollisionDisplay(scene, settings) : null;
-  const tryMove = createWalker(player, meshes, settings, pieceCylinders.concat(updateNpcs.cylinders), [...fenceWalls, ...boothWalls], objectWalls);
+  if (settings.showCollisionBounds)
+    showCollisionWalls(
+      scene,
+      objectWalls,
+      pieceCylinders.concat(updateNpcs.cylinders),
+      [...fenceWalls, ...boothWalls],
+    );
+  const playerCollisionDisplay = settings.showCollisionBounds
+    ? createPlayerCollisionDisplay(scene, settings)
+    : null;
+  const tryMove = createWalker(
+    player,
+    meshes,
+    settings,
+    pieceCylinders.concat(updateNpcs.cylinders),
+    [...fenceWalls, ...boothWalls],
+    objectWalls,
+  );
   document.addEventListener("popup:view-change", (event) => {
     if (!third) avatar.rotation.y = player.yaw + Math.PI + avatarFacingOffset;
     third = event.detail !== "first-person";
@@ -154,8 +190,11 @@ export async function startScene(initialView) {
   new ResizeObserver(resize).observe(host);
   resize();
   // 전구를 매단 줄과 전구 조각은 카메라가 통과할 수 있는 장식이다.
-  const hangingLights = /^(?:NurbsPath\.00[2-7]_0|Sphere\.(?:015|016|017|019|020|021)_[01])$/;
-  const cameraObstacles = meshes.filter(mesh => !hangingLights.test(mesh.name));
+  const hangingLights =
+    /^(?:NurbsPath\.00[2-7]_0|Sphere\.(?:015|016|017|019|020|021)_[01])$/;
+  const cameraObstacles = meshes.filter(
+    (mesh) => !hangingLights.test(mesh.name),
+  );
   const updateCamera = createCameraRig(camera, cameraObstacles, settings);
   // [구조 설명] 맵 위의 휠만 처리하여 장바구니 스크롤과 충돌하지 않는다.
   renderer.domElement.addEventListener(
@@ -170,24 +209,31 @@ export async function startScene(initialView) {
     },
     { passive: false },
   );
-  bindTouchControls(host, renderer.domElement, player, input,
-    delta => updateCamera.zoom(delta, third));
+  bindTouchControls(host, renderer.domElement, player, input, (delta) =>
+    updateCamera.zoom(delta, third),
+  );
   // 이동은 즉시 허용하고, 실제 광원만 준비 완료된 셰이더 개수까지 단계적으로 켠다.
   scene.userData.lightPreparedCount = 0;
   // 조명은 백그라운드에서 사전 준비하며 별도 안내 화면은 표시하지 않는다.
-  // Prepare map/player lighting without waiting for all docents; movement stays enabled.
+  // 도슨트를 기다리지 않고 맵·플레이어 조명을 준비한다. 준비 중에도 이동할 수 있다.
   const baseLightingReady = waitForStartupTextures()
-    .then(() => prepareLightShaders(renderer, scene, camera, count => {
-      scene.userData.lightPreparedCount = count;
-    }))
-    .then(result => {
+    .then(() =>
+      prepareLightShaders(renderer, scene, camera, (count) => {
+        scene.userData.lightPreparedCount = count;
+      }),
+    )
+    .then((result) => {
       scene.userData.baseLightShaderWarmup = result;
       return result;
     });
   updateNpcs.setLightingPreparation(baseLightingReady);
   Promise.all([baseLightingReady, updateNpcs.ready])
-    .then(([result]) => { scene.userData.lightShaderWarmup = result; })
-    .catch(error => { console.error("Lighting preparation failed", error); });
+    .then(([result]) => {
+      scene.userData.lightShaderWarmup = result;
+    })
+    .catch((error) => {
+      console.error("Lighting preparation failed", error);
+    });
   const measureLighting = createLightingMeter();
   let previous = performance.now();
   let visualHeight = player.y;
@@ -203,14 +249,14 @@ export async function startScene(initialView) {
     const sprinting = input.has("sprint");
     if (length && !dialogue.isOpen()) {
       const speed =
-        ((sprinting ? settings.runSpeed : settings.walkSpeed) * dt) /
-        length;
+        ((sprinting ? settings.runSpeed : settings.walkSpeed) * dt) / length;
       x *= speed;
       z *= speed;
       const dx = x * Math.cos(player.yaw) + z * Math.sin(player.yaw);
       const dz = -x * Math.sin(player.yaw) + z * Math.cos(player.yaw);
       // 원통에 한 축이 막혀도 입력한 이동 방향을 바라본다.
-      if (third && dt > 0) avatar.rotation.y = Math.atan2(dx, dz) + avatarFacingOffset;
+      if (third && dt > 0)
+        avatar.rotation.y = Math.atan2(dx, dz) + avatarFacingOffset;
       tryMove(dx, 0);
       tryMove(0, dz);
     }
@@ -219,7 +265,11 @@ export async function startScene(initialView) {
     const movedX = player.x - oldX,
       movedZ = player.z - oldZ;
     const actualSpeed = dt > 0 ? Math.hypot(movedX, movedZ) / dt : 0;
-    avatar.userData.motionState = avatar.userData.updateMotion(dt, actualSpeed, sprinting);
+    avatar.userData.motionState = avatar.userData.updateMotion(
+      dt,
+      actualSpeed,
+      sprinting,
+    );
     // 이동 판정은 실제 바닥 높이를 사용하고, 표시 높이만 완만하게 따라가게 한다.
     visualHeight +=
       (player.y - visualHeight) *
@@ -237,10 +287,3 @@ export async function startScene(initialView) {
   }
   requestAnimationFrame(animate);
 }
-
-
-
-
-
-
-

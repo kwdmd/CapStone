@@ -17,30 +17,42 @@ export function createProductOrbit() {
   const center = new THREE.Vector3();
   let model, yaw, pitch, distance, drag;
   function draw() {
-    camera.position.setFromSphericalCoords(distance, Math.PI / 2 - pitch, yaw).add(center);
+    camera.position
+      .setFromSphericalCoords(distance, Math.PI / 2 - pitch, yaw)
+      .add(center);
     camera.lookAt(center);
     renderer.render(scene, camera);
   }
   function rotate(dx, dy) {
-    yaw -= dx * .012;
-    pitch = THREE.MathUtils.clamp(pitch + dy * .012, -1.48, 1.48);
+    yaw -= dx * 0.012;
+    pitch = THREE.MathUtils.clamp(pitch + dy * 0.012, -1.48, 1.48);
     draw();
   }
-  canvas.onpointerdown = event => {
+  canvas.onpointerdown = (event) => {
     if (drag || event.button !== 0) return;
     canvas.setPointerCapture(event.pointerId);
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
   };
-  canvas.onpointermove = event => {
+  canvas.onpointermove = (event) => {
     if (drag?.id !== event.pointerId) return;
     rotate(event.clientX - drag.x, event.clientY - drag.y);
     drag.x = event.clientX;
     drag.y = event.clientY;
   };
-  canvas.onlostpointercapture = () => { drag = null; };
-  canvas.onkeydown = event => {
-    const delta = { ArrowLeft: [-10,0], ArrowRight: [10,0], ArrowUp: [0,10], ArrowDown: [0,-10] }[event.key];
-    if (delta) { event.preventDefault(); rotate(...delta); }
+  canvas.onlostpointercapture = () => {
+    drag = null;
+  };
+  canvas.onkeydown = (event) => {
+    const delta = {
+      ArrowLeft: [-10, 0],
+      ArrowRight: [10, 0],
+      ArrowUp: [0, 10],
+      ArrowDown: [0, -10],
+    }[event.key];
+    if (delta) {
+      event.preventDefault();
+      rotate(...delta);
+    }
   };
   return {
     show(holder, group) {
@@ -50,9 +62,12 @@ export function createProductOrbit() {
       scene.add(model);
       const bounds = new THREE.Box3().setFromObject(model);
       bounds.getCenter(center);
-      distance = bounds.getBoundingSphere(new THREE.Sphere()).radius / Math.sin(THREE.MathUtils.degToRad(16)) * 1.04;
-      yaw = group.userData.productId === "bishop" ? .75 : Math.PI / 2;
-      pitch = .14;
+      distance =
+        (bounds.getBoundingSphere(new THREE.Sphere()).radius /
+          Math.sin(THREE.MathUtils.degToRad(16))) *
+        1.04;
+      yaw = group.userData.productId === "bishop" ? 0.75 : Math.PI / 2;
+      pitch = 0.14;
       drag = null;
       holder.replaceChildren(canvas);
       const size = Math.max(1, holder.clientWidth);

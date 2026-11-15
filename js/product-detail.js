@@ -10,41 +10,46 @@ export const products = {
     name: "폰 (남) 포토카드",
     price: 6000,
     spec: "SIZE: 55 × 85 mm\n소재: 아트지",
-    description: "체스 갬빗의 캐릭터를 선명한 컬러로 담은 포토카드.\n작은 카드 한 장으로 전시의 즐거운 순간을 간직하고, 좋아하는 공간을 꾸며 보세요."
+    description:
+      "체스 갬빗의 캐릭터를 선명한 컬러로 담은 포토카드.\n작은 카드 한 장으로 전시의 즐거운 순간을 간직하고, 좋아하는 공간을 꾸며 보세요.",
   },
   "photocard-b": {
     image: "assets/products/photocard-b.png",
     name: "폰 (여) 포토카드",
     price: 6000,
     spec: "SIZE: 55 × 85 mm\n소재: 아트지",
-    description: "장난스러운 표정과 경쾌한 색감이 매력적인 체스 갬빗 포토카드.\n다이어리나 카드 홀더에 넣어 나만의 컬렉션을 완성해 보세요."
+    description:
+      "장난스러운 표정과 경쾌한 색감이 매력적인 체스 갬빗 포토카드.\n다이어리나 카드 홀더에 넣어 나만의 컬렉션을 완성해 보세요.",
   },
-  "queen": {
+  queen: {
     image: "assets/products/queen_2D.png",
-    "name": "QUEEN 아크릴 스탠드",
-    "price": 16000,
-    "spec": commonSpec,
-    "description": "가로와 세로, 대각선을 자유롭게 누비는 퀸.\n왕관과 붉은 드레스를 갖춘 퀸을 체스판 무늬 받침대에 세워 보세요."
+    name: "QUEEN 아크릴 스탠드",
+    price: 16000,
+    spec: commonSpec,
+    description:
+      "가로와 세로, 대각선을 자유롭게 누비는 퀸.\n왕관과 붉은 드레스를 갖춘 퀸을 체스판 무늬 받침대에 세워 보세요.",
   },
-  "king": {
+  king: {
     image: "assets/products/king_2D.png",
-    "name": "KING 아크릴 스탠드",
-    "price": 16000,
-    "spec": commonSpec,
-    "description": "한 번에 한 칸씩 움직이는 킹은 마지막까지 지켜야 할 기물이에요.\n킹을 책상 위에 세우거나 퀸 스탠드와 나란히 전시해 보세요."
+    name: "KING 아크릴 스탠드",
+    price: 16000,
+    spec: commonSpec,
+    description:
+      "한 번에 한 칸씩 움직이는 킹은 마지막까지 지켜야 할 기물이에요.\n킹을 책상 위에 세우거나 퀸 스탠드와 나란히 전시해 보세요.",
   },
-  "bishop": {
+  bishop: {
     image: "assets/products/bishop_2D.png",
-    "name": "BISHOP 키링",
-    "price": 16000,
-    "spec": commonSpec,
-    "description": "같은 색 칸을 따라 대각선으로 움직이는 비숍.\n가방이나 열쇠에 달아 전시장에서 만난 비숍과 일상을 함께해 보세요."
-  }
+    name: "BISHOP 키링",
+    price: 16000,
+    spec: commonSpec,
+    description:
+      "같은 색 칸을 따라 대각선으로 움직이는 비숍.\n가방이나 열쇠에 달아 전시장에서 만난 비숍과 일상을 함께해 보세요.",
+  },
 };
 
 export function bindProductDetail(host, reset) {
   const dialog = document.getElementById("productDetail");
-  const find = selector => dialog.querySelector(selector);
+  const find = (selector) => dialog.querySelector(selector);
   const holder = find(".product-photo");
   const [minus, plus] = dialog.querySelectorAll(".product-stepper button");
   const close = find(".product-close");
@@ -69,25 +74,45 @@ export function bindProductDetail(host, reset) {
       image.src = product.image;
       image.alt = product.name;
       // 비숍 상세 이미지의 표시 방향을 좌우 반전한다.
-      image.classList.toggle("product-image-mirrored", product === products.bishop);
+      image.classList.toggle(
+        "product-image-mirrored",
+        product === products.bishop,
+      );
       holder.replaceChildren(image);
     }
-    modeButtons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.mode === mode)));
+    modeButtons.forEach((button) =>
+      button.setAttribute("aria-pressed", String(button.dataset.mode === mode)),
+    );
   }
-  modeButtons.forEach(button => button.onclick = () => setMode(button.dataset.mode));
+  modeButtons.forEach(
+    (button) => (button.onclick = () => setMode(button.dataset.mode)),
+  );
   function renderQuantity() {
     find("output").textContent = quantity;
     minus.disabled = quantity <= 1;
     plus.disabled = quantity >= 99;
     find(".product-total strong:last-child").textContent = product.price
-      ? (product.price * quantity).toLocaleString("ko-KR") + "원" : "가격 준비 중";
+      ? (product.price * quantity).toLocaleString("ko-KR") + "원"
+      : "가격 준비 중";
     feedback.textContent = "";
   }
-  minus.onclick = () => { quantity = Math.max(1, quantity - 1); renderQuantity(); };
-  plus.onclick = () => { quantity = Math.min(99, quantity + 1); renderQuantity(); };
+  minus.onclick = () => {
+    quantity = Math.max(1, quantity - 1);
+    renderQuantity();
+  };
+  plus.onclick = () => {
+    quantity = Math.min(99, quantity + 1);
+    renderQuantity();
+  };
   close.onclick = () => dialog.close();
   find(".product-add").onclick = () => {
-    addCartItem({ name: product.name, image: product.image, spec: product.spec, price: product.price, quantity });
+    addCartItem({
+      name: product.name,
+      image: product.image,
+      spec: product.spec,
+      price: product.price,
+      quantity,
+    });
     feedback.textContent = quantity + "개를 장바구니에 담았어요.";
   };
   dialog.addEventListener("close", () => {

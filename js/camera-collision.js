@@ -28,7 +28,15 @@ export function createCameraCollision() {
 }
 // [구조 설명] 확대·복귀 모두 프레임 시간 기준으로 보간한다.
 // [직접 수정] 속도가 클수록 빠르게 이동한다. 확대 중에는 장애물이 잠시 화면을 가릴 수 있다.
-export function recoverCameraDistance(current, target, dt, returnSpeed, approachSpeed = 6) {
+export function recoverCameraDistance(
+  current,
+  target,
+  dt,
+  returnSpeed,
+  approachSpeed = 6,
+) {
   const speed = target < current ? approachSpeed : returnSpeed;
-  return current + (target - current) * (1 - Math.exp(-speed * Math.max(0, dt)));
+  return (
+    current + (target - current) * (1 - Math.exp(-speed * Math.max(0, dt)))
+  );
 }

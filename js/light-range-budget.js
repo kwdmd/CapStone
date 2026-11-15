@@ -5,16 +5,27 @@ export function maximumLightsInRadius(anchors, radius) {
   if (!anchors.length) return 0;
   const r = radius + 1e-6; // 경계 부동소수점 오차는 준비 개수가 많아지는 쪽으로 처리
   let maximum = 0;
-  const inspect = (x,z) => {
-    const count = anchors.reduce((sum,a) => sum + (Math.hypot(a.x-x,a.z-z) <= r+1e-6 ? 1 : 0),0);
-    maximum = Math.max(maximum,count);
+  const inspect = (x, z) => {
+    const count = anchors.reduce(
+      (sum, a) => sum + (Math.hypot(a.x - x, a.z - z) <= r + 1e-6 ? 1 : 0),
+      0,
+    );
+    maximum = Math.max(maximum, count);
   };
-  anchors.forEach(a => inspect(a.x,a.z));
-  for (let i=0;i<anchors.length;i++) for(let j=i+1;j<anchors.length;j++) {
-    const a=anchors[i],b=anchors[j],dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz);
-    if (d<1e-9 || d>2*r) continue;
-    const h=Math.sqrt(Math.max(0,r*r-d*d/4)),mx=(a.x+b.x)/2,mz=(a.z+b.z)/2;
-    inspect(mx-dz*h/d,mz+dx*h/d);inspect(mx+dz*h/d,mz-dx*h/d);
-  }
+  anchors.forEach((a) => inspect(a.x, a.z));
+  for (let i = 0; i < anchors.length; i++)
+    for (let j = i + 1; j < anchors.length; j++) {
+      const a = anchors[i],
+        b = anchors[j],
+        dx = b.x - a.x,
+        dz = b.z - a.z,
+        d = Math.hypot(dx, dz);
+      if (d < 1e-9 || d > 2 * r) continue;
+      const h = Math.sqrt(Math.max(0, r * r - (d * d) / 4)),
+        mx = (a.x + b.x) / 2,
+        mz = (a.z + b.z) / 2;
+      inspect(mx - (dz * h) / d, mz + (dx * h) / d);
+      inspect(mx + (dz * h) / d, mz - (dx * h) / d);
+    }
   return maximum;
 }

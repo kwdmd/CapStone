@@ -1,6 +1,8 @@
 import { createStartupTextureLoader } from "./startup-textures.js";
 import * as THREE from "../vendor/three.module.js";
-import {readAsset} from "./binary.js"; let rigData; export const rigReady=readAsset("rig").then(data=>rigData=data);
+import { readAsset } from "./binary.js";
+let rigData;
+export const rigReady = readAsset("rig").then((data) => (rigData = data));
 import { createGeometry } from "./geometry.js";
 import { createGarmentMotion } from "./player-garments.js";
 import { createAvatarMotion } from "./avatar-motion.js";
@@ -95,9 +97,14 @@ export function createAvatar({
     mesh.frustumCulled = false;
     // [구조 설명] 최초 Idle 자세에서 미리 계산한 렌더 정렬용 경계 구.
     // 충돌 원통과 무관하다. 형상/리깅 수정 시 경계 데이터를 다시 생성한다.
-    const bounds = renderBounds.meshes.find(entry => entry.name === data.name);
+    const bounds = renderBounds.meshes.find(
+      (entry) => entry.name === data.name,
+    );
     if (bounds && bounds.vertices === geometry.attributes.position.count)
-      mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3().fromArray(bounds.center), bounds.radius);
+      mesh.boundingSphere = new THREE.Sphere(
+        new THREE.Vector3().fromArray(bounds.center),
+        bounds.radius,
+      );
   }
   avatar.userData.updateMotion = createAvatarMotion(bones, garments.update);
   return avatar;
