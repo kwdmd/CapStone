@@ -120,9 +120,12 @@ export async function decodeKnightAsset(compressed) {
   return bytes;
 }
 
-export async function loadKnightModel() {
-  const response = await readResponse("data/knight-6a.glb.pack");
-  const bytes = await decodeKnightAsset(await response.arrayBuffer());
+export async function loadKnightModel(compressed) {
+  if (!compressed) {
+    const response = await readResponse("data/knight-6a.glb.pack");
+    compressed = await response.arrayBuffer();
+  }
+  const bytes = await decodeKnightAsset(compressed);
   const gltf = await createKnightLoader().parseAsync(bytes, "");
   return { group: createKnightGroup(gltf) };
 }

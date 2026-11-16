@@ -22,6 +22,15 @@ export function initTouchGuide() {
   if (guide)
     guide.textContent =
       "밀어서 이동 · 달리기\n드래그로 둘러보기\n두 손가락으로 확대·축소";
+  // 글꼴 로딩·화면 회전·줄바꿈 후에도 안내문 위 간격을 유지한다.
+  if (guide && typeof ResizeObserver !== "undefined") {
+    const updateGuideHeight = () => document.documentElement.style.setProperty(
+      "--move-guide-height", `${guide.getBoundingClientRect().height}px`,
+    );
+    new ResizeObserver(updateGuideHeight).observe(guide);
+    updateGuideHeight();
+  }
+
 }
 
 export function bindTouchControls(host, canvas, player, input, zoom) {

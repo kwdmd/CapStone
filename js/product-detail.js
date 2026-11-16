@@ -4,6 +4,13 @@ import { createProductOrbit } from "./product-orbit.js";
 const commonSpec = "SIZE: 12 × 15cm\n소재: 아크릴";
 
 export const products = {
+  "pawn-female-keyring": {
+    image: "assets/products/pawn-female-keyring.png",
+    name: "폰 (여) 키링",
+    price: 16000,
+    spec: commonSpec,
+    description: "크리스마스 의상을 입은 폰의 귀여운 모습을 담은 아크릴 키링이에요.\n가방이나 열쇠에 달아 따뜻한 크리스마스 분위기를 일상에서도 간직해 보세요."
+  },
   // [직접 수정] 포토카드 가격·규격·설명을 이곳에서 변경하세요.
   "photocard-a": {
     image: "assets/products/photocard-a.png",

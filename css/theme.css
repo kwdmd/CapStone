@@ -249,3 +249,21 @@ button:focus-visible, .controls button:focus-visible, .cart button:focus-visible
 /* [직접 수정] 모바일 상품 보기/NPC 대화 버튼도 하단 공통 기준선을 사용합니다. */
 .touch-device .npc-prompt { bottom: var(--touch-bottom); }
 
+
+/* 세로 터치 화면: 안내문의 실제 높이 위에 10px 간격으로 배치한다. */
+@media (orientation: portrait) {
+  .touch-device .npc-prompt {
+    bottom: calc(var(--touch-bottom) + var(--move-guide-height, 80px) + 10px);
+    left: auto;
+    right: var(--edge);
+    transform: none;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    min-height: 34px;
+    padding: 7px clamp(10px, 3vw, 14px);
+    font-size: clamp(11px, 3vw, 13px);
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

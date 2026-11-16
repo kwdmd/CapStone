@@ -51,7 +51,7 @@ export function createProductOrbit() {
       const bounds = new THREE.Box3().setFromObject(model);
       bounds.getCenter(center);
       distance = bounds.getBoundingSphere(new THREE.Sphere()).radius / Math.sin(THREE.MathUtils.degToRad(16)) * 1.04;
-      yaw = group.userData.productId === "bishop" ? .75 : Math.PI / 2;
+      yaw = group.userData.productId === "pawn-female-keyring" ? Math.PI : group.userData.productId === "bishop" ? .75 : Math.PI / 2;
       pitch = .14;
       drag = null;
       holder.replaceChildren(canvas);

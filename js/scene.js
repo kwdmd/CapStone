@@ -9,7 +9,7 @@ import { addBoothCollision, widenCastleEntrance } from "./booth-collision.js";
 import objectWalls from "../data/object-walls.json";
 import { addDisplayGoods } from "./display-goods.js";
 import { bindNpcDialogue } from "./npc-dialogue.js";
-import { addNpcs } from "./npcs.js";
+import { addNpcs, preloadNpcAssets } from "./npcs.js";
 import fenceWalls from "../data/fence-walls.json";
 import { createWalker } from "./walker.js";
 import { wheelPixels } from "./camera-zoom.js";
@@ -27,6 +27,7 @@ import { createMovementInput } from "./movement-input.js";
 // [구조 설명] FBX의 정적 형상은 data/map.json으로 변환해 보관한다.
 // 원본 재질·UV·노멀을 함께 사용한다.
 export async function startScene(initialView) {
+  preloadNpcAssets();
   const [readyMap]=await Promise.all([mapData,rigReady,materialsReady]);
   const host = document.getElementById("scene");
   const status = document.getElementById("sceneStatus");

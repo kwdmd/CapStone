@@ -36,13 +36,21 @@ keys.keydown({code:'Escape',preventDefault(){}});
 player.x=22.2;player.z=2.2;dialogue.update();assert.equal(elements.npcPrompt.hidden,true);
 console.log('PASS: 3-unit interaction boundary, out-of-range F blocked, diagonal distance');
 
-// 복구된 이전 대사와 세 개의 질문, 닫기 버튼을 확인한다.
+// NPC별 질문 개수와 PC·터치 안내, 닫기 버튼을 확인한다.
 const profiles=JSON.parse((await import('node:fs')).readFileSync(new URL('../data/npc-dialogues.json',import.meta.url)));
 for(const [i,id] of ['rook','knight','pawn-b'].entries()){
  player.x=i*20;player.z=0;elements.npcPrompt.handlers.click();
  assert.equal(elements.npcText.textContent,profiles[id].intro);
  assert.equal(buttons[3].hidden,true);
- for(let j=0;j<3;j++){buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].text);}
+ assert.equal(profiles[id].topics.length,id==='pawn-b'?3:2);
+ for(let j=0;j<buttons.length;j++) assert.equal(buttons[j].hidden,j>=profiles[id].topics.length);
+ for(let j=0;j<profiles[id].topics.length;j++){
+  globalThis.matchMedia=()=>({matches:false});
+  buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].text);
+  globalThis.matchMedia=()=>({matches:true});
+  buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].mobileText||profiles[id].topics[j].text);
+ }
+ globalThis.matchMedia=()=>({matches:false});
  assert.equal(elements.npcClose.textContent,'×');elements.npcClose.handlers.click();
 }
-console.log('PASS: restored introductions, chess explanations and visitor guidance');
+console.log('PASS: revised introductions, variable topic counts, desktop and mobile guidance');

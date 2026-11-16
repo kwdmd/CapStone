@@ -7,6 +7,29 @@ import { createMapMaterials } from "./map-materials.js";
 import { loadKnightModel } from "./knight-model.js";
 import placements from "../data/npcs.json";
 
+// 파일은 맵과 함께 읽고, 모델 생성·GPU 업로드는 기존 순서로 처리한다.
+let prefetchedAssets = null;
+export function preloadNpcAssets() {
+  if (prefetchedAssets) return;
+  prefetchedAssets = new Map(placements.map(({ id }) => {
+    const path = id === "knight" ? "data/knight-6a.glb.pack" : `data/npc-${id}.pack`;
+    // 조기 실패도 소비 시점에 전달해 unhandled rejection을 방지한다.
+    const task = measureStage(id, "prefetch", async () => {
+      const response = await readResponse(path);
+      if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
+      return response.arrayBuffer();
+    }).then(buffer => ({ buffer }), error => ({ error }));
+    return [id, task];
+  }));
+}
+async function takeNpcAsset(id) {
+  preloadNpcAssets();
+  const result = await prefetchedAssets.get(id);
+  prefetchedAssets.delete(id); // 압축 버퍼 참조를 준비 후 해제한다.
+  if (result.error) throw result.error;
+  return result.buffer;
+}
+
 // Positions and common 1.8-unit model scaling come from data/npcs.json.
 // Knight uses its native GLB rig; Rook and Pawn B retain the binary worker path.
 export function addNpcs(scene, renderer, camera, getAttentionTarget = () => null) {
@@ -39,10 +62,7 @@ export function addNpcs(scene, renderer, camera, getAttentionTarget = () => null
 
     async function loadLegacyNpc(placement) {
       const decoder = await legacyWorker();
-      const response = await measureStage(placement.id, "asset-read", () =>
-        readResponse(`data/npc-${placement.id}.pack`));
-      if (!response.ok) throw new Error("도슨트 파일을 읽을 수 없습니다.");
-      const source = await measureStage(placement.id, "asset-buffer", () => response.arrayBuffer());
+      const source = await measureStage(placement.id, "prefetch-wait", () => takeNpcAsset(placement.id));
       const data = await measureStage(placement.id, "worker-decode", () => new Promise((resolve, reject) => {
         decoder.onmessage = ({ data: message }) => {
           if (message.error) return reject(new Error(message.error));
@@ -74,7 +94,7 @@ export function addNpcs(scene, renderer, camera, getAttentionTarget = () => null
     try {
       for (const placement of placements) {
         const group = placement.id === "knight"
-          ? (await measureStage(placement.id, "native-glb-load", () => loadKnightModel())).group
+          ? (await measureStage(placement.id, "native-glb-load", async () => loadKnightModel(await takeNpcAsset(placement.id)))).group
           : await loadLegacyNpc(placement);
         group.userData.npcId = placement.id;
         group.scale.setScalar(placement.scale ?? 1);
