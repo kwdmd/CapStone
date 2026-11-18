@@ -4,7 +4,7 @@ const make=()=>({hidden:true,dataset:{},textContent:'',handlers:{},addEventListe
 const elements=Object.fromEntries(['npcDialogue','npcPrompt','npcClose','npcText','npcName','npcSymbol','npcPiece'].map(k=>[k,make()]));
 const buttons=['0','1','2','3'].map(topic=>Object.assign(make(),{dataset:{topic}}));
 elements.npcDialogue.querySelectorAll=()=>buttons;
-globalThis.document={getElementById:k=>elements[k],querySelector:()=>({classList:{add(){},remove(){}}})};
+globalThis.document={addEventListener(){},getElementById:k=>elements[k],querySelector:()=>({classList:{add(){},remove(){}}})};
 const keys={};globalThis.window={addEventListener:(k,f)=>keys[k]=f};
 const host=make(),canvas=make(),player={x:0,y:0,z:0};let resets=0;
 const avatars=['rook','knight','pawn-b'].map((id,i)=>({position:{x:i*20,y:0,z:0},userData:{npcId:id}}));
@@ -45,12 +45,12 @@ for(const [i,id] of ['rook','knight','pawn-b'].entries()){
  assert.equal(profiles[id].topics.length,id==='pawn-b'?3:2);
  for(let j=0;j<buttons.length;j++) assert.equal(buttons[j].hidden,j>=profiles[id].topics.length);
  for(let j=0;j<profiles[id].topics.length;j++){
-  globalThis.matchMedia=()=>({matches:false});
+  Object.defineProperty(globalThis,"navigator",{configurable:true,value:{userAgent:"Windows NT",platform:"Win32",maxTouchPoints:0}});
   buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].text);
-  globalThis.matchMedia=()=>({matches:true});
+  Object.defineProperty(globalThis,"navigator",{configurable:true,value:{userAgent:"Android",maxTouchPoints:5}});
   buttons[j].handlers.click();assert.equal(elements.npcText.textContent,profiles[id].topics[j].mobileText||profiles[id].topics[j].text);
  }
- globalThis.matchMedia=()=>({matches:false});
+ Object.defineProperty(globalThis,"navigator",{configurable:true,value:{userAgent:"Windows NT",platform:"Win32",maxTouchPoints:0}});
  assert.equal(elements.npcClose.textContent,'×');elements.npcClose.handlers.click();
 }
 console.log('PASS: revised introductions, variable topic counts, desktop and mobile guidance');

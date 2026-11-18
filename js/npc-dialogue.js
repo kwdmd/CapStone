@@ -1,3 +1,4 @@
+import { isTouchMode } from "./input-mode.js";
 import { bindProductDetail, products } from "./product-detail.js";
 import profiles from "../data/npc-dialogues.json" with { type: "json" };
 
@@ -11,6 +12,7 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
   const interactionDistance = 3;
   let active = null;
   let speaker = null;
+
   // 화면 검수 전용: ?npcPreview=knight|rook|pawn-b. 일반 접속에는 영향을 주지 않는다.
   const previewId =
     typeof location !== "undefined"
@@ -31,10 +33,7 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
   function topic(key) {
     const profile = profiles[active];
     const answer = profile.topics[Number(key)];
-    const touch =
-      (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0) ||
-      (typeof matchMedia === "function" &&
-        matchMedia("(any-pointer: coarse)").matches);
+    const touch = isTouchMode();
     document.getElementById("npcText").textContent =
       key === "intro"
         ? profile.intro
@@ -134,10 +133,7 @@ export function bindNpcDialogue({ host, avatars, goods = [], player, reset }) {
       if (nearby) {
         const product = products[nearby.userData.productId];
         // 터치 기기(태블릿 포함)는 클릭 안내만 표시하고, PC는 F 키 안내를 유지합니다.
-        const touch =
-          (typeof navigator !== "undefined" && navigator.maxTouchPoints > 0) ||
-          (typeof matchMedia === "function" &&
-            matchMedia("(any-pointer: coarse)").matches);
+        const touch = isTouchMode();
         const prefix = touch ? "" : "F · ";
         prompt.textContent =
           prefix +

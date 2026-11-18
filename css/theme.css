@@ -267,3 +267,6 @@ button:focus-visible, .controls button:focus-visible, .cart button:focus-visible
     overflow-wrap: anywhere;
   }
 }
+
+
+.touch-joystick[hidden], html[data-input-mode="pc"] .touch-joystick { display:none !important; }

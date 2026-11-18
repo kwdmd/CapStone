@@ -1,6 +1,16 @@
 // 도슨트 .pack은 bake-docents.mjs의 사전 계산된 바이너리를 그대로 배포한다.
-import { mkdir, copyFile, cp, writeFile } from "node:fs/promises";
-// [구조 설명] 실제 서비스에 필요한 파일만 dist에 담는다. 원본 FBX·소스·테스트는 배포하지 않는다.
+import { mkdir, copyFile, cp, writeFile, rm } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const distRoot = path.resolve(projectRoot, "dist");
+if (path.dirname(distRoot) !== projectRoot || path.basename(distRoot) !== "dist") {
+  throw new Error("Invalid deployment directory");
+}
+process.chdir(projectRoot);
+// 이전 빌드에서 삭제된 파일이 배포 폴더에 남지 않도록 재생성한다.
+await rm(distRoot, { recursive: true, force: true });
 await mkdir("dist/js", { recursive: true });
 await copyFile("index.html", "dist/index.html");
 await copyFile("js/app.bundle.js", "dist/js/app.bundle.js");

@@ -1,3 +1,4 @@
+import { initInputMode, isTouchMode } from "./input-mode.js";
 import { applyLookDelta } from "./camera-controls.js";
 
 // [직접 수정] 중심 12%는 정지, 반경 72% 이상 밀면 달리기. 복귀는 64%로 떨림을 방지한다.
@@ -14,14 +15,8 @@ export function joystickVector(x, y, radius, wasRunning = false) {
 
 // 맵 로딩 전부터 모바일 안내를 표시한다. 갤럭시 탭도 같은 문구를 사용한다.
 export function initTouchGuide() {
-  const enabled =
-    navigator.maxTouchPoints > 0 || matchMedia("(any-pointer: coarse)").matches;
-  if (!enabled) return;
-  document.documentElement.classList.add("touch-device");
+  initInputMode();
   const guide = document.querySelector(".move-guide");
-  if (guide)
-    guide.textContent =
-      "밀어서 이동 · 달리기\n드래그로 둘러보기\n두 손가락으로 확대·축소";
   // 글꼴 로딩·화면 회전·줄바꿈 후에도 안내문 위 간격을 유지한다.
   if (guide && typeof ResizeObserver !== "undefined") {
     const updateGuideHeight = () => document.documentElement.style.setProperty(
@@ -34,11 +29,6 @@ export function initTouchGuide() {
 }
 
 export function bindTouchControls(host, canvas, player, input, zoom) {
-  // 화면 폭이나 UA 대신 터치 기능으로 판별하여 데스크톱 모드의 갤럭시 탭도 포함한다.
-  const enabled =
-    navigator.maxTouchPoints > 0 || matchMedia("(any-pointer: coarse)").matches;
-  if (!enabled) return;
-  document.documentElement.classList.add("touch-device");
   const pad = document.createElement("div");
   pad.className = "touch-joystick";
   pad.setAttribute("aria-label", "이동 조이스틱: 바깥쪽까지 밀면 달리기");
@@ -50,6 +40,7 @@ export function bindTouchControls(host, canvas, player, input, zoom) {
     running = false;
   const fingers = new Map();
   const blocked = () =>
+    !isTouchMode() ||
     host.dataset.dialogueOpen === "true" ||
     !!document.querySelector("dialog[open]");
   const reset = () => {
@@ -111,6 +102,9 @@ export function bindTouchControls(host, canvas, player, input, zoom) {
   });
   for (const type of ["pointerup", "pointercancel", "lostpointercapture"])
     canvas.addEventListener(type, (e) => fingers.delete(e.pointerId));
+  input.clear();
+  reset();
+  pad.hidden = blocked();
   window.addEventListener("blur", reset);
   window.addEventListener("orientationchange", reset);
   document.addEventListener("visibilitychange", reset);
