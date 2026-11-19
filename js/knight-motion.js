@@ -34,7 +34,7 @@ function advanceSpring(state, target, frequency, dt) {
 
 // The free source clips are retargeted offline; only small quaternion tracks ship.
 // Feet stay at their original exhibit positions while the pelvis shifts naturally.
-export function createKnightMotion(group, bones, { forwardZ = -1 } = {}) {
+export function createKnightMotion(group, bones, { forwardZ = -1, idleSway = 0.4 } = {}) {
   const data = motionData();
   const byName = new Map(bones.map(bone => [bone.name, bone]));
   const root = byName.get(data.rootBone);
@@ -70,6 +70,29 @@ export function createKnightMotion(group, bones, { forwardZ = -1 } = {}) {
     if (rotation) bone.quaternion.fromArray(rotation);
   }
   group.updateMatrixWorld(true);
+  // Reduce only idle fore/aft translation and torso pitch around the mean pose.
+  const swayTracks = new Map();
+  const groupInverse = group.getWorldQuaternion(new THREE.Quaternion()).invert();
+  for (const track of tracks) {
+    if (!/^spine(\.00[123])?$/.test(track.bone.name)) continue;
+    const mean = new THREE.Quaternion(0, 0, 0, 0);
+    const first = new THREE.Quaternion().fromArray(track.idle);
+    for (let i=0;i<track.idle.length-4;i+=4) {
+      const q=new THREE.Quaternion().fromArray(track.idle,i);
+      const sign=q.dot(first)<0?-1:1;
+      mean.x+=q.x*sign;mean.y+=q.y*sign;mean.z+=q.z*sign;mean.w+=q.w*sign;
+    }
+    mean.normalize();
+    const parentRotation=groupInverse.clone().multiply(track.bone.parent.getWorldQuaternion(new THREE.Quaternion()));
+    swayTracks.set(track.bone,{mean,axis:new THREE.Vector3(1,0,0).applyQuaternion(parentRotation.invert())});
+  }
+  const rootMean=new THREE.Vector3();
+  const rootValues=data.clips.idle.rootPositions;
+  for(let i=0;i<rootValues.length-3;i+=3) rootMean.add(new THREE.Vector3().fromArray(rootValues,i));
+  rootMean.multiplyScalar(1/(rootValues.length/3-1));
+  const rootAxis=new THREE.Vector3(0,0,1).applyQuaternion(groupInverse.clone().multiply(root.parent.getWorldQuaternion(new THREE.Quaternion())).invert());
+  const swayDelta=new THREE.Quaternion(),swayTwist=new THREE.Quaternion(),swayReduced=new THREE.Quaternion();
+  const swayOffset=new THREE.Vector3();
   const legs = ["L", "R"].map(side => {
     const hip = byName.get(`thigh.${side}`), knee = byName.get(`shin.${side}`), foot = byName.get(`foot.${side}`);
     if (!hip || !knee || !foot) throw new Error("나이트 다리 본을 찾을 수 없습니다.");
@@ -161,10 +184,20 @@ export function createKnightMotion(group, bones, { forwardZ = -1 } = {}) {
     frameAt(data.clips.talking, talkTime, talkFrame);
     for (const track of tracks) {
       sampleRotation(track.idle, idleFrame, idleQ);
+      const sway=swayTracks.get(track.bone);
+      if(sway && idleSway!==1){
+        swayDelta.copy(idleQ).multiply(sway.mean.clone().invert());
+        const projection=swayDelta.x*sway.axis.x+swayDelta.y*sway.axis.y+swayDelta.z*sway.axis.z;
+        swayTwist.set(sway.axis.x*projection,sway.axis.y*projection,sway.axis.z*projection,swayDelta.w).normalize();
+        swayReduced.identity().slerp(swayTwist,idleSway);
+        idleQ.copy(swayDelta.multiply(swayTwist.invert()).multiply(swayReduced).multiply(sway.mean)).normalize();
+      }
       sampleRotation(track.talking, talkFrame, talkQ);
       track.bone.quaternion.copy(idleQ.slerp(talkQ, talkWeight));
     }
     samplePosition(data.clips.idle, idleFrame, idlePosition);
+    swayOffset.copy(idlePosition).sub(rootMean);
+    idlePosition.addScaledVector(rootAxis,-(1-idleSway)*swayOffset.dot(rootAxis));
     samplePosition(data.clips.talking, talkFrame, talkPosition);
     root.position.copy(idlePosition.lerp(talkPosition, talkWeight));
     plantFeet();
@@ -173,6 +206,7 @@ export function createKnightMotion(group, bones, { forwardZ = -1 } = {}) {
   update(0);
   return {
     update,
+    setIdleSway(value) { idleSway=THREE.MathUtils.clamp(value,0,1); },
     setTalking(value) {
       talking = Boolean(value);
     },

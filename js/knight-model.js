@@ -84,6 +84,7 @@ export function createKnightGroup(gltf) {
   group.userData.updateIdle = motion.update;
   group.userData.setTalking = motion.setTalking;
   group.userData.setAttention = motion.setAttention;
+  group.userData.setIdleSway = motion.setIdleSway;
   group.userData.modelSource = "Knight-6a.glb";
   return group;
 }

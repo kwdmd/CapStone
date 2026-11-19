@@ -1,8 +1,9 @@
+import retargetedIdle from "../data/docent-knight-idle.json" with { type: "json" };
 import { recordStage, yieldFrame } from "./docent-performance.js";
 import { createRookPose } from "./rook-pose.js";
 import * as THREE from "../vendor/three.module.js";
 import { createGeometry } from "./geometry.js";
-// [구조 설명] 각 모델의 원래 스킨 웨이트와 본을 사용하고, Idle.fbx에서 변환한 회전 트랙을 재생한다.
+// [구조 설명] 각 모델의 원래 스킨 웨이트와 본을 사용하고, 나이트 대기 동작을 각 뼈대에 리타기팅한 회전 트랙을 재생한다.
 // [직접 수정] 제자리 도슨트 전용 의상 보정: 모델명 → 의상 메시명 → 따라갈 본.
 // 손/다리의 잘못된 웨이트로 의상이 찢어지지 않도록 의상 전체를 한 본에 연결한다.
 // 원본 모델 데이터는 유지한다. 걷기/의상 물리가 필요해지면 원본 웨이트를 다시 작업한다.
@@ -121,43 +122,23 @@ export async function createNpcRig(data, materials) {
   // 본 이름에 점이 있으므로 UUID로 트랙을 연결한다.
   // [직접 수정] 폰 B만 하체와 손목의 기존 자세를 유지한다.
   // 골반과 상체의 Idle은 계속 재생한다. 걷기 모션에는 이 제한을 그대로 사용하지 않는다.
-  const animatedBones = bones.filter((bone) => {
-    if (
-      data.name === "Rook-1" &&
-      /^(upper_arm|forearm|hand)\.[LR]$/.test(bone.name)
-    )
-      return false;
-    // 룩 공수 자세: 골반~가슴의 직립 자세와 평행한 다리를 유지한다.
-    // 발 위치를 중앙으로 강제 이동하지 않아 원래 발 사이 간격이 남는다.
-    if (
-      data.name === "Rook-1" &&
-      /^(spine(\.00[123])?|(thigh|shin|foot|toe)\.[LR])$/.test(bone.name)
-    )
-      return false;
-    const stationaryLegs = data.name === "pawn-B-11";
-    // [직접 수정] 폰 B 골반~가슴 축은 원래 직립 자세를 유지한다.
-    // 팔·목·머리의 Idle은 계속 재생하며 손목은 아래팔을 자연스럽게 따른다.
-    if (stationaryLegs && /^(spine(\.00[123])?|hand\.[LR])$/.test(bone.name))
-      return false;
-    if (stationaryLegs && /^(thigh|shin|foot|toe)\.[LR]$/.test(bone.name))
-      return false;
-    return true;
-  });
+  const idle = retargetedIdle[data.name] ?? data.idle;
+  const animatedBones = bones.filter(bone => idle.tracks[bone.name]);
   const tracks = animatedBones.map(
     (b) =>
       new THREE.QuaternionKeyframeTrack(
         b.uuid + ".quaternion",
-        data.idle.times,
-        data.idle.tracks[b.name],
+        idle.times,
+        idle.tracks[b.name],
       ),
   );
-  const clip = new THREE.AnimationClip("Idle", data.idle.duration, tracks);
+  const clip = new THREE.AnimationClip("Idle", idle.duration, tracks);
   mixer.clipAction(clip).setLoop(THREE.LoopRepeat, Infinity).play();
   // [직접 수정] 폰 B: 앞쪽 6도/바깥 4도. 매 프레임
   // 원래 Idle을 계산한 다음 보정하므로 회전이 누적되지 않는다.
   const rawArmRotations = new Map();
   const correctArms = () => {
-    if (data.name !== "pawn-B-11") return;
+    if (data.name !== "pawn-B-11" || retargetedIdle[data.name]) return;
     group.updateMatrixWorld(true);
     const modelRotation = group.getWorldQuaternion(new THREE.Quaternion());
     for (const name of ["upper_arm.L", "upper_arm.R"]) {
